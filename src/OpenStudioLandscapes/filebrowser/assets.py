@@ -162,8 +162,6 @@ def compose_filebrowser(
         "volumes": [
             # f"{env.get('FILEBROWSER_DB')}:/filebrowser.db",
             f"{env.get('FILEBROWSER_JSON')}:/.filebrowser.json",
-            f"{env.get('NFS_ENTRY_POINT')}:{env.get('NFS_ENTRY_POINT')}:ro",
-            f"{env.get('NFS_ENTRY_POINT')}:{env.get('NFS_ENTRY_POINT_LNS')}:ro",
         ]
     }
 
