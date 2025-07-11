@@ -4,6 +4,6 @@
   "address": "",
   "log": "stdout",
   "database": "/filebrowser.db",
-  "root": "/nfs",
+  "root": "<FILEBROWSER_ROOT>",
   "noauth": true
 }
