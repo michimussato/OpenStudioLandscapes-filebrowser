@@ -41,24 +41,26 @@ FEATURE_CONFIGS = {
         "DOCKER_USE_CACHE": DOCKER_USE_CACHE,
         "FILEBROWSER_PORT_HOST": "8080",
         "FILEBROWSER_PORT_CONTAINER": "80",
-        "FILEBROWSER_DB": pathlib.Path(
-            "{DOT_FEATURES}",
-            FEATURE,
-            ".payload",
-            "data",
-            "filebrowser.db",
-        )
-        .expanduser()
-        .as_posix(),
+        # "FILEBROWSER_DB": pathlib.Path(
+        #     "{DOT_FEATURES}",
+        #     FEATURE,
+        #     ".payload",
+        #     "data",
+        #     "filebrowser.db",
+        # )
+        # .expanduser()
+        # .as_posix(),
         "FILEBROWSER_JSON": pathlib.Path(
             "{DOT_FEATURES}",
             FEATURE,
             ".payload",
             "config",
-            "filebrowser.json",
+            "config.json",
         )
         .expanduser()
         .as_posix(),
+        "FILEBROWSER_ROOT": pathlib.Path().home().as_posix(),
+        "FILEBROWSER_ROOT_PERMISSION": ["rw", "ro"][0]
     }
 }
 # @formatter:on
