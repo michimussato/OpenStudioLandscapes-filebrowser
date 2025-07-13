@@ -146,6 +146,9 @@ def compose_networks(
         "filebrowser_db": AssetIn(
             AssetKey([*ASSET_HEADER["key_prefix"], "filebrowser_db"]),
         ),
+        "shared_directory": AssetIn(
+            AssetKey([*ASSET_HEADER["key_prefix"], "shared_directory"]),
+        ),
     },
 )
 def compose_filebrowser(
@@ -154,6 +157,7 @@ def compose_filebrowser(
     compose_networks: dict,  # pylint: disable=redefined-outer-name
     filebrowser_json: pathlib.Path,  # pylint: disable=redefined-outer-name
     filebrowser_db: pathlib.Path,  # pylint: disable=redefined-outer-name
+    shared_directory: pathlib.Path,  # pylint: disable=redefined-outer-name
 ) -> Generator[Output[dict] | AssetMaterialization, None, None]:
 
     network_dict = {}
@@ -195,7 +199,8 @@ def compose_filebrowser(
 
     volumes_dict = {
         "volumes": [
-            f"{env.get('FILEBROWSER_ROOT')}:{env.get('FILEBROWSER_ROOT')}:{env.get('FILEBROWSER_ROOT_PERMISSION')}",
+            # f"{env.get('FILEBROWSER_ROOT')}:{env.get('FILEBROWSER_ROOT')}:{env.get('FILEBROWSER_ROOT_PERMISSION')}",
+            f"{shared_directory.as_posix()}:/shared:{env.get('FILEBROWSER_ROOT_PERMISSION')}",
             *_volume_relative,
         ]
     }
@@ -266,15 +271,15 @@ def compose_maps(
         "env": AssetIn(
             AssetKey([*ASSET_HEADER["key_prefix"], "env"]),
         ),
-        "shared_directory": AssetIn(
-            AssetKey([*ASSET_HEADER["key_prefix"], "shared_directory"]),
-        ),
+        # "shared_directory": AssetIn(
+        #     AssetKey([*ASSET_HEADER["key_prefix"], "shared_directory"]),
+        # ),
     },
 )
 def filebrowser_json(
     context: AssetExecutionContext,
     env: dict,  # pylint: disable=redefined-outer-name
-    shared_directory: pathlib.Path,  # pylint: disable=redefined-outer-name
+    # shared_directory: pathlib.Path,  # pylint: disable=redefined-outer-name
 ) -> Generator[Output[Path] | AssetMaterialization | Any, None, None]:
 
     filebrowser_dict = {
@@ -283,7 +288,7 @@ def filebrowser_json(
         "address": "",
         "log": "stdout",
         "database": "/database/filebrowser.db",
-        "root": env.get("FILEBROWSER_ROOT", None) or shared_directory.as_posix(),
+        "root": "/shared",
         "noauth": True
     }
 
@@ -362,20 +367,39 @@ def shared_directory(
     env: dict,  # pylint: disable=redefined-outer-name
 ) -> Generator[Output[Path] | AssetMaterialization | Any, None, None]:
 
-    filebrowser_db_dir = pathlib.Path(
-        env["DOT_LANDSCAPES"],
-        env.get("LANDSCAPE", "default"),
-        f"{ASSET_HEADER['group_name']}__{'__'.join(ASSET_HEADER['key_prefix'])}",
-        "shared_directory",
-    ).expanduser()
+    root = env.get("FILEBROWSER_ROOT", "")
 
-    filebrowser_db_dir.mkdir(parents=True, exist_ok=True)
+    if bool(root):
+        root = pathlib.Path(root).expanduser()
 
-    yield Output(filebrowser_db_dir)
+        if not root.exists():
+            raise FileNotFoundError(f"Directory {root.as_posix()} does not exist. "
+                                    f"Please create it manually first.")
+
+    else:
+        shared_directory = pathlib.Path(
+            env["DOT_LANDSCAPES"],
+            env.get("LANDSCAPE", "default"),
+            f"{ASSET_HEADER['group_name']}__{'__'.join(ASSET_HEADER['key_prefix'])}",
+            "shared_directory",
+        ).expanduser()
+
+        shared_directory.mkdir(parents=True, exist_ok=True)
+
+        # For portability, convert absolute volume paths to relative paths
+        volume_dir_host_rel_path = get_relative_path_via_common_root(
+            context=context,
+            path_src=pathlib.Path(env["DOCKER_COMPOSE"]),
+            path_dst=shared_directory,
+            path_common_root=pathlib.Path(env["DOT_LANDSCAPES"]),
+        )
+        root = volume_dir_host_rel_path
+
+    yield Output(root)
 
     yield AssetMaterialization(
         asset_key=context.asset_key,
         metadata={
-            "__".join(context.asset_key.path): MetadataValue.path(filebrowser_db_dir),
+            "__".join(context.asset_key.path): MetadataValue.path(root),
         },
     )

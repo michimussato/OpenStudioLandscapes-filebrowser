@@ -50,15 +50,15 @@ FEATURE_CONFIGS = {
         # )
         # .expanduser()
         # .as_posix(),
-        "FILEBROWSER_JSON": pathlib.Path(
-            "{DOT_FEATURES}",
-            FEATURE,
-            ".payload",
-            "config",
-            "config.json",
-        )
-        .expanduser()
-        .as_posix(),
+        # "FILEBROWSER_JSON": pathlib.Path(
+        #     "{DOT_FEATURES}",
+        #     FEATURE,
+        #     ".payload",
+        #     "config",
+        #     "config.json",
+        # )
+        # .expanduser()
+        # .as_posix(),
         # "FILEBROWSER_ROOT": None,
         "FILEBROWSER_ROOT_PERMISSION": ["rw", "ro"][0]
     }
