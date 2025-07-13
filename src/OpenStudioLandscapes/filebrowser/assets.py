@@ -266,11 +266,15 @@ def compose_maps(
         "env": AssetIn(
             AssetKey([*ASSET_HEADER["key_prefix"], "env"]),
         ),
+        "shared_directory": AssetIn(
+            AssetKey([*ASSET_HEADER["key_prefix"], "shared_directory"]),
+        ),
     },
 )
 def filebrowser_json(
     context: AssetExecutionContext,
     env: dict,  # pylint: disable=redefined-outer-name
+    shared_directory: pathlib.Path,  # pylint: disable=redefined-outer-name
 ) -> Generator[Output[Path] | AssetMaterialization | Any, None, None]:
 
     filebrowser_dict = {
@@ -279,7 +283,7 @@ def filebrowser_json(
         "address": "",
         "log": "stdout",
         "database": "/database/filebrowser.db",
-        "root": env.get("FILEBROWSER_ROOT"),
+        "root": env.get("FILEBROWSER_ROOT", None) or shared_directory.as_posix(),
         "noauth": True
     }
 
@@ -331,6 +335,38 @@ def filebrowser_db(
         f"{ASSET_HEADER['group_name']}__{'__'.join(ASSET_HEADER['key_prefix'])}",
         "configs",
         "filebrowser_db",
+    ).expanduser()
+
+    filebrowser_db_dir.mkdir(parents=True, exist_ok=True)
+
+    yield Output(filebrowser_db_dir)
+
+    yield AssetMaterialization(
+        asset_key=context.asset_key,
+        metadata={
+            "__".join(context.asset_key.path): MetadataValue.path(filebrowser_db_dir),
+        },
+    )
+
+
+@asset(
+    **ASSET_HEADER,
+    ins={
+        "env": AssetIn(
+            AssetKey([*ASSET_HEADER["key_prefix"], "env"]),
+        ),
+    },
+)
+def shared_directory(
+    context: AssetExecutionContext,
+    env: dict,  # pylint: disable=redefined-outer-name
+) -> Generator[Output[Path] | AssetMaterialization | Any, None, None]:
+
+    filebrowser_db_dir = pathlib.Path(
+        env["DOT_LANDSCAPES"],
+        env.get("LANDSCAPE", "default"),
+        f"{ASSET_HEADER['group_name']}__{'__'.join(ASSET_HEADER['key_prefix'])}",
+        "shared_directory",
     ).expanduser()
 
     filebrowser_db_dir.mkdir(parents=True, exist_ok=True)

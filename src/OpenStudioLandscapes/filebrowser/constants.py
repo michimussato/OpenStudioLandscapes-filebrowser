@@ -59,7 +59,7 @@ FEATURE_CONFIGS = {
         )
         .expanduser()
         .as_posix(),
-        "FILEBROWSER_ROOT": pathlib.Path().home().as_posix(),
+        # "FILEBROWSER_ROOT": None,
         "FILEBROWSER_ROOT_PERMISSION": ["rw", "ro"][0]
     }
 }
