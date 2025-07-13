@@ -173,16 +173,18 @@ def compose_filebrowser(
     elif "network_mode" in compose_networks:
         network_dict = {"network_mode": compose_networks.get("network_mode")}
 
+    volumes_dict = {
+        "volumes": [
+            f"{filebrowser_json.as_posix()}:/config/settings.json:ro",
+            f"{filebrowser_db.as_posix()}:/database:rw",
+        ]
+    }
+
     # For portability, convert absolute volume paths to relative paths
-    volumes_paths_to_convert = [
-        # f"{filebrowser_json.as_posix()}:/.filebrowser.json",
-        f"{filebrowser_json.as_posix()}:/config/settings.json:ro",
-        f"{filebrowser_db.as_posix()}:/database:rw",
-    ]
 
     _volume_relative = []
 
-    for v in volumes_paths_to_convert:
+    for v in volumes_dict["volumes"]:
 
         host, container = v.split(":", maxsplit=1)
 
@@ -199,7 +201,6 @@ def compose_filebrowser(
 
     volumes_dict = {
         "volumes": [
-            # f"{env.get('FILEBROWSER_ROOT')}:{env.get('FILEBROWSER_ROOT')}:{env.get('FILEBROWSER_ROOT_PERMISSION')}",
             f"{shared_directory.as_posix()}:/shared:{env.get('FILEBROWSER_ROOT_PERMISSION')}",
             *_volume_relative,
         ]
