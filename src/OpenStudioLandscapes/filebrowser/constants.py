@@ -41,25 +41,9 @@ FEATURE_CONFIGS = {
         "DOCKER_USE_CACHE": DOCKER_USE_CACHE,
         "FILEBROWSER_PORT_HOST": "8080",
         "FILEBROWSER_PORT_CONTAINER": "80",
-        # "FILEBROWSER_DB": pathlib.Path(
-        #     "{DOT_FEATURES}",
-        #     FEATURE,
-        #     ".payload",
-        #     "data",
-        #     "filebrowser.db",
-        # )
-        # .expanduser()
-        # .as_posix(),
-        # "FILEBROWSER_JSON": pathlib.Path(
-        #     "{DOT_FEATURES}",
-        #     FEATURE,
-        #     ".payload",
-        #     "config",
-        #     "config.json",
-        # )
-        # .expanduser()
-        # .as_posix(),
-        # "FILEBROWSER_ROOT": None,
+        # Define a local shared root here if you don't want
+        # it to be embedded into the Landscape
+        # "FILEBROWSER_ROOT": "/path/to/your/local/directory",
         "FILEBROWSER_ROOT_PERMISSION": ["rw", "ro"][0]
     }
 }
