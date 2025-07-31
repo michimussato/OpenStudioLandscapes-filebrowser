@@ -185,13 +185,12 @@ The following variables are being declared in `OpenStudioLandscapes.filebrowser.
 
 #### Feature Config: default
 
-| Variable                     | Type   | Value                                                                              |
-| :--------------------------- | :----- | :--------------------------------------------------------------------------------- |
-| `DOCKER_USE_CACHE`           | `bool` | `False`                                                                            |
-| `FILEBROWSER_PORT_HOST`      | `str`  | `8080`                                                                             |
-| `FILEBROWSER_PORT_CONTAINER` | `str`  | `80`                                                                               |
-| `FILEBROWSER_DB`             | `str`  | `{DOT_FEATURES}/OpenStudioLandscapes-filebrowser/.payload/data/filebrowser.db`     |
-| `FILEBROWSER_JSON`           | `str`  | `{DOT_FEATURES}/OpenStudioLandscapes-filebrowser/.payload/config/filebrowser.json` |
+| Variable                      | Type   | Value   |
+| :---------------------------- | :----- | :------ |
+| `DOCKER_USE_CACHE`            | `bool` | `False` |
+| `FILEBROWSER_PORT_HOST`       | `str`  | `8080`  |
+| `FILEBROWSER_PORT_CONTAINER`  | `str`  | `80`    |
+| `FILEBROWSER_ROOT_PERMISSION` | `str`  | `rw`    |
 
 # Community
 
