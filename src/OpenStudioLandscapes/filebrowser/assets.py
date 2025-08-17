@@ -1,6 +1,8 @@
 import copy
 import json
-from typing import Generator
+import pathlib
+from pathlib import Path
+from typing import Generator, Any
 
 import yaml
 from dagster import (
@@ -14,6 +16,7 @@ from dagster import (
 )
 from OpenStudioLandscapes.engine.constants import *
 from OpenStudioLandscapes.engine.enums import *
+from OpenStudioLandscapes.engine.utils import *
 
 from OpenStudioLandscapes.filebrowser.constants import *
 
@@ -137,12 +140,24 @@ def compose_networks(
         "compose_networks": AssetIn(
             AssetKey([*ASSET_HEADER["key_prefix"], "compose_networks"]),
         ),
+        "filebrowser_json": AssetIn(
+            AssetKey([*ASSET_HEADER["key_prefix"], "filebrowser_json"]),
+        ),
+        "filebrowser_db": AssetIn(
+            AssetKey([*ASSET_HEADER["key_prefix"], "filebrowser_db"]),
+        ),
+        "shared_directory": AssetIn(
+            AssetKey([*ASSET_HEADER["key_prefix"], "shared_directory"]),
+        ),
     },
 )
 def compose_filebrowser(
     context: AssetExecutionContext,
     env: dict,  # pylint: disable=redefined-outer-name
     compose_networks: dict,  # pylint: disable=redefined-outer-name
+    filebrowser_json: pathlib.Path,  # pylint: disable=redefined-outer-name
+    filebrowser_db: pathlib.Path,  # pylint: disable=redefined-outer-name
+    shared_directory: pathlib.Path,  # pylint: disable=redefined-outer-name
 ) -> Generator[Output[dict] | AssetMaterialization, None, None]:
 
     network_dict = {}
@@ -160,8 +175,34 @@ def compose_filebrowser(
 
     volumes_dict = {
         "volumes": [
-            # f"{env.get('FILEBROWSER_DB')}:/filebrowser.db",
-            f"{env.get('FILEBROWSER_JSON')}:/.filebrowser.json",
+            f"{filebrowser_json.as_posix()}:/config/settings.json:ro",
+            f"{filebrowser_db.as_posix()}:/database:rw",
+        ]
+    }
+
+    # For portability, convert absolute volume paths to relative paths
+
+    _volume_relative = []
+
+    for v in volumes_dict["volumes"]:
+
+        host, container = v.split(":", maxsplit=1)
+
+        volume_dir_host_rel_path = get_relative_path_via_common_root(
+            context=context,
+            path_src=pathlib.Path(env["DOCKER_COMPOSE"]),
+            path_dst=pathlib.Path(host),
+            path_common_root=pathlib.Path(env["DOT_LANDSCAPES"]),
+        )
+
+        _volume_relative.append(
+            f"{volume_dir_host_rel_path.as_posix()}:{container}",
+        )
+
+    volumes_dict = {
+        "volumes": [
+            f"{shared_directory.as_posix()}:/shared:{env.get('FILEBROWSER_ROOT_PERMISSION')}",
+            *_volume_relative,
         ]
     }
 
@@ -214,6 +255,191 @@ def compose_maps(
     ret = list(kwargs.values())
 
     context.log.info(ret)
+
+    yield Output(ret)
+
+    yield AssetMaterialization(
+        asset_key=context.asset_key,
+        metadata={
+            "__".join(context.asset_key.path): MetadataValue.json(ret),
+        },
+    )
+
+
+@asset(
+    **ASSET_HEADER,
+    ins={
+        "env": AssetIn(
+            AssetKey([*ASSET_HEADER["key_prefix"], "env"]),
+        ),
+        # "shared_directory": AssetIn(
+        #     AssetKey([*ASSET_HEADER["key_prefix"], "shared_directory"]),
+        # ),
+    },
+)
+def filebrowser_json(
+    context: AssetExecutionContext,
+    env: dict,  # pylint: disable=redefined-outer-name
+    # shared_directory: pathlib.Path,  # pylint: disable=redefined-outer-name
+) -> Generator[Output[Path] | AssetMaterialization | Any, None, None]:
+
+    filebrowser_dict = {
+        "port": 80,
+        "baseURL": "",
+        "address": "",
+        "log": "stdout",
+        "database": "/database/filebrowser.db",
+        "root": "/shared",
+        "noauth": True
+    }
+
+    filebrowser_json_file = pathlib.Path(
+        env["DOT_LANDSCAPES"],
+        env.get("LANDSCAPE", "default"),
+        f"{ASSET_HEADER['group_name']}__{'__'.join(ASSET_HEADER['key_prefix'])}",
+        "configs",
+        "filebrowser.json",
+    ).expanduser()
+
+    filebrowser_json_file.parent.mkdir(parents=True, exist_ok=True)
+
+    with open(filebrowser_json_file, "w") as fw:
+        json.dump(
+            filebrowser_dict,
+            fw,
+            ensure_ascii=True,
+            indent=4,
+        )
+
+    yield Output(filebrowser_json_file)
+
+    yield AssetMaterialization(
+        asset_key=context.asset_key,
+        metadata={
+            "__".join(context.asset_key.path): MetadataValue.path(filebrowser_json_file),
+            "filebrowser_dict": MetadataValue.json(filebrowser_dict),
+        },
+    )
+
+
+@asset(
+    **ASSET_HEADER,
+    ins={
+        "env": AssetIn(
+            AssetKey([*ASSET_HEADER["key_prefix"], "env"]),
+        ),
+    },
+)
+def filebrowser_db(
+    context: AssetExecutionContext,
+    env: dict,  # pylint: disable=redefined-outer-name
+) -> Generator[Output[Path] | AssetMaterialization | Any, None, None]:
+
+    filebrowser_db_dir = pathlib.Path(
+        env["DOT_LANDSCAPES"],
+        env.get("LANDSCAPE", "default"),
+        f"{ASSET_HEADER['group_name']}__{'__'.join(ASSET_HEADER['key_prefix'])}",
+        "configs",
+        "filebrowser_db",
+    ).expanduser()
+
+    filebrowser_db_dir.mkdir(parents=True, exist_ok=True)
+
+    yield Output(filebrowser_db_dir)
+
+    yield AssetMaterialization(
+        asset_key=context.asset_key,
+        metadata={
+            "__".join(context.asset_key.path): MetadataValue.path(filebrowser_db_dir),
+        },
+    )
+
+
+@asset(
+    **ASSET_HEADER,
+    ins={
+        "env": AssetIn(
+            AssetKey([*ASSET_HEADER["key_prefix"], "env"]),
+        ),
+    },
+)
+def shared_directory(
+    context: AssetExecutionContext,
+    env: dict,  # pylint: disable=redefined-outer-name
+) -> Generator[Output[Path] | AssetMaterialization | Any, None, None]:
+
+    root = env.get("FILEBROWSER_ROOT", "")
+
+    if bool(root):
+        root = pathlib.Path(root).expanduser()
+
+        if not root.exists():
+            raise FileNotFoundError(f"Directory {root.as_posix()} does not exist. "
+                                    f"Please create it manually first.")
+
+    else:
+        shared_directory = pathlib.Path(
+            env["DOT_LANDSCAPES"],
+            env.get("LANDSCAPE", "default"),
+            f"{ASSET_HEADER['group_name']}__{'__'.join(ASSET_HEADER['key_prefix'])}",
+            "shared_directory",
+        ).expanduser()
+
+        shared_directory.mkdir(parents=True, exist_ok=True)
+
+        # For portability, convert absolute volume paths to relative paths
+        volume_dir_host_rel_path = get_relative_path_via_common_root(
+            context=context,
+            path_src=pathlib.Path(env["DOCKER_COMPOSE"]),
+            path_dst=shared_directory,
+            path_common_root=pathlib.Path(env["DOT_LANDSCAPES"]),
+        )
+        root = volume_dir_host_rel_path
+
+    yield Output(root)
+
+    yield AssetMaterialization(
+        asset_key=context.asset_key,
+        metadata={
+            "__".join(context.asset_key.path): MetadataValue.path(root),
+        },
+    )
+
+
+@asset(
+    **ASSET_HEADER,
+    ins={
+    },
+)
+def cmd_extend(
+        context: AssetExecutionContext,
+) -> Generator[Output[list[Any]] | AssetMaterialization | Any, Any, None]:
+
+    ret = []
+
+    yield Output(ret)
+
+    yield AssetMaterialization(
+        asset_key=context.asset_key,
+        metadata={
+            "__".join(context.asset_key.path): MetadataValue.json(ret),
+        },
+    )
+
+
+@asset(
+    **ASSET_HEADER,
+    ins={
+    },
+)
+def cmd_append(
+        context: AssetExecutionContext,
+) -> Generator[Output[dict[str, list[Any]]] | AssetMaterialization | Any, Any, None]:
+
+    ret = {
+        "cmd": [],
+        "exclude_from_quote": []
+    }
 
     yield Output(ret)
 
