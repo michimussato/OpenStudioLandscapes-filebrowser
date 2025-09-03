@@ -2,7 +2,7 @@ import copy
 import json
 import pathlib
 from pathlib import Path
-from typing import Generator, Any
+from typing import Any, Generator
 
 import yaml
 from dagster import (
@@ -14,22 +14,24 @@ from dagster import (
     Output,
     asset,
 )
+from OpenStudioLandscapes.engine.common_assets.compose import get_compose
+from OpenStudioLandscapes.engine.common_assets.constants import get_constants
+from OpenStudioLandscapes.engine.common_assets.docker_compose_graph import (
+    get_docker_compose_graph,
+)
+from OpenStudioLandscapes.engine.common_assets.docker_config import get_docker_config
+from OpenStudioLandscapes.engine.common_assets.docker_config_json import (
+    get_docker_config_json,
+)
+from OpenStudioLandscapes.engine.common_assets.env import get_env
+from OpenStudioLandscapes.engine.common_assets.feature_out import get_feature_out
+from OpenStudioLandscapes.engine.common_assets.group_in import get_group_in
+from OpenStudioLandscapes.engine.common_assets.group_out import get_group_out
 from OpenStudioLandscapes.engine.constants import *
 from OpenStudioLandscapes.engine.enums import *
 from OpenStudioLandscapes.engine.utils import *
 
 from OpenStudioLandscapes.filebrowser.constants import *
-
-from OpenStudioLandscapes.engine.common_assets.constants import get_constants
-from OpenStudioLandscapes.engine.common_assets.docker_config import get_docker_config
-from OpenStudioLandscapes.engine.common_assets.env import get_env
-from OpenStudioLandscapes.engine.common_assets.group_in import get_group_in
-from OpenStudioLandscapes.engine.common_assets.group_out import get_group_out
-from OpenStudioLandscapes.engine.common_assets.docker_compose_graph import get_docker_compose_graph
-from OpenStudioLandscapes.engine.common_assets.feature_out import get_feature_out
-from OpenStudioLandscapes.engine.common_assets.compose import get_compose
-from OpenStudioLandscapes.engine.common_assets.docker_config_json import get_docker_config_json
-
 
 constants = get_constants(
     ASSET_HEADER=ASSET_HEADER,
@@ -290,7 +292,7 @@ def filebrowser_json(
         "log": "stdout",
         "database": "/database/filebrowser.db",
         "root": "/shared",
-        "noauth": True
+        "noauth": True,
     }
 
     filebrowser_json_file = pathlib.Path(
@@ -316,7 +318,9 @@ def filebrowser_json(
     yield AssetMaterialization(
         asset_key=context.asset_key,
         metadata={
-            "__".join(context.asset_key.path): MetadataValue.path(filebrowser_json_file),
+            "__".join(context.asset_key.path): MetadataValue.path(
+                filebrowser_json_file
+            ),
             "filebrowser_dict": MetadataValue.json(filebrowser_dict),
         },
     )
@@ -374,8 +378,10 @@ def shared_directory(
         root = pathlib.Path(root).expanduser()
 
         if not root.exists():
-            raise FileNotFoundError(f"Directory {root.as_posix()} does not exist. "
-                                    f"Please create it manually first.")
+            raise FileNotFoundError(
+                f"Directory {root.as_posix()} does not exist. "
+                f"Please create it manually first."
+            )
 
     else:
         shared_directory = pathlib.Path(
@@ -408,11 +414,10 @@ def shared_directory(
 
 @asset(
     **ASSET_HEADER,
-    ins={
-    },
+    ins={},
 )
 def cmd_extend(
-        context: AssetExecutionContext,
+    context: AssetExecutionContext,
 ) -> Generator[Output[list[Any]] | AssetMaterialization | Any, Any, None]:
 
     ret = []
@@ -429,17 +434,13 @@ def cmd_extend(
 
 @asset(
     **ASSET_HEADER,
-    ins={
-    },
+    ins={},
 )
 def cmd_append(
-        context: AssetExecutionContext,
+    context: AssetExecutionContext,
 ) -> Generator[Output[dict[str, list[Any]]] | AssetMaterialization | Any, Any, None]:
 
-    ret = {
-        "cmd": [],
-        "exclude_from_quote": []
-    }
+    ret = {"cmd": [], "exclude_from_quote": []}
 
     yield Output(ret)
 

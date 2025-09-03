@@ -6,16 +6,16 @@ __all__ = [
 
 import pathlib
 from pathlib import Path
-from typing import Generator, Any
+from typing import Any, Generator
 
 from dagster import (
-    multi_asset,
-    AssetOut,
-    AssetMaterialization,
     AssetExecutionContext,
-    Output,
+    AssetMaterialization,
+    AssetOut,
     MetadataValue,
+    Output,
     get_dagster_logger,
+    multi_asset,
 )
 
 LOGGER = get_dagster_logger(__name__)
@@ -44,7 +44,7 @@ FEATURE_CONFIGS = {
         # Define a local shared root here if you don't want
         # it to be embedded into the Landscape
         # "FILEBROWSER_ROOT": "/path/to/your/local/directory",
-        "FILEBROWSER_ROOT_PERMISSION": ["rw", "ro"][0]
+        "FILEBROWSER_ROOT_PERMISSION": ["rw", "ro"][0],
     }
 }
 # @formatter:on
@@ -75,8 +75,14 @@ FEATURE_CONFIGS = {
 def constants_multi_asset(
     context: AssetExecutionContext,
 ) -> Generator[
-    Output[dict[OpenStudioLandscapesConfig, dict[str, bool | str]]] | AssetMaterialization | Output[Any] | Output[
-        Path] | Any, None, None]:
+    Output[dict[OpenStudioLandscapesConfig, dict[str, bool | str]]]
+    | AssetMaterialization
+    | Output[Any]
+    | Output[Path]
+    | Any,
+    None,
+    None,
+]:
     """ """
 
     yield Output(
@@ -101,9 +107,9 @@ def constants_multi_asset(
     yield AssetMaterialization(
         asset_key=context.asset_key_for_output("NAME"),
         metadata={
-            "__".join(
-                context.asset_key_for_output("NAME").path
-            ): MetadataValue.path(__name__),
+            "__".join(context.asset_key_for_output("NAME").path): MetadataValue.path(
+                __name__
+            ),
         },
     )
 
