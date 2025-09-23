@@ -210,7 +210,7 @@ def compose_filebrowser(
 
     service_name = "filebrowser"
     container_name = "--".join([service_name, env.get("LANDSCAPE", "default")])
-    host_name = ".".join([service_name, env["ROOT_DOMAIN"]])
+    host_name = ".".join([env["FILEBROWSER_HOSTNAME"] or service_name, env["ROOT_DOMAIN"]])
 
     docker_dict = {
         "services": {
