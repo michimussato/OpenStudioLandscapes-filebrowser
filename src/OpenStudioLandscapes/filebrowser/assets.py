@@ -210,7 +210,7 @@ def compose_filebrowser(
 
     service_name = "filebrowser"
     container_name = "--".join([service_name, env.get("LANDSCAPE", "default")])
-    host_name = ".".join([env["FILEBROWSER_HOSTNAME"] or service_name, env["ROOT_DOMAIN"]])
+    host_name = ".".join([env["HOSTNAME"] or service_name, env["OPENSTUDIOLANDSCAPES__DOMAIN_LAN"]])
 
     docker_dict = {
         "services": {
@@ -218,7 +218,7 @@ def compose_filebrowser(
                 "image": "docker.io/filebrowser/filebrowser",
                 "container_name": container_name,
                 "hostname": host_name,
-                "domainname": env.get("ROOT_DOMAIN"),
+                "domainname": env.get("OPENSTUDIOLANDSCAPES__DOMAIN_LAN"),
                 "restart": "always",
                 **copy.deepcopy(network_dict),
                 **copy.deepcopy(ports_dict),
