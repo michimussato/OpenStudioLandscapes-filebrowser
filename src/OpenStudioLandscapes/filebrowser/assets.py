@@ -169,11 +169,11 @@ def compose_filebrowser(
         network_dict = {"networks": list(compose_networks.get("networks", {}).keys())}
         ports_dict = {
             "ports": [
-                f"{env.get('FILEBROWSER_PORT_HOST')}:{env.get('FILEBROWSER_PORT_CONTAINER')}",
+                f"{env['FILEBROWSER_PORT_HOST']}:{env['FILEBROWSER_PORT_CONTAINER']}",
             ]
         }
     elif "network_mode" in compose_networks:
-        network_dict = {"network_mode": compose_networks.get("network_mode")}
+        network_dict = {"network_mode": compose_networks["network_mode"]}
 
     volumes_dict = {
         "volumes": [
@@ -203,7 +203,7 @@ def compose_filebrowser(
 
     volumes_dict = {
         "volumes": [
-            f"{shared_directory.as_posix()}:/shared:{env.get('FILEBROWSER_ROOT_PERMISSION')}",
+            f"{shared_directory.as_posix()}:/shared:{env['FILEBROWSER_ROOT_PERMISSION']}",
             *_volume_relative,
         ]
     }
@@ -220,7 +220,7 @@ def compose_filebrowser(
                 "image": "docker.io/filebrowser/filebrowser",
                 "container_name": container_name,
                 "hostname": host_name,
-                "domainname": env.get("OPENSTUDIOLANDSCAPES__DOMAIN_LAN"),
+                "domainname": env["OPENSTUDIOLANDSCAPES__DOMAIN_LAN"],
                 "restart": "always",
                 **copy.deepcopy(network_dict),
                 **copy.deepcopy(ports_dict),
