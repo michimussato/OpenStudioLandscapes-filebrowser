@@ -1,0 +1,24 @@
+project:
+  description: filebrowser Feature for OpenStudioLandscapes
+  name: OpenStudioLandscapes-filebrowser
+  optional-dependencies:
+    dev:
+    - OpenStudioLandscapes-filebrowser[testing]
+    - OpenStudioLandscapes-filebrowser[lint]
+    - OpenStudioLandscapes-filebrowser[nox]
+    - OpenStudioLandscapes-filebrowser[sbom]
+    - OpenStudioLandscapes-filebrowser[coverage]
+    - OpenStudioLandscapes-filebrowser[readme]
+    nox:
+    - OpenStudioLandscapes-filebrowser[testing]
+    sbom:
+    - OpenStudioLandscapes-filebrowser[graphviz]
+  urls:
+    Homepage: https://github.com/michimussato/OpenStudioLandscapes-filebrowser
+tool:
+  dagster:
+    code_location_name: OpenStudioLandscapes-filebrowser
+    module_name: OpenStudioLandscapes.filebrowser.definitions
+  setuptools:
+    packages:
+    - OpenStudioLandscapes.filebrowser
