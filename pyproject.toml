@@ -94,9 +94,13 @@ code_location_name = "OpenStudioLandscapes-filebrowser"
 module_name = "OpenStudioLandscapes.filebrowser.definitions"
 
 [tool.setuptools]
+include-package-data = true
 packages = [
     "OpenStudioLandscapes.filebrowser",
 ]
 platforms = [
     "Linux",
 ]
+
+[tool.setuptools.package-dir]
+"" = "src"
