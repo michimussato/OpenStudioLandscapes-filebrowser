@@ -164,15 +164,12 @@ The following variables are being declared in `OpenStudioLandscapes.filebrowser.
 
 #### Feature Config: default
 
-| Variable                      | Type   | Value                       |
-| :---------------------------- | :----- | :-------------------------- |
-| `DOCKER_USE_CACHE`            | `bool` | `False`                     |
-| `HOSTNAME`                    | `str`  | `filebrowser`               |
-| `TELEPORT_ENTRY_POINT_HOST`   | `str`  | `{{HOSTNAME}}`              |
-| `TELEPORT_ENTRY_POINT_PORT`   | `str`  | `{{FILEBROWSER_PORT_HOST}}` |
-| `FILEBROWSER_PORT_HOST`       | `str`  | `8080`                      |
-| `FILEBROWSER_PORT_CONTAINER`  | `str`  | `80`                        |
-| `FILEBROWSER_ROOT_PERMISSION` | `str`  | `rw`                        |
+| Variable                      | Type   | Value   |
+| :---------------------------- | :----- | :------ |
+| `DOCKER_USE_CACHE`            | `bool` | `False` |
+| `FILEBROWSER_PORT_HOST`       | `str`  | `8080`  |
+| `FILEBROWSER_PORT_CONTAINER`  | `str`  | `80`    |
+| `FILEBROWSER_ROOT_PERMISSION` | `str`  | `rw`    |
 
 # Community
 
