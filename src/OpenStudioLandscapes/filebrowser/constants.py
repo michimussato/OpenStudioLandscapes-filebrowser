@@ -39,9 +39,7 @@ ASSET_HEADER = {
 FEATURE_CONFIGS = {
     OpenStudioLandscapesConfig.DEFAULT: {
         "DOCKER_USE_CACHE": DOCKER_USE_CACHE,
-        "HOSTNAME": "filebrowser",
-        "TELEPORT_ENTRY_POINT_HOST": "{{HOSTNAME}}",  # Either a hardcoded str or a ref to a Variable (with double {{ }}!)
-        "TELEPORT_ENTRY_POINT_PORT": "{{FILEBROWSER_PORT_HOST}}",  # Either a hardcoded str or a ref to a Variable (with double {{ }}!)
+        # "HOSTNAME": "filebrowser",
         "FILEBROWSER_PORT_HOST": "8080",
         "FILEBROWSER_PORT_CONTAINER": "80",
         # Define a local shared root here if you don't want
