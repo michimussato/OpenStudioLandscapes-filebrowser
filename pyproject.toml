@@ -49,7 +49,6 @@ dev = [
     "OpenStudioLandscapes-filebrowser[readme]",
     "OpenStudioLandscapes-filebrowser[sbom]",
     "OpenStudioLandscapes-filebrowser[testing]",
-    "dagster-webserver==1.9.11",
 ]
 graphviz = [
     "graphviz",
