@@ -8,6 +8,9 @@ compose_scope: "default"
 # filebrowser_port_container: 80
 filebrowser_port_host: 8080
 
-filebrowser_db_dir: "{DOT_LANDSCAPES}/{LANDSCAPE}/{FEATURE}/configs/filebrowser_db"
+# filebrowser_db_dir: "{DOT_LANDSCAPES}/{LANDSCAPE}/{FEATURE}/configs/filebrowser_db"
 
-filebrowser_root_permission: rw
+# filebrowser_rood_dir: "{DOT_LANDSCAPES}/{LANDSCAPE}/{FEATURE}/shared"
+# filebrowser_root_permission: rw
+
+# filebrowser_json: "{DOT_LANDSCAPES}/{LANDSCAPE}/{FEATURE}/shared"

@@ -2,8 +2,9 @@ import copy
 import enum
 import json
 import pathlib
+import textwrap
 from pathlib import Path
-from typing import Any, Generator, Union
+from typing import Any, Generator, Union, Dict
 
 import yaml
 from dagster import (
@@ -16,21 +17,15 @@ from dagster import (
     asset, AssetsDefinition,
 )
 from OpenStudioLandscapes.engine.common_assets.compose import get_compose
-# from OpenStudioLandscapes.engine.common_assets.constants import get_constants
 
 from OpenStudioLandscapes.engine.common_assets.compose_scope import get_compose_scope_group__cmd
 from OpenStudioLandscapes.engine.common_assets.docker_compose_graph import (
     get_docker_compose_graph,
 )
-# from OpenStudioLandscapes.engine.common_assets.docker_config import get_docker_config
-# from OpenStudioLandscapes.engine.common_assets.docker_config_json import (
-#     get_docker_config_json,
-# )
-# from OpenStudioLandscapes.engine.common_assets.env import get_env
 
 from OpenStudioLandscapes.engine.common_assets.feature import get_feature__CONFIG
-from OpenStudioLandscapes.engine.common_assets.feature_out import get_feature_out, get_feature_out_v2
-from OpenStudioLandscapes.engine.common_assets.group_in import get_group_in, get_feature_in, get_feature_in_parent
+from OpenStudioLandscapes.engine.common_assets.feature_out import get_feature_out_v2
+from OpenStudioLandscapes.engine.common_assets.group_in import get_feature_in, get_feature_in_parent
 from OpenStudioLandscapes.engine.common_assets.group_out import get_group_out
 from OpenStudioLandscapes.engine.config.models import ConfigEngine
 from OpenStudioLandscapes.engine.constants import *
@@ -38,7 +33,6 @@ from OpenStudioLandscapes.engine.enums import *
 from OpenStudioLandscapes.engine.utils import *
 from OpenStudioLandscapes.engine.utils.docker.compose_dicts import *
 
-from OpenStudioLandscapes.filebrowser import dist
 from OpenStudioLandscapes.filebrowser.config.models import CONFIG_STR, Config
 from OpenStudioLandscapes.filebrowser.constants import *
 
@@ -209,7 +203,7 @@ def compose_filebrowser(
 
     volumes_dict = {
         "volumes": [
-            f"{shared_directory.as_posix()}:/shared:{env['FILEBROWSER_ROOT_PERMISSION']}",
+            f"{shared_directory.as_posix()}:/shared:{CONFIG.filebrowser_shared_dir_permission}",
             *_volume_relative,
         ]
     }
@@ -285,55 +279,50 @@ def compose_maps(
 @asset(
     **ASSET_HEADER,
     ins={
-        "env": AssetIn(
-            AssetKey([*ASSET_HEADER["key_prefix"], "env"]),
+        "CONFIG": AssetIn(
+            AssetKey([*ASSET_HEADER["key_prefix"], "CONFIG"]),
         ),
-        # "shared_directory": AssetIn(
-        #     AssetKey([*ASSET_HEADER["key_prefix"], "shared_directory"]),
-        # ),
     },
+    description=textwrap.dedent(
+        """
+        Main Page: [https://filebrowser.org/index.html]()
+        
+        Configuration Options: [https://filebrowser.org/cli/filebrowser-config.html]()
+        """
+    ),
 )
 def filebrowser_json(
     context: AssetExecutionContext,
-    env: dict,  # pylint: disable=redefined-outer-name
-    # shared_directory: pathlib.Path,  # pylint: disable=redefined-outer-name
+    CONFIG: Config,  # pylint: disable=redefined-outer-name
 ) -> Generator[Output[Path] | AssetMaterialization | Any, None, None]:
 
     filebrowser_dict = {
-        "port": 80,
-        "baseURL": "",
-        "address": "",
-        "log": "stdout",
-        "database": "/database/filebrowser.db",
-        "root": "/shared",
+        "port": CONFIG.filebrowser_port_container,  # port to listen on (default "8080")
+        "baseURL": "",  # base url
+        "address": "",  # address to listen on (default "127.0.0.1")
+        "log": "stdout",  # log output (default "stdout")
+        "database": "/database/filebrowser.db",  # database path (default "./filebrowser.db")
+        "root": "/shared",  # root to prepend to relative paths (default ".")
         "noauth": True,
     }
 
-    filebrowser_json_file = pathlib.Path(
-        env["DOT_LANDSCAPES"],
-        env.get("LANDSCAPE", "default"),
-        f"{ASSET_HEADER['group_name']}__{'__'.join(ASSET_HEADER['key_prefix'])}",
-        "configs",
-        "filebrowser.json",
-    ).expanduser()
+    CONFIG.filebrowser_json_expanded.parent.mkdir(parents=True, exist_ok=True)
 
-    filebrowser_json_file.parent.mkdir(parents=True, exist_ok=True)
-
-    with open(filebrowser_json_file, "w") as fw:
+    with open(CONFIG.filebrowser_json_expanded, "w") as fw:
         json.dump(
             filebrowser_dict,
             fw,
             ensure_ascii=True,
-            indent=4,
+            indent=2,
         )
 
-    yield Output(filebrowser_json_file)
+    yield Output(CONFIG.filebrowser_json_expanded)
 
     yield AssetMaterialization(
         asset_key=context.asset_key,
         metadata={
             "__".join(context.asset_key.path): MetadataValue.path(
-                filebrowser_json_file
+                CONFIG.filebrowser_json_expanded
             ),
             "filebrowser_dict": MetadataValue.json(filebrowser_dict),
         },
@@ -370,91 +359,32 @@ def filebrowser_db(
 @asset(
     **ASSET_HEADER,
     ins={
-        "env": AssetIn(
-            AssetKey([*ASSET_HEADER["key_prefix"], "env"]),
+        "CONFIG": AssetIn(
+            AssetKey([*ASSET_HEADER["key_prefix"], "CONFIG"]),
         ),
     },
 )
 def shared_directory(
     context: AssetExecutionContext,
-    env: dict,  # pylint: disable=redefined-outer-name
+    CONFIG: Config,  # pylint: disable=redefined-outer-name
 ) -> Generator[Output[Path] | AssetMaterialization | Any, None, None]:
 
-    root = env.get("FILEBROWSER_ROOT", "")
+    env: Dict = CONFIG.env
 
-    if bool(root):
-        root = pathlib.Path(root).expanduser()
+    CONFIG.filebrowser_shared_dir_expanded.mkdir(parents=True, exist_ok=True)
 
-        if not root.exists():
-            raise FileNotFoundError(
-                f"Directory {root.as_posix()} does not exist. "
-                f"Please create it manually first."
-            )
-
-    else:
-        shared_directory = pathlib.Path(
-            env["DOT_LANDSCAPES"],
-            env.get("LANDSCAPE", "default"),
-            f"{ASSET_HEADER['group_name']}__{'__'.join(ASSET_HEADER['key_prefix'])}",
-            "shared_directory",
-        ).expanduser()
-
-        shared_directory.mkdir(parents=True, exist_ok=True)
-
-        # For portability, convert absolute volume paths to relative paths
-        volume_dir_host_rel_path = get_relative_path_via_common_root(
-            context=context,
-            path_src=pathlib.Path(env["DOCKER_COMPOSE"]),
-            path_dst=shared_directory,
-            path_common_root=pathlib.Path(env["DOT_LANDSCAPES"]),
-        )
-        root = volume_dir_host_rel_path
-
-    yield Output(root)
-
-    yield AssetMaterialization(
-        asset_key=context.asset_key,
-        metadata={
-            "__".join(context.asset_key.path): MetadataValue.path(root),
-        },
+    volume_dir_host_rel_path = get_relative_path_via_common_root(
+        context=context,
+        path_src=CONFIG.docker_compose_expanded,
+        path_dst=CONFIG.filebrowser_shared_dir_expanded,
+        path_common_root=pathlib.Path(env["DOT_LANDSCAPES"]),
     )
 
-
-@asset(
-    **ASSET_HEADER,
-    ins={},
-)
-def cmd_extend(
-    context: AssetExecutionContext,
-) -> Generator[Output[list[Any]] | AssetMaterialization | Any, Any, None]:
-
-    ret = []
-
-    yield Output(ret)
+    yield Output(volume_dir_host_rel_path)
 
     yield AssetMaterialization(
         asset_key=context.asset_key,
         metadata={
-            "__".join(context.asset_key.path): MetadataValue.json(ret),
-        },
-    )
-
-
-@asset(
-    **ASSET_HEADER,
-    ins={},
-)
-def cmd_append(
-    context: AssetExecutionContext,
-) -> Generator[Output[dict[str, list[Any]]] | AssetMaterialization | Any, Any, None]:
-
-    ret = {"cmd": [], "exclude_from_quote": []}
-
-    yield Output(ret)
-
-    yield AssetMaterialization(
-        asset_key=context.asset_key,
-        metadata={
-            "__".join(context.asset_key.path): MetadataValue.json(ret),
+            "__".join(context.asset_key.path): MetadataValue.path(volume_dir_host_rel_path),
         },
     )
