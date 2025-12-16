@@ -1,8 +1,9 @@
 import copy
+import enum
 import json
 import pathlib
 from pathlib import Path
-from typing import Any, Generator
+from typing import Any, Generator, Union
 
 import yaml
 from dagster import (
@@ -12,94 +13,104 @@ from dagster import (
     AssetMaterialization,
     MetadataValue,
     Output,
-    asset,
+    asset, AssetsDefinition,
 )
 from OpenStudioLandscapes.engine.common_assets.compose import get_compose
-from OpenStudioLandscapes.engine.common_assets.constants import get_constants
+# from OpenStudioLandscapes.engine.common_assets.constants import get_constants
+
+from OpenStudioLandscapes.engine.common_assets.compose_scope import get_compose_scope_group__cmd
 from OpenStudioLandscapes.engine.common_assets.docker_compose_graph import (
     get_docker_compose_graph,
 )
-from OpenStudioLandscapes.engine.common_assets.docker_config import get_docker_config
-from OpenStudioLandscapes.engine.common_assets.docker_config_json import (
-    get_docker_config_json,
-)
-from OpenStudioLandscapes.engine.common_assets.env import get_env
-from OpenStudioLandscapes.engine.common_assets.feature_out import get_feature_out
-from OpenStudioLandscapes.engine.common_assets.group_in import get_group_in
+# from OpenStudioLandscapes.engine.common_assets.docker_config import get_docker_config
+# from OpenStudioLandscapes.engine.common_assets.docker_config_json import (
+#     get_docker_config_json,
+# )
+# from OpenStudioLandscapes.engine.common_assets.env import get_env
+
+from OpenStudioLandscapes.engine.common_assets.feature import get_feature__CONFIG
+from OpenStudioLandscapes.engine.common_assets.feature_out import get_feature_out, get_feature_out_v2
+from OpenStudioLandscapes.engine.common_assets.group_in import get_group_in, get_feature_in, get_feature_in_parent
 from OpenStudioLandscapes.engine.common_assets.group_out import get_group_out
+from OpenStudioLandscapes.engine.config.models import ConfigEngine
 from OpenStudioLandscapes.engine.constants import *
 from OpenStudioLandscapes.engine.enums import *
 from OpenStudioLandscapes.engine.utils import *
 from OpenStudioLandscapes.engine.utils.docker.compose_dicts import *
 
+from OpenStudioLandscapes.filebrowser import dist
+from OpenStudioLandscapes.filebrowser.config.models import CONFIG_STR, Config
 from OpenStudioLandscapes.filebrowser.constants import *
 
-constants = get_constants(
+# https://github.com/yaml/pyyaml/issues/722#issuecomment-1969292770
+yaml.SafeDumper.add_multi_representer(
+    data_type=enum.Enum,
+    representer=yaml.representer.SafeRepresenter.represent_str,
+)
+
+
+compose_scope_group__cmd: AssetsDefinition = get_compose_scope_group__cmd(
+    ASSET_HEADER=ASSET_HEADER,
+)
+
+CONFIG: AssetsDefinition = get_feature__CONFIG(
+    ASSET_HEADER=ASSET_HEADER,
+    CONFIG_STR=CONFIG_STR,
+    search_model_of_type=Config,
+)
+
+feature_in: AssetsDefinition = get_feature_in(
+    ASSET_HEADER=ASSET_HEADER,
+    ASSET_HEADER_BASE=ASSET_HEADER_BASE,
+    ASSET_HEADER_FEATURE_IN={},
+)
+
+group_out: AssetsDefinition = get_group_out(
     ASSET_HEADER=ASSET_HEADER,
 )
 
 
-docker_config = get_docker_config(
+docker_compose_graph: AssetsDefinition = get_docker_compose_graph(
     ASSET_HEADER=ASSET_HEADER,
 )
 
 
-group_in = get_group_in(
-    ASSET_HEADER=ASSET_HEADER,
-    ASSET_HEADER_PARENT=ASSET_HEADER_BASE,
-    input_name=str(GroupIn.BASE_IN),
-)
-
-
-env = get_env(
+compose: AssetsDefinition = get_compose(
     ASSET_HEADER=ASSET_HEADER,
 )
 
 
-group_out = get_group_out(
+feature_out_v2: AssetsDefinition = get_feature_out_v2(
     ASSET_HEADER=ASSET_HEADER,
 )
 
 
-docker_compose_graph = get_docker_compose_graph(
+# Produces
+# - feature_in_parent
+# - CONFIG_PARENT
+# if ConfigParent is or type FeatureBaseModel
+feature_in_parent: Union[AssetsDefinition, None] = get_feature_in_parent(
     ASSET_HEADER=ASSET_HEADER,
-)
-
-
-compose = get_compose(
-    ASSET_HEADER=ASSET_HEADER,
-)
-
-
-feature_out = get_feature_out(
-    ASSET_HEADER=ASSET_HEADER,
-    feature_out_ins={
-        "env": dict,
-        "compose": dict,
-        "group_in": dict,
-    },
-)
-
-
-docker_config_json = get_docker_config_json(
-    ASSET_HEADER=ASSET_HEADER,
+    config_parent=ConfigParent,
 )
 
 
 @asset(
     **ASSET_HEADER,
     ins={
-        "env": AssetIn(
-            AssetKey([*ASSET_HEADER["key_prefix"], "env"]),
+        "CONFIG": AssetIn(
+            AssetKey([*ASSET_HEADER["key_prefix"], "CONFIG"]),
         ),
     },
 )
 def compose_networks(
     context: AssetExecutionContext,
-    env: dict,  # pylint: disable=redefined-outer-name
+    CONFIG: Config,  # pylint: disable=redefined-outer-name
 ) -> Generator[
     Output[dict[str, dict[str, dict[str, str]]]] | AssetMaterialization, None, None
 ]:
+
+    env: dict = CONFIG.env
 
     compose_network_mode = DockerComposePolicies.NETWORK_MODE.BRIDGE
 
@@ -118,9 +129,6 @@ def compose_networks(
         metadata={
             "__".join(context.asset_key.path): MetadataValue.json(docker_dict),
             "compose_network_mode": MetadataValue.text(compose_network_mode.value),
-            "docker_dict": MetadataValue.md(
-                f"```json\n{json.dumps(docker_dict, indent=2)}\n```"
-            ),
             "docker_yaml": MetadataValue.md(f"```shell\n{docker_yaml}\n```"),
         },
     )
@@ -129,8 +137,8 @@ def compose_networks(
 @asset(
     **ASSET_HEADER,
     ins={
-        "env": AssetIn(
-            AssetKey([*ASSET_HEADER["key_prefix"], "env"]),
+        "CONFIG": AssetIn(
+            AssetKey([*ASSET_HEADER["key_prefix"], "CONFIG"]),
         ),
         "compose_networks": AssetIn(
             AssetKey([*ASSET_HEADER["key_prefix"], "compose_networks"]),
@@ -148,12 +156,17 @@ def compose_networks(
 )
 def compose_filebrowser(
     context: AssetExecutionContext,
-    env: dict,  # pylint: disable=redefined-outer-name
+    CONFIG: Config,  # pylint: disable=redefined-outer-name
     compose_networks: dict,  # pylint: disable=redefined-outer-name
     filebrowser_json: pathlib.Path,  # pylint: disable=redefined-outer-name
     filebrowser_db: pathlib.Path,  # pylint: disable=redefined-outer-name
     shared_directory: pathlib.Path,  # pylint: disable=redefined-outer-name
 ) -> Generator[Output[dict] | AssetMaterialization, None, None]:
+    """"""
+
+    env: dict = CONFIG.env
+
+    config_engine: ConfigEngine = CONFIG.config_engine
 
     network_dict = {}
     ports_dict = {}
@@ -162,7 +175,7 @@ def compose_filebrowser(
         network_dict = {"networks": list(compose_networks.get("networks", {}).keys())}
         ports_dict = {
             "ports": [
-                f"{env['FILEBROWSER_PORT_HOST']}:{env['FILEBROWSER_PORT_CONTAINER']}",
+                f"{CONFIG.filebrowser_port_host}:{CONFIG.filebrowser_port_container}",
             ]
         }
     elif "network_mode" in compose_networks:
@@ -185,7 +198,7 @@ def compose_filebrowser(
 
         volume_dir_host_rel_path = get_relative_path_via_common_root(
             context=context,
-            path_src=pathlib.Path(env["DOCKER_COMPOSE"]),
+            path_src=CONFIG.docker_compose_expanded,
             path_dst=pathlib.Path(host),
             path_common_root=pathlib.Path(env["DOT_LANDSCAPES"]),
         )
@@ -206,7 +219,7 @@ def compose_filebrowser(
         context=context,
         service_name=service_name,
         landscape_id=env.get("LANDSCAPE", "default"),
-        domain_lan=env.get("OPENSTUDIOLANDSCAPES__DOMAIN_LAN"),
+        domain_lan=config_engine.openstudiolandscapes__domain_lan,
     )
     # container_name = "--".join([service_name, env.get("LANDSCAPE", "default")])
     # host_name = ".".join(
@@ -219,7 +232,7 @@ def compose_filebrowser(
                 "image": "docker.io/filebrowser/filebrowser",
                 "container_name": container_name,
                 "hostname": host_name,
-                "domainname": env["OPENSTUDIOLANDSCAPES__DOMAIN_LAN"],
+                "domainname": config_engine.openstudiolandscapes__domain_lan,
                 "restart": DockerComposePolicies.RESTART_POLICY.ALWAYS.value,
                 **copy.deepcopy(network_dict),
                 **copy.deepcopy(ports_dict),
@@ -330,23 +343,17 @@ def filebrowser_json(
 @asset(
     **ASSET_HEADER,
     ins={
-        "env": AssetIn(
-            AssetKey([*ASSET_HEADER["key_prefix"], "env"]),
+        "CONFIG": AssetIn(
+            AssetKey([*ASSET_HEADER["key_prefix"], "CONFIG"]),
         ),
     },
 )
 def filebrowser_db(
     context: AssetExecutionContext,
-    env: dict,  # pylint: disable=redefined-outer-name
+    CONFIG: Config,  # pylint: disable=redefined-outer-name
 ) -> Generator[Output[Path] | AssetMaterialization | Any, None, None]:
 
-    filebrowser_db_dir = pathlib.Path(
-        env["DOT_LANDSCAPES"],
-        env.get("LANDSCAPE", "default"),
-        f"{ASSET_HEADER['group_name']}__{'__'.join(ASSET_HEADER['key_prefix'])}",
-        "configs",
-        "filebrowser_db",
-    ).expanduser()
+    filebrowser_db_dir = CONFIG.filebrowser_db_dir_expanded
 
     filebrowser_db_dir.mkdir(parents=True, exist_ok=True)
 
