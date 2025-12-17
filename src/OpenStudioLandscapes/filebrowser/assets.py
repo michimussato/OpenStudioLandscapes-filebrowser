@@ -4,7 +4,7 @@ import json
 import pathlib
 import textwrap
 from pathlib import Path
-from typing import Any, Generator, Union, Dict
+from typing import Any, Generator, Union, Dict, List
 
 import yaml
 from dagster import (
@@ -101,10 +101,10 @@ def compose_networks(
     context: AssetExecutionContext,
     CONFIG: Config,  # pylint: disable=redefined-outer-name
 ) -> Generator[
-    Output[dict[str, dict[str, dict[str, str]]]] | AssetMaterialization, None, None
+    Output[Dict[str, Dict[str, Dict[str, str]]]] | AssetMaterialization, None, None
 ]:
 
-    env: dict = CONFIG.env
+    env: Dict = CONFIG.env
 
     compose_network_mode = DockerComposePolicies.NETWORK_MODE.BRIDGE
 
@@ -151,14 +151,14 @@ def compose_networks(
 def compose_filebrowser(
     context: AssetExecutionContext,
     CONFIG: Config,  # pylint: disable=redefined-outer-name
-    compose_networks: dict,  # pylint: disable=redefined-outer-name
+    compose_networks: Dict,  # pylint: disable=redefined-outer-name
     filebrowser_json: pathlib.Path,  # pylint: disable=redefined-outer-name
     filebrowser_db: pathlib.Path,  # pylint: disable=redefined-outer-name
     shared_directory: pathlib.Path,  # pylint: disable=redefined-outer-name
-) -> Generator[Output[dict] | AssetMaterialization, None, None]:
+) -> Generator[Output[Dict] | AssetMaterialization, None, None]:
     """"""
 
-    env: dict = CONFIG.env
+    env: Dict = CONFIG.env
 
     config_engine: ConfigEngine = CONFIG.config_engine
 
@@ -260,7 +260,7 @@ def compose_filebrowser(
 def compose_maps(
     context: AssetExecutionContext,
     **kwargs,  # pylint: disable=redefined-outer-name
-) -> Generator[Output[list[dict]] | AssetMaterialization, None, None]:
+) -> Generator[Output[List[Dict]] | AssetMaterialization, None, None]:
 
     ret = list(kwargs.values())
 
