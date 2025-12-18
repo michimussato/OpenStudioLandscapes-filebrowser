@@ -38,10 +38,14 @@ class Config(FeatureBaseModel):
         frozen=False,
     )
 
+    filebrowser_docker_image: str = Field(
+        default="docker.io/filebrowser/filebrowser",
+    )
+
     filebrowser_shared_dir_permission: FilebrowerRootPermission = Field(
-        default="rw",
+        default=FilebrowerRootPermission.rw,
         description="The filebrowser root permission.",
-        examples=["rw", "ro"],
+        examples=[i.name for i in FilebrowerRootPermission],
     )
 
     filebrowser_db_dir: pathlib.Path = Field(
