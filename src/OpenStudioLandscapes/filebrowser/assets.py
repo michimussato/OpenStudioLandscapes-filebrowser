@@ -4,7 +4,7 @@ import json
 import pathlib
 import textwrap
 from pathlib import Path
-from typing import Any, Generator, Union, Dict, List
+from typing import Any, Dict, Generator, List, Union
 
 import yaml
 from dagster import (
@@ -12,20 +12,24 @@ from dagster import (
     AssetIn,
     AssetKey,
     AssetMaterialization,
+    AssetsDefinition,
     MetadataValue,
     Output,
-    asset, AssetsDefinition,
+    asset,
 )
 from OpenStudioLandscapes.engine.common_assets.compose import get_compose
-
-from OpenStudioLandscapes.engine.common_assets.compose_scope import get_compose_scope_group__cmd
+from OpenStudioLandscapes.engine.common_assets.compose_scope import (
+    get_compose_scope_group__cmd,
+)
 from OpenStudioLandscapes.engine.common_assets.docker_compose_graph import (
     get_docker_compose_graph,
 )
-
 from OpenStudioLandscapes.engine.common_assets.feature import get_feature__CONFIG
 from OpenStudioLandscapes.engine.common_assets.feature_out import get_feature_out_v2
-from OpenStudioLandscapes.engine.common_assets.group_in import get_feature_in, get_feature_in_parent
+from OpenStudioLandscapes.engine.common_assets.group_in import (
+    get_feature_in,
+    get_feature_in_parent,
+)
 from OpenStudioLandscapes.engine.common_assets.group_out import get_group_out
 from OpenStudioLandscapes.engine.config.models import ConfigEngine
 from OpenStudioLandscapes.engine.constants import *
@@ -385,6 +389,8 @@ def shared_directory(
     yield AssetMaterialization(
         asset_key=context.asset_key,
         metadata={
-            "__".join(context.asset_key.path): MetadataValue.path(volume_dir_host_rel_path),
+            "__".join(context.asset_key.path): MetadataValue.path(
+                volume_dir_host_rel_path
+            ),
         },
     )

@@ -49,7 +49,9 @@ class Config(FeatureBaseModel):
     )
 
     filebrowser_db_dir: pathlib.Path = Field(
-        default=pathlib.Path("{DOT_LANDSCAPES}/{LANDSCAPE}/{FEATURE}/configs/filebrowser_db"),
+        default=pathlib.Path(
+            "{DOT_LANDSCAPES}/{LANDSCAPE}/{FEATURE}/configs/filebrowser_db"
+        ),
         description="Where on the host to store the database.",
     )
 
@@ -59,7 +61,9 @@ class Config(FeatureBaseModel):
     )
 
     filebrowser_json: pathlib.Path = Field(
-        default=pathlib.Path("{DOT_LANDSCAPES}/{LANDSCAPE}/{FEATURE}/configs/filebrowser.json"),
+        default=pathlib.Path(
+            "{DOT_LANDSCAPES}/{LANDSCAPE}/{FEATURE}/configs/filebrowser.json"
+        ),
         description="Where on the host to store the configuration file.",
     )
 
