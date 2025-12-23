@@ -353,9 +353,6 @@ filebrowser_shared_dir: '{DOT_LANDSCAPES}/{LANDSCAPE}/{FEATURE}/shared'
 # Examples:
 #     None
 filebrowser_json: '{DOT_LANDSCAPES}/{LANDSCAPE}/{FEATURE}/configs/filebrowser.json'
-
-
-
 ```
 
 ***
@@ -481,4 +478,4 @@ Currently, the following Python interpreters are enabled for testing:
 
 ***
 
-Last changed: **2025-12-23 13:34:58 UTC**
+Last changed: **2025-12-23 13:37:18 UTC**
