@@ -62,10 +62,17 @@ The following settings are available in `OpenStudioLandscapes-filebrowser` and a
 #
 # Type: typing.Dict
 # Base Class:
+#     Required: False
 #     Description:
 #         None
 #     Default value:
 #         None
+# Description:
+#     None
+# Required: False
+#     None
+# Examples:
+#     None
 
 
 # =============
@@ -74,10 +81,17 @@ The following settings are available in `OpenStudioLandscapes-filebrowser` and a
 #
 # Type: <class 'OpenStudioLandscapes.engine.config.models.ConfigEngine'>
 # Base Class:
+#     Required: False
 #     Description:
 #         None
 #     Default value:
 #         None
+# Description:
+#     None
+# Required: False
+#     None
+# Examples:
+#     None
 
 
 # =============
@@ -86,10 +100,17 @@ The following settings are available in `OpenStudioLandscapes-filebrowser` and a
 #
 # Type: <class 'OpenStudioLandscapes.engine.config.models.FeatureBaseModel'>
 # Base Class:
+#     Required: False
 #     Description:
 #         None
 #     Default value:
 #         None
+# Description:
+#     None
+# Required: False
+#     None
+# Examples:
+#     None
 
 
 # ============
@@ -98,10 +119,17 @@ The following settings are available in `OpenStudioLandscapes-filebrowser` and a
 #
 # Type: <class 'importlib.metadata.Distribution'>
 # Base Class:
+#     Required: False
 #     Description:
 #         None
 #     Default value:
 #         None
+# Description:
+#     None
+# Required: False
+#     None
+# Examples:
+#     None
 
 
 # ==========
@@ -110,10 +138,17 @@ The following settings are available in `OpenStudioLandscapes-filebrowser` and a
 #
 # Type: <class 'str'>
 # Base Class:
+#     Required: False
 #     Description:
 #         None
 #     Default value:
 #         None
+# Description:
+#     None
+# Required: False
+#     None
+# Examples:
+#     None
 
 
 # ============
@@ -122,10 +157,17 @@ The following settings are available in `OpenStudioLandscapes-filebrowser` and a
 #
 # Type: typing.List[str]
 # Base Class:
+#     Required: False
 #     Description:
 #         None
 #     Default value:
 #         None
+# Description:
+#     None
+# Required: False
+#     None
+# Examples:
+#     None
 
 
 # =======
@@ -134,10 +176,17 @@ The following settings are available in `OpenStudioLandscapes-filebrowser` and a
 #
 # Type: <class 'bool'>
 # Base Class:
+#     Required: False
 #     Description:
 #         Whether the Feature is enabled or not.
 #     Default value:
 #         True
+# Description:
+#     Whether the Feature is enabled or not.
+# Required: False
+#     Whether the Feature is enabled or not.
+# Examples:
+#     None
 
 
 # =============
@@ -146,10 +195,17 @@ The following settings are available in `OpenStudioLandscapes-filebrowser` and a
 #
 # Type: <class 'str'>
 # Base Class:
+#     Required: False
 #     Description:
 #         None
 #     Default value:
 #         default
+# Description:
+#     None
+# Required: False
+#     None
+# Examples:
+#     ['default', 'license_server', 'worker']
 
 
 # ============
@@ -158,10 +214,17 @@ The following settings are available in `OpenStudioLandscapes-filebrowser` and a
 #
 # Type: <class 'str'>
 # Base Class:
+#     Required: True
 #     Description:
 #         The name of the feature. It is derived from the `OpenStudioLandscapes.<Feature>.dist` attribute.
 #     Default value:
 #         PydanticUndefined
+# Description:
+#     None
+# Required: False
+#     None
+# Examples:
+#     None
 feature_name: OpenStudioLandscapes-filebrowser
 
 
@@ -171,10 +234,17 @@ feature_name: OpenStudioLandscapes-filebrowser
 #
 # Type: <class 'pathlib.Path'>
 # Base Class:
+#     Required: False
 #     Description:
 #         The path to the `docker-compose.yml` file.
 #     Default value:
 #         {DOT_LANDSCAPES}/{LANDSCAPE}/{FEATURE}/docker_compose/docker-compose.yml
+# Description:
+#     The path to the `docker-compose.yml` file.
+# Required: False
+#     The path to the `docker-compose.yml` file.
+# Examples:
+#     None
 
 
 # ==========================
@@ -182,7 +252,9 @@ feature_name: OpenStudioLandscapes-filebrowser
 # --------------------------
 #
 # Type: <class 'int'>
-# Sub Class Description:
+# Description:
+#     The filebrowser container port.
+# Required: False
 #     The filebrowser container port.
 # Examples:
 #     None
@@ -194,7 +266,9 @@ filebrowser_port_container: 80
 # ---------------------
 #
 # Type: <class 'int'>
-# Sub Class Description:
+# Description:
+#     The Kitsu host port.
+# Required: False
 #     The Kitsu host port.
 # Examples:
 #     None
@@ -206,7 +280,9 @@ filebrowser_port_host: 8080
 # ------------------------
 #
 # Type: <class 'str'>
-# Sub Class Description:
+# Description:
+#     None
+# Required: False
 #     None
 # Examples:
 #     None
@@ -218,7 +294,9 @@ filebrowser_docker_image: docker.io/filebrowser/filebrowser
 # ---------------------------------
 #
 # Type: <enum 'FilebrowerRootPermission'>
-# Sub Class Description:
+# Description:
+#     The filebrowser root permission.
+# Required: False
 #     The filebrowser root permission.
 # Examples:
 #     ['rw', 'ro']
@@ -230,7 +308,9 @@ filebrowser_shared_dir_permission: rw
 # ------------------
 #
 # Type: <class 'pathlib.Path'>
-# Sub Class Description:
+# Description:
+#     Where on the host to store the database.
+# Required: False
 #     Where on the host to store the database.
 # Examples:
 #     None
@@ -242,7 +322,9 @@ filebrowser_db_dir: '{DOT_LANDSCAPES}/{LANDSCAPE}/{FEATURE}/configs/filebrowser_
 # ----------------------
 #
 # Type: <class 'pathlib.Path'>
-# Sub Class Description:
+# Description:
+#     Set the shared directory on the host.
+# Required: False
 #     Set the shared directory on the host.
 # Examples:
 #     None
@@ -254,7 +336,9 @@ filebrowser_shared_dir: '{DOT_LANDSCAPES}/{LANDSCAPE}/{FEATURE}/shared'
 # ----------------
 #
 # Type: <class 'pathlib.Path'>
-# Sub Class Description:
+# Description:
+#     Where on the host to store the configuration file.
+# Required: False
 #     Where on the host to store the configuration file.
 # Examples:
 #     None
@@ -387,4 +471,4 @@ Currently, the following Python interpreters are enabled for testing:
 
 ***
 
-Last changed: **2025-12-23 12:26:14 UTC**
+Last changed: **2025-12-23 12:48:34 UTC**
