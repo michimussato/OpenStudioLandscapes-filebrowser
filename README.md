@@ -53,7 +53,7 @@ A local config store location will be created if it doesn't exist, together with
 > OPENSTUDIOLANDSCAPES__CONFIGSTORE_ROOT="~/.config/OpenStudioLandscapes/my-custom-config-store"
 > ```
 
-The following settings are available in `OpenStudioLandscapes-filebrowser` and are accessible throughout the [`OpenStudioLandscapes-filebrowser`](https://github.com/michimussato/OpenStudioLandscapes-filebrowser/tree/main/OpenStudioLandscapes/filebrowser/config/models.py) package.
+The following settings are available in `OpenStudioLandscapes-filebrowser` and are based on [`OpenStudioLandscapes-filebrowser/tree/main/OpenStudioLandscapes/filebrowser/config/models.py`](https://github.com/michimussato/OpenStudioLandscapes-filebrowser/tree/main/OpenStudioLandscapes/filebrowser/config/models.py).
 
 ```yaml
 # ===
@@ -481,4 +481,4 @@ Currently, the following Python interpreters are enabled for testing:
 
 ***
 
-Last changed: **2025-12-23 12:53:58 UTC**
+Last changed: **2025-12-23 13:04:16 UTC**
