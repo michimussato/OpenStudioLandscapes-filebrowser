@@ -14,8 +14,6 @@ from OpenStudioLandscapes.engine.config.models import FeatureBaseModel
 
 from OpenStudioLandscapes.filebrowser import dist
 
-config_default = pathlib.Path(__file__).parent.joinpath("config_default.yml")
-
 
 class FilebrowerRootPermission(enum.StrEnum):
     rw = "rw"
