@@ -61,16 +61,17 @@ The following settings are available in `OpenStudioLandscapes-filebrowser` and a
 # ---
 #
 # Type: typing.Dict
-# Base Class:
-#     Required: False
+# Base Class Info:
+#     Required:
+#         False
 #     Description:
 #         None
 #     Default value:
 #         None
 # Description:
 #     None
-# Required: False
-#     None
+# Required:
+#     False
 # Examples:
 #     None
 
@@ -80,16 +81,17 @@ The following settings are available in `OpenStudioLandscapes-filebrowser` and a
 # -------------
 #
 # Type: <class 'OpenStudioLandscapes.engine.config.models.ConfigEngine'>
-# Base Class:
-#     Required: False
+# Base Class Info:
+#     Required:
+#         False
 #     Description:
 #         None
 #     Default value:
 #         None
 # Description:
 #     None
-# Required: False
-#     None
+# Required:
+#     False
 # Examples:
 #     None
 
@@ -99,16 +101,17 @@ The following settings are available in `OpenStudioLandscapes-filebrowser` and a
 # -------------
 #
 # Type: <class 'OpenStudioLandscapes.engine.config.models.FeatureBaseModel'>
-# Base Class:
-#     Required: False
+# Base Class Info:
+#     Required:
+#         False
 #     Description:
 #         None
 #     Default value:
 #         None
 # Description:
 #     None
-# Required: False
-#     None
+# Required:
+#     False
 # Examples:
 #     None
 
@@ -118,16 +121,17 @@ The following settings are available in `OpenStudioLandscapes-filebrowser` and a
 # ------------
 #
 # Type: <class 'importlib.metadata.Distribution'>
-# Base Class:
-#     Required: False
+# Base Class Info:
+#     Required:
+#         False
 #     Description:
 #         None
 #     Default value:
 #         None
 # Description:
 #     None
-# Required: False
-#     None
+# Required:
+#     False
 # Examples:
 #     None
 
@@ -137,16 +141,17 @@ The following settings are available in `OpenStudioLandscapes-filebrowser` and a
 # ----------
 #
 # Type: <class 'str'>
-# Base Class:
-#     Required: False
+# Base Class Info:
+#     Required:
+#         False
 #     Description:
 #         None
 #     Default value:
 #         None
 # Description:
 #     None
-# Required: False
-#     None
+# Required:
+#     False
 # Examples:
 #     None
 
@@ -156,16 +161,17 @@ The following settings are available in `OpenStudioLandscapes-filebrowser` and a
 # ------------
 #
 # Type: typing.List[str]
-# Base Class:
-#     Required: False
+# Base Class Info:
+#     Required:
+#         False
 #     Description:
 #         None
 #     Default value:
 #         None
 # Description:
 #     None
-# Required: False
-#     None
+# Required:
+#     False
 # Examples:
 #     None
 
@@ -175,16 +181,17 @@ The following settings are available in `OpenStudioLandscapes-filebrowser` and a
 # -------
 #
 # Type: <class 'bool'>
-# Base Class:
-#     Required: False
+# Base Class Info:
+#     Required:
+#         False
 #     Description:
 #         Whether the Feature is enabled or not.
 #     Default value:
 #         True
 # Description:
 #     Whether the Feature is enabled or not.
-# Required: False
-#     Whether the Feature is enabled or not.
+# Required:
+#     False
 # Examples:
 #     None
 
@@ -194,16 +201,17 @@ The following settings are available in `OpenStudioLandscapes-filebrowser` and a
 # -------------
 #
 # Type: <class 'str'>
-# Base Class:
-#     Required: False
+# Base Class Info:
+#     Required:
+#         False
 #     Description:
 #         None
 #     Default value:
 #         default
 # Description:
 #     None
-# Required: False
-#     None
+# Required:
+#     False
 # Examples:
 #     ['default', 'license_server', 'worker']
 
@@ -213,16 +221,17 @@ The following settings are available in `OpenStudioLandscapes-filebrowser` and a
 # ------------
 #
 # Type: <class 'str'>
-# Base Class:
-#     Required: True
+# Base Class Info:
+#     Required:
+#         True
 #     Description:
 #         The name of the feature. It is derived from the `OpenStudioLandscapes.<Feature>.dist` attribute.
 #     Default value:
 #         PydanticUndefined
 # Description:
 #     None
-# Required: False
-#     None
+# Required:
+#     False
 # Examples:
 #     None
 feature_name: OpenStudioLandscapes-filebrowser
@@ -233,16 +242,17 @@ feature_name: OpenStudioLandscapes-filebrowser
 # --------------
 #
 # Type: <class 'pathlib.Path'>
-# Base Class:
-#     Required: False
+# Base Class Info:
+#     Required:
+#         False
 #     Description:
 #         The path to the `docker-compose.yml` file.
 #     Default value:
 #         {DOT_LANDSCAPES}/{LANDSCAPE}/{FEATURE}/docker_compose/docker-compose.yml
 # Description:
 #     The path to the `docker-compose.yml` file.
-# Required: False
-#     The path to the `docker-compose.yml` file.
+# Required:
+#     False
 # Examples:
 #     None
 
@@ -254,8 +264,8 @@ feature_name: OpenStudioLandscapes-filebrowser
 # Type: <class 'int'>
 # Description:
 #     The filebrowser container port.
-# Required: False
-#     The filebrowser container port.
+# Required:
+#     False
 # Examples:
 #     None
 filebrowser_port_container: 80
@@ -268,8 +278,8 @@ filebrowser_port_container: 80
 # Type: <class 'int'>
 # Description:
 #     The Kitsu host port.
-# Required: False
-#     The Kitsu host port.
+# Required:
+#     False
 # Examples:
 #     None
 filebrowser_port_host: 8080
@@ -282,8 +292,8 @@ filebrowser_port_host: 8080
 # Type: <class 'str'>
 # Description:
 #     None
-# Required: False
-#     None
+# Required:
+#     False
 # Examples:
 #     None
 filebrowser_docker_image: docker.io/filebrowser/filebrowser
@@ -296,8 +306,8 @@ filebrowser_docker_image: docker.io/filebrowser/filebrowser
 # Type: <enum 'FilebrowerRootPermission'>
 # Description:
 #     The filebrowser root permission.
-# Required: False
-#     The filebrowser root permission.
+# Required:
+#     False
 # Examples:
 #     ['rw', 'ro']
 filebrowser_shared_dir_permission: rw
@@ -310,8 +320,8 @@ filebrowser_shared_dir_permission: rw
 # Type: <class 'pathlib.Path'>
 # Description:
 #     Where on the host to store the database.
-# Required: False
-#     Where on the host to store the database.
+# Required:
+#     False
 # Examples:
 #     None
 filebrowser_db_dir: '{DOT_LANDSCAPES}/{LANDSCAPE}/{FEATURE}/configs/filebrowser_db'
@@ -324,8 +334,8 @@ filebrowser_db_dir: '{DOT_LANDSCAPES}/{LANDSCAPE}/{FEATURE}/configs/filebrowser_
 # Type: <class 'pathlib.Path'>
 # Description:
 #     Set the shared directory on the host.
-# Required: False
-#     Set the shared directory on the host.
+# Required:
+#     False
 # Examples:
 #     None
 filebrowser_shared_dir: '{DOT_LANDSCAPES}/{LANDSCAPE}/{FEATURE}/shared'
@@ -338,8 +348,8 @@ filebrowser_shared_dir: '{DOT_LANDSCAPES}/{LANDSCAPE}/{FEATURE}/shared'
 # Type: <class 'pathlib.Path'>
 # Description:
 #     Where on the host to store the configuration file.
-# Required: False
-#     Where on the host to store the configuration file.
+# Required:
+#     False
 # Examples:
 #     None
 filebrowser_json: '{DOT_LANDSCAPES}/{LANDSCAPE}/{FEATURE}/configs/filebrowser.json'
@@ -471,4 +481,4 @@ Currently, the following Python interpreters are enabled for testing:
 
 ***
 
-Last changed: **2025-12-23 12:51:23 UTC**
+Last changed: **2025-12-23 12:53:58 UTC**
