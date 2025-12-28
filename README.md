@@ -7,7 +7,9 @@
    2. [Install](#install)
    3. [Configure](#configure)
       1. [Default Configuration](#default-configuration)
-2. [Community](#community)
+2. [External Resources](#external-resources)
+   1. [Official Documentation](#official-documentation)
+3. [Community](#community)
 
 ***
 
@@ -392,6 +394,18 @@ filebrowser_json: '{DOT_LANDSCAPES}/{LANDSCAPE}/{FEATURE}/configs/filebrowser.js
 
 ***
 
+# External Resources
+
+[![Logo filebrowser ](https://raw.githubusercontent.com/filebrowser/filebrowser/master/branding/banner.png)](https://filebrowser.org/index.html)
+
+filebrowser is - as the name suggests - a web based file browser.
+
+## Official Documentation
+
+- [Website](https://filebrowser.org/)
+- [Docs](https://filebrowser.org/installation.html)
+- [GitHub](https://github.com/filebrowser/filebrowser)
+
 ***
 
 # Community
@@ -415,4 +429,4 @@ To follow up on the previous LinkedIn publications, visit:
 
 ***
 
-Last changed: **2025-12-26 13:34:58 UTC**
+Last changed: **2025-12-28 10:45:22 UTC**
