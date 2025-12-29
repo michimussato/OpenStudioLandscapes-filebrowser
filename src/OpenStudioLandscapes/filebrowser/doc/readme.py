@@ -46,7 +46,7 @@ def readme_feature(
         [
             "[Website](https://filebrowser.org/)",
             "[Docs](https://filebrowser.org/installation.html)",
-            "[GitHub](https://github.com/filebrowser/filebrowser)"
+            "[GitHub](https://github.com/filebrowser/filebrowser)",
         ]
     )
 
