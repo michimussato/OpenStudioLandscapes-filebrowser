@@ -205,6 +205,12 @@ def compose_filebrowser(
             f"{volume_dir_host_rel_path.as_posix()}:{container}",
         )
 
+    volumes_dict = {
+        "volumes": [
+            *_volume_relative,
+        ]
+    }
+
     service_name = "filebrowser"
     container_name, host_name = get_docker_compose_names(
         context=context,
