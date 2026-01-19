@@ -147,9 +147,6 @@ def compose_networks(
         "filebrowser_db": AssetIn(
             AssetKey([*ASSET_HEADER["key_prefix"], "filebrowser_db"]),
         ),
-        "shared_directory": AssetIn(
-            AssetKey([*ASSET_HEADER["key_prefix"], "shared_directory"]),
-        ),
     },
 )
 def compose_filebrowser(
@@ -158,7 +155,6 @@ def compose_filebrowser(
     compose_networks: Dict,  # pylint: disable=redefined-outer-name
     filebrowser_json: pathlib.Path,  # pylint: disable=redefined-outer-name
     filebrowser_db: pathlib.Path,  # pylint: disable=redefined-outer-name
-    shared_directory: pathlib.Path,  # pylint: disable=redefined-outer-name
 ) -> Generator[Output[Dict] | AssetMaterialization, None, None]:
     """"""
 
@@ -179,8 +175,12 @@ def compose_filebrowser(
     elif "network_mode" in compose_networks:
         network_dict = {"network_mode": compose_networks["network_mode"]}
 
+    shared_directory: pathlib.Path = CONFIG.filebrowser_shared_dir_expanded
+    shared_directory.mkdir(parents=True, exist_ok=True)
+
     volumes_dict = {
         "volumes": [
+            f"{shared_directory.as_posix()}:/shared:{CONFIG.filebrowser_shared_dir_permission}",
             f"{filebrowser_json.as_posix()}:/config/settings.json:ro",
             f"{filebrowser_db.as_posix()}:/database:rw",
         ]
@@ -204,13 +204,6 @@ def compose_filebrowser(
         _volume_relative.append(
             f"{volume_dir_host_rel_path.as_posix()}:{container}",
         )
-
-    volumes_dict = {
-        "volumes": [
-            f"{shared_directory.as_posix()}:/shared:{CONFIG.filebrowser_shared_dir_permission}",
-            *_volume_relative,
-        ]
-    }
 
     service_name = "filebrowser"
     container_name, host_name = get_docker_compose_names(
@@ -356,41 +349,5 @@ def filebrowser_db(
         asset_key=context.asset_key,
         metadata={
             "__".join(context.asset_key.path): MetadataValue.path(filebrowser_db_dir),
-        },
-    )
-
-
-@asset(
-    **ASSET_HEADER,
-    ins={
-        "CONFIG": AssetIn(
-            AssetKey([*ASSET_HEADER["key_prefix"], "CONFIG"]),
-        ),
-    },
-)
-def shared_directory(
-    context: AssetExecutionContext,
-    CONFIG: Config,  # pylint: disable=redefined-outer-name
-) -> Generator[Output[Path] | AssetMaterialization | Any, None, None]:
-
-    env: Dict = CONFIG.env
-
-    CONFIG.filebrowser_shared_dir_expanded.mkdir(parents=True, exist_ok=True)
-
-    volume_dir_host_rel_path = get_relative_path_via_common_root(
-        context=context,
-        path_src=CONFIG.docker_compose_expanded,
-        path_dst=CONFIG.filebrowser_shared_dir_expanded,
-        path_common_root=pathlib.Path(env["DOT_LANDSCAPES"]),
-    )
-
-    yield Output(volume_dir_host_rel_path)
-
-    yield AssetMaterialization(
-        asset_key=context.asset_key,
-        metadata={
-            "__".join(context.asset_key.path): MetadataValue.path(
-                volume_dir_host_rel_path
-            ),
         },
     )

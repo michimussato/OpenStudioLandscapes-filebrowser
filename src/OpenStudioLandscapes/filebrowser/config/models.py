@@ -58,7 +58,10 @@ class Config(FeatureBaseModel):
 
     filebrowser_shared_dir: pathlib.Path = Field(
         default=pathlib.Path("{DOT_LANDSCAPES}/{LANDSCAPE}/{FEATURE}/shared"),
-        description="Set the shared directory on the host.",
+        description="Set the shared directory on the host. If you want this "
+                    "to be absolut path on the system outside of the Landscape, "
+                    "say `/root/data`, make sure `shared` is a symbolic link "
+                    "pointing to `/root/data`.",
     )
 
     filebrowser_json: pathlib.Path = Field(
