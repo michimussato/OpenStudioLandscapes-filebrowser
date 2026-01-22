@@ -19,23 +19,17 @@ def readme_feature(
 
     doc.add_paragraph(
         snakemd.Inline(
-            text=textwrap.dedent(
-                """\
+            text=textwrap.dedent("""\
                 Logo filebrowser\
-                """
-            ),
+                """),
             image="https://raw.githubusercontent.com/filebrowser/filebrowser/master/branding/banner.png",
             link="https://filebrowser.org/index.html",
         ).__str__()
     )
 
-    doc.add_paragraph(
-        text=textwrap.dedent(
-            """\
+    doc.add_paragraph(text=textwrap.dedent("""\
             filebrowser is - as the name suggests - a web based file browser.\
-            """
-        )
-    )
+            """))
 
     doc.add_heading(
         text="Official Documentation",

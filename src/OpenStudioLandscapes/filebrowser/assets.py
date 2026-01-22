@@ -17,7 +17,9 @@ from dagster import (
     Output,
     asset,
 )
+from OpenStudioLandscapes.engine.common_assets.cmd import get_feature__cmd
 from OpenStudioLandscapes.engine.common_assets.compose import get_compose
+
 # from OpenStudioLandscapes.engine.common_assets.compose_scope import (
 #     get_compose_scope_group__cmd,
 # )
@@ -25,7 +27,6 @@ from OpenStudioLandscapes.engine.common_assets.docker_compose_graph import (
     get_docker_compose_graph,
 )
 from OpenStudioLandscapes.engine.common_assets.feature import get_feature__CONFIG
-from OpenStudioLandscapes.engine.common_assets.cmd import get_feature__cmd
 from OpenStudioLandscapes.engine.common_assets.feature_out import get_feature_out_v2
 from OpenStudioLandscapes.engine.common_assets.group_in import (
     get_feature_in,
@@ -287,13 +288,11 @@ def compose_maps(
             AssetKey([*ASSET_HEADER["key_prefix"], "CONFIG"]),
         ),
     },
-    description=textwrap.dedent(
-        """
+    description=textwrap.dedent("""
         Main Page: [https://filebrowser.org/index.html]()
         
         Configuration Options: [https://filebrowser.org/cli/filebrowser-config.html]()
-        """
-    ),
+        """),
 )
 def filebrowser_json(
     context: AssetExecutionContext,
