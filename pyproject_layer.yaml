@@ -2,17 +2,19 @@ project:
   description: filebrowser Feature for OpenStudioLandscapes
   name: OpenStudioLandscapes-filebrowser
   optional-dependencies:
+    optional-base:
+    - OpenStudioLandscapes @ git+https://github.com/michimussato/OpenStudioLandscapes.git
     dev:
-    - OpenStudioLandscapes-filebrowser[testing]
     - OpenStudioLandscapes-filebrowser[lint]
-    - OpenStudioLandscapes-filebrowser[nox]
     - OpenStudioLandscapes-filebrowser[sbom]
-    - OpenStudioLandscapes-filebrowser[coverage]
     - OpenStudioLandscapes-filebrowser[readme]
-    nox:
-    - OpenStudioLandscapes-filebrowser[testing]
+    lint:
+    - OpenStudioLandscapes-filebrowser[optional-base]
+    readme:
+    - OpenStudioLandscapes-filebrowser[optional-base]
     sbom:
     - OpenStudioLandscapes-filebrowser[graphviz]
+    - OpenStudioLandscapes-filebrowser[optional-base]
   urls:
     Homepage: https://github.com/michimussato/OpenStudioLandscapes-filebrowser
 tool:
