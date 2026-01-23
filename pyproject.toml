@@ -15,7 +15,6 @@ classifiers = [
     "Programming Language :: Python",
 ]
 dependencies = [
-    "OpenStudioLandscapes @ git+https://github.com/michimussato/OpenStudioLandscapes",
     "PyYAML",
     "dagster==1.9.11",
     "docker-compose-graph @ git+https://github.com/michimussato/docker-compose-graph.git",
@@ -39,46 +38,36 @@ requires-python = ">=3.11"
 [project.entry-points]
 
 [project.optional-dependencies]
-coverage = [
-    "coverage",
-    "pytest",
-]
 dev = [
-    "OpenStudioLandscapes-filebrowser[coverage]",
     "OpenStudioLandscapes-filebrowser[lint]",
-    "OpenStudioLandscapes-filebrowser[nox]",
     "OpenStudioLandscapes-filebrowser[readme]",
     "OpenStudioLandscapes-filebrowser[sbom]",
-    "OpenStudioLandscapes-filebrowser[testing]",
 ]
 graphviz = [
     "graphviz",
     "pipdeptree",
 ]
 lint = [
+    "OpenStudioLandscapes-filebrowser[optional-base]",
     "black",
     "isort",
     "pre-commit",
     "pylint",
 ]
-nox = [
-    "OpenStudioLandscapes-filebrowser[testing]",
-    "nox",
+optional-base = [
+    "OpenStudioLandscapes @ git+https://github.com/michimussato/OpenStudioLandscapes.git",
 ]
 pyproject = [
     "OpenStudioLandscapesUtil-VersionBumper @ git+https://github.com/michimussato/OpenStudioLandscapesUtil-VersionBumper.git",
 ]
 readme = [
+    "OpenStudioLandscapes-filebrowser[optional-base]",
     "OpenStudioLandscapesUtil-ReadmeGenerator @ git+https://github.com/michimussato/OpenStudioLandscapesUtil-ReadmeGenerator.git",
 ]
 sbom = [
     "OpenStudioLandscapes-filebrowser[graphviz]",
+    "OpenStudioLandscapes-filebrowser[optional-base]",
     "cyclonedx-bom",
-]
-testing = [
-    "pytest",
-    "pytest-cov",
-    "setuptools",
 ]
 
 [project.readme]
