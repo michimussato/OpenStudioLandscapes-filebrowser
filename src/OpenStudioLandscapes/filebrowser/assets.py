@@ -208,9 +208,12 @@ def compose_filebrowser(
         )
 
     volumes_dict = {
-        "volumes": [
-            *_volume_relative,
-        ]
+        "volumes": list(
+            {
+                *_volume_relative,
+                *config_engine.global_bind_volumes,
+            }
+        )
     }
 
     service_name = "filebrowser"
@@ -233,6 +236,9 @@ def compose_filebrowser(
                 "hostname": host_name,
                 "domainname": config_engine.openstudiolandscapes__domain_lan,
                 "restart": DockerComposePolicies.RESTART_POLICY.ALWAYS.value,
+                "environment": {
+                    **config_engine.global_environment_variables,
+                },
                 **copy.deepcopy(network_dict),
                 **copy.deepcopy(ports_dict),
                 **copy.deepcopy(volumes_dict),
