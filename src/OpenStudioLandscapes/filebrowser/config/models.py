@@ -80,7 +80,7 @@ class Config(FeatureBaseModel):
 
         LOGGER.debug(f"Expanding {self.filebrowser_db_dir}...")
         ret = pathlib.Path(
-            self.filebrowser_db_dir.expanduser()
+            self.filebrowser_db_dir.expanduser()  # pylint: disable=E1101
             .as_posix()
             .format(
                 **{
@@ -99,7 +99,7 @@ class Config(FeatureBaseModel):
 
         LOGGER.debug(f"Expanding {self.filebrowser_shared_dir}...")
         ret = pathlib.Path(
-            self.filebrowser_shared_dir.expanduser()
+            self.filebrowser_shared_dir.expanduser()  # pylint: disable=E1101
             .as_posix()
             .format(
                 **{
@@ -118,7 +118,7 @@ class Config(FeatureBaseModel):
 
         LOGGER.debug(f"Expanding {self.filebrowser_json}...")
         ret = pathlib.Path(
-            self.filebrowser_json.expanduser()
+            self.filebrowser_json.expanduser()  # pylint: disable=E1101
             .as_posix()
             .format(
                 **{
