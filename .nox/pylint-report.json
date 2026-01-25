@@ -481,19 +481,6 @@
         "message-id": "C0116"
     },
     {
-        "type": "error",
-        "module": "OpenStudioLandscapes.filebrowser.config.models",
-        "obj": "Config.filebrowser_db_dir_expanded",
-        "line": 83,
-        "column": 12,
-        "endLine": 83,
-        "endColumn": 46,
-        "path": "src/OpenStudioLandscapes/filebrowser/config/models.py",
-        "symbol": "no-member",
-        "message": "Instance of 'FieldInfo' has no 'expanduser' member",
-        "message-id": "E1101"
-    },
-    {
         "type": "convention",
         "module": "OpenStudioLandscapes.filebrowser.config.models",
         "obj": "Config.filebrowser_shared_dir_expanded",
@@ -507,19 +494,6 @@
         "message-id": "C0116"
     },
     {
-        "type": "error",
-        "module": "OpenStudioLandscapes.filebrowser.config.models",
-        "obj": "Config.filebrowser_shared_dir_expanded",
-        "line": 102,
-        "column": 12,
-        "endLine": 102,
-        "endColumn": 50,
-        "path": "src/OpenStudioLandscapes/filebrowser/config/models.py",
-        "symbol": "no-member",
-        "message": "Instance of 'FieldInfo' has no 'expanduser' member",
-        "message-id": "E1101"
-    },
-    {
         "type": "convention",
         "module": "OpenStudioLandscapes.filebrowser.config.models",
         "obj": "Config.filebrowser_json_expanded",
@@ -531,19 +505,6 @@
         "symbol": "missing-function-docstring",
         "message": "Missing function or method docstring",
         "message-id": "C0116"
-    },
-    {
-        "type": "error",
-        "module": "OpenStudioLandscapes.filebrowser.config.models",
-        "obj": "Config.filebrowser_json_expanded",
-        "line": 121,
-        "column": 12,
-        "endLine": 121,
-        "endColumn": 44,
-        "path": "src/OpenStudioLandscapes/filebrowser/config/models.py",
-        "symbol": "no-member",
-        "message": "Instance of 'FieldInfo' has no 'expanduser' member",
-        "message-id": "E1101"
     },
     {
         "type": "convention",
