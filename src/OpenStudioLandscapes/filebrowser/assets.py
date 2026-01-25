@@ -212,6 +212,7 @@ def compose_filebrowser(
             {
                 *_volume_relative,
                 *config_engine.global_bind_volumes,
+                *CONFIG.local_bind_volumes,
             }
         )
     }
@@ -238,6 +239,7 @@ def compose_filebrowser(
                 "restart": DockerComposePolicies.RESTART_POLICY.ALWAYS.value,
                 "environment": {
                     **config_engine.global_environment_variables,
+                    **CONFIG.local_environment_variables,
                 },
                 **copy.deepcopy(network_dict),
                 **copy.deepcopy(ports_dict),
