@@ -34,15 +34,14 @@ src/OpenStudioLandscapes/filebrowser/__init__.py:1:0: C0114: Missing module docs
 ************* Module OpenStudioLandscapes.filebrowser.config.models
 src/OpenStudioLandscapes/filebrowser/config/models.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 src/OpenStudioLandscapes/filebrowser/config/models.py:13:0: C0413: Import "from OpenStudioLandscapes.engine.config.models import FeatureBaseModel" should be placed at the top of the module (wrong-import-position)
-src/OpenStudioLandscapes/filebrowser/config/models.py:14:0: C0413: Import "from OpenStudioLandscapes.engine.config.str_gen import get_config_str" should be placed at the top of the module (wrong-import-position)
-src/OpenStudioLandscapes/filebrowser/config/models.py:16:0: C0413: Import "from OpenStudioLandscapes.filebrowser import constants, dist" should be placed at the top of the module (wrong-import-position)
-src/OpenStudioLandscapes/filebrowser/config/models.py:19:0: C0115: Missing class docstring (missing-class-docstring)
-src/OpenStudioLandscapes/filebrowser/config/models.py:20:4: C0103: Class constant name "rw" doesn't conform to UPPER_CASE naming style (invalid-name)
-src/OpenStudioLandscapes/filebrowser/config/models.py:21:4: C0103: Class constant name "ro" doesn't conform to UPPER_CASE naming style (invalid-name)
-src/OpenStudioLandscapes/filebrowser/config/models.py:24:0: C0115: Missing class docstring (missing-class-docstring)
-src/OpenStudioLandscapes/filebrowser/config/models.py:76:4: C0116: Missing function or method docstring (missing-function-docstring)
-src/OpenStudioLandscapes/filebrowser/config/models.py:95:4: C0116: Missing function or method docstring (missing-function-docstring)
-src/OpenStudioLandscapes/filebrowser/config/models.py:114:4: C0116: Missing function or method docstring (missing-function-docstring)
+src/OpenStudioLandscapes/filebrowser/config/models.py:15:0: C0413: Import "from OpenStudioLandscapes.filebrowser import constants, dist" should be placed at the top of the module (wrong-import-position)
+src/OpenStudioLandscapes/filebrowser/config/models.py:18:0: C0115: Missing class docstring (missing-class-docstring)
+src/OpenStudioLandscapes/filebrowser/config/models.py:19:4: C0103: Class constant name "rw" doesn't conform to UPPER_CASE naming style (invalid-name)
+src/OpenStudioLandscapes/filebrowser/config/models.py:20:4: C0103: Class constant name "ro" doesn't conform to UPPER_CASE naming style (invalid-name)
+src/OpenStudioLandscapes/filebrowser/config/models.py:23:0: C0115: Missing class docstring (missing-class-docstring)
+src/OpenStudioLandscapes/filebrowser/config/models.py:75:4: C0116: Missing function or method docstring (missing-function-docstring)
+src/OpenStudioLandscapes/filebrowser/config/models.py:94:4: C0116: Missing function or method docstring (missing-function-docstring)
+src/OpenStudioLandscapes/filebrowser/config/models.py:113:4: C0116: Missing function or method docstring (missing-function-docstring)
 ************* Module OpenStudioLandscapes.filebrowser.doc.readme
 src/OpenStudioLandscapes/filebrowser/doc/readme.py:25:0: C0301: Line too long (105/100) (line-too-long)
 src/OpenStudioLandscapes/filebrowser/doc/readme.py:1:0: C0114: Missing module docstring (missing-module-docstring)
@@ -50,5 +49,5 @@ src/OpenStudioLandscapes/filebrowser/doc/readme.py:6:0: C0116: Missing function 
 src/OpenStudioLandscapes/filebrowser/doc/readme.py:21:8: C2801: Unnecessarily calls dunder method __str__. Use str built-in function. (unnecessary-dunder-call)
 
 ------------------------------------------------------------------
-Your code has been rated at 7.35/10 (previous run: 7.12/10, +0.22)
+Your code has been rated at 7.39/10 (previous run: 7.18/10, +0.22)
 
