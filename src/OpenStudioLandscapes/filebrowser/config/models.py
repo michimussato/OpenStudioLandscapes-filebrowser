@@ -42,11 +42,11 @@ class Config(FeatureBaseModel):
         default="docker.io/filebrowser/filebrowser",
     )
 
-    filebrowser_shared_dir_permission: FilebrowerRootPermission = Field(
-        default=FilebrowerRootPermission.rw,
-        description="The filebrowser root permission.",
-        examples=[i.name for i in FilebrowerRootPermission],
-    )
+    # filebrowser_shared_dir_permission: FilebrowerRootPermission = Field(
+    #     default=FilebrowerRootPermission.rw,
+    #     description="The filebrowser root permission.",
+    #     examples=[i.name for i in FilebrowerRootPermission],
+    # )
 
     # filebrowser_db_dir: pathlib.Path = Field(
     #     default=pathlib.Path(
@@ -55,13 +55,13 @@ class Config(FeatureBaseModel):
     #     description="Where on the host to store the database.",
     # )
 
-    filebrowser_shared_dir: pathlib.Path = Field(
-        default=pathlib.Path("{DOT_LANDSCAPES}/{LANDSCAPE}/{FEATURE}/shared"),
-        description="Set the shared directory on the host. If you want this "
-        "to be absolut path on the system outside of the Landscape, "
-        "say `/root/data`, make sure `shared` is a symbolic link "
-        "pointing to `/root/data`.",
-    )
+    # filebrowser_shared_dir: pathlib.Path = Field(
+    #     default=pathlib.Path("{DOT_LANDSCAPES}/{LANDSCAPE}/{FEATURE}/shared"),
+    #     description="Set the shared directory on the host. If you want this "
+    #     "to be absolut path on the system outside of the Landscape, "
+    #     "say `/root/data`, make sure `shared` is a symbolic link "
+    #     "pointing to `/root/data`.",
+    # )
 
     filebrowser_json: pathlib.Path = Field(
         default=pathlib.Path(
@@ -90,24 +90,24 @@ class Config(FeatureBaseModel):
     #     )
     #     return ret
 
-    @property
-    def filebrowser_shared_dir_expanded(self) -> pathlib.Path:
-        LOGGER.debug(f"{self.env = }")
-        if self.env is None:
-            raise KeyError("`env` is `None`.")
-
-        LOGGER.debug(f"Expanding {self.filebrowser_shared_dir}...")
-        ret = pathlib.Path(
-            self.filebrowser_shared_dir.expanduser()  # pylint: disable=E1101
-            .as_posix()
-            .format(
-                **{
-                    "FEATURE": self.feature_name,
-                    **self.env,
-                }
-            )
-        )
-        return ret
+    # @property
+    # def filebrowser_shared_dir_expanded(self) -> pathlib.Path:
+    #     LOGGER.debug(f"{self.env = }")
+    #     if self.env is None:
+    #         raise KeyError("`env` is `None`.")
+    #
+    #     LOGGER.debug(f"Expanding {self.filebrowser_shared_dir}...")
+    #     ret = pathlib.Path(
+    #         self.filebrowser_shared_dir.expanduser()  # pylint: disable=E1101
+    #         .as_posix()
+    #         .format(
+    #             **{
+    #                 "FEATURE": self.feature_name,
+    #                 **self.env,
+    #             }
+    #         )
+    #     )
+    #     return ret
 
     @property
     def filebrowser_json_expanded(self) -> pathlib.Path:

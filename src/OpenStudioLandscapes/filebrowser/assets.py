@@ -182,7 +182,7 @@ def compose_filebrowser(
 
     volumes_dict = {
         "volumes": [
-            f"{shared_directory.as_posix()}:/shared:{CONFIG.filebrowser_shared_dir_permission}",
+            # f"{shared_directory.as_posix()}:/shared:{CONFIG.filebrowser_shared_dir_permission}",
             f"{filebrowser_json.as_posix()}:/config/settings.json:ro",
             # f"{filebrowser_db.as_posix()}:/database:rw",
         ]
