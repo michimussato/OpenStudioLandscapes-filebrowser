@@ -48,12 +48,12 @@ class Config(FeatureBaseModel):
         examples=[i.name for i in FilebrowerRootPermission],
     )
 
-    filebrowser_db_dir: pathlib.Path = Field(
-        default=pathlib.Path(
-            "{DOT_LANDSCAPES}/{LANDSCAPE}/{FEATURE}/configs/filebrowser_db"
-        ),
-        description="Where on the host to store the database.",
-    )
+    # filebrowser_db_dir: pathlib.Path = Field(
+    #     default=pathlib.Path(
+    #         "{DOT_LANDSCAPES}/{LANDSCAPE}/{FEATURE}/configs/filebrowser_db"
+    #     ),
+    #     description="Where on the host to store the database.",
+    # )
 
     filebrowser_shared_dir: pathlib.Path = Field(
         default=pathlib.Path("{DOT_LANDSCAPES}/{LANDSCAPE}/{FEATURE}/shared"),
@@ -71,24 +71,24 @@ class Config(FeatureBaseModel):
     )
 
     # EXPANDABLE PATHS
-    @property
-    def filebrowser_db_dir_expanded(self) -> pathlib.Path:
-        LOGGER.debug(f"{self.env = }")
-        if self.env is None:
-            raise KeyError("`env` is `None`.")
-
-        LOGGER.debug(f"Expanding {self.filebrowser_db_dir}...")
-        ret = pathlib.Path(
-            self.filebrowser_db_dir.expanduser()  # pylint: disable=E1101
-            .as_posix()
-            .format(
-                **{
-                    "FEATURE": self.feature_name,
-                    **self.env,
-                }
-            )
-        )
-        return ret
+    # @property
+    # def filebrowser_db_dir_expanded(self) -> pathlib.Path:
+    #     LOGGER.debug(f"{self.env = }")
+    #     if self.env is None:
+    #         raise KeyError("`env` is `None`.")
+    #
+    #     LOGGER.debug(f"Expanding {self.filebrowser_db_dir}...")
+    #     ret = pathlib.Path(
+    #         self.filebrowser_db_dir.expanduser()  # pylint: disable=E1101
+    #         .as_posix()
+    #         .format(
+    #             **{
+    #                 "FEATURE": self.feature_name,
+    #                 **self.env,
+    #             }
+    #         )
+    #     )
+    #     return ret
 
     @property
     def filebrowser_shared_dir_expanded(self) -> pathlib.Path:
