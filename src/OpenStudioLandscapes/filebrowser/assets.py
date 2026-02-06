@@ -177,8 +177,8 @@ def compose_filebrowser(
     elif "network_mode" in compose_networks:
         network_dict = {"network_mode": compose_networks["network_mode"]}
 
-    shared_directory: pathlib.Path = CONFIG.filebrowser_shared_dir_expanded
-    shared_directory.mkdir(parents=True, exist_ok=True)
+    # shared_directory: pathlib.Path = CONFIG.filebrowser_shared_dir_expanded
+    # shared_directory.mkdir(parents=True, exist_ok=True)
 
     volumes_dict = {
         "volumes": [
@@ -313,6 +313,8 @@ def filebrowser_json(
         "address": "",  # address to listen on (default "127.0.0.1")
         "log": "stdout",  # log output (default "stdout")
         "database": "/database/filebrowser.db",  # database path (default "./filebrowser.db")
+        # Todo
+        #  - [ ] this is not necessarily always the default
         "root": "/shared",  # root to prepend to relative paths (default ".")
         "noauth": True,
     }
