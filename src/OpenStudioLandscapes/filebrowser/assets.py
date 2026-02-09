@@ -146,9 +146,12 @@ def compose_networks(
         "filebrowser_json": AssetIn(
             AssetKey([*ASSET_HEADER["key_prefix"], "filebrowser_json"]),
         ),
-        "filebrowser_db": AssetIn(
-            AssetKey([*ASSET_HEADER["key_prefix"], "filebrowser_db"]),
-        ),
+        # Todo:
+        #  - [ ] probably not a big problem to solve, but not a prio for now
+        #        filebrowser.db will be created withing the container (not persistent)
+        # "filebrowser_db": AssetIn(
+        #     AssetKey([*ASSET_HEADER["key_prefix"], "filebrowser_db"]),
+        # ),
     },
 )
 def compose_filebrowser(
@@ -156,7 +159,7 @@ def compose_filebrowser(
     CONFIG: Config,  # pylint: disable=redefined-outer-name
     compose_networks: Dict,  # pylint: disable=redefined-outer-name
     filebrowser_json: pathlib.Path,  # pylint: disable=redefined-outer-name
-    filebrowser_db: pathlib.Path,  # pylint: disable=redefined-outer-name
+    # filebrowser_db: pathlib.Path,  # pylint: disable=redefined-outer-name
 ) -> Generator[Output[Dict] | AssetMaterialization, None, None]:
     """"""
 
@@ -184,7 +187,7 @@ def compose_filebrowser(
         "volumes": [
             # f"{shared_directory.as_posix()}:/shared:{CONFIG.filebrowser_shared_dir_permission}",
             f"{filebrowser_json.as_posix()}:/config/settings.json:ro",
-            f"{filebrowser_db.as_posix()}:/database:rw",
+            # f"{filebrowser_db.as_posix()}:/database:rw",
         ]
     }
 
@@ -342,33 +345,33 @@ def filebrowser_json(
     )
 
 
-@asset(
-    **ASSET_HEADER,
-    ins={
-        "CONFIG": AssetIn(
-            AssetKey([*ASSET_HEADER["key_prefix"], "CONFIG"]),
-        ),
-    },
-)
-def filebrowser_db(
-    context: AssetExecutionContext,
-    CONFIG: Config,  # pylint: disable=redefined-outer-name
-) -> Generator[Output[Path] | AssetMaterialization | Any, None, None]:
-
-    filebrowser_db_dir = CONFIG.filebrowser_db_dir_expanded
-
-    filebrowser_db_dir.mkdir(parents=True, exist_ok=True)
-
-    # File needs to be created manually if it does not exist:
-    # - https://docs.techdox.nz/filebrowser/#deploying-filebrowser
-    #
-    filebrowser_db_dir.joinpath("filebrowser.db").touch(exist_ok=True)
-
-    yield Output(filebrowser_db_dir)
-
-    yield AssetMaterialization(
-        asset_key=context.asset_key,
-        metadata={
-            "__".join(context.asset_key.path): MetadataValue.path(filebrowser_db_dir),
-        },
-    )
+# @asset(
+#     **ASSET_HEADER,
+#     ins={
+#         "CONFIG": AssetIn(
+#             AssetKey([*ASSET_HEADER["key_prefix"], "CONFIG"]),
+#         ),
+#     },
+# )
+# def filebrowser_db(
+#     context: AssetExecutionContext,
+#     CONFIG: Config,  # pylint: disable=redefined-outer-name
+# ) -> Generator[Output[Path] | AssetMaterialization | Any, None, None]:
+#
+#     filebrowser_db_dir = CONFIG.filebrowser_db_dir_expanded
+#
+#     filebrowser_db_dir.mkdir(parents=True, exist_ok=True)
+#
+#     # File needs to be created manually if it does not exist:
+#     # - https://docs.techdox.nz/filebrowser/#deploying-filebrowser
+#     #
+#     filebrowser_db_dir.joinpath("filebrowser.db").touch(exist_ok=True)
+#
+#     yield Output(filebrowser_db_dir)
+#
+#     yield AssetMaterialization(
+#         asset_key=context.asset_key,
+#         metadata={
+#             "__".join(context.asset_key.path): MetadataValue.path(filebrowser_db_dir),
+#         },
+#     )
