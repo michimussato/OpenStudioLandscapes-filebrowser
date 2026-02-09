@@ -68,10 +68,24 @@ def readme_feature(
     doc.add_paragraph(
         text=textwrap.dedent(
             """\
-            This error is usually caused if the data base file does not exist
+            This error is usually caused if the database file does not exist
             when using bind mounts. Make sure the file exists (empty).\
             """
         )
+    )
+
+    doc.add_paragraph(
+        text=textwrap.dedent(
+            """\
+            References:\
+            """
+        )
+    )
+
+    doc.add_unordered_list(
+        [
+            "[Deploying Filebrowser](https://docs.techdox.nz/filebrowser/#deploying-filebrowser)",
+        ]
     )
 
     doc.add_horizontal_rule()
