@@ -9,6 +9,8 @@
       1. [Default Configuration](#default-configuration)
 2. [External Resources](#external-resources)
    1. [Official Documentation](#official-documentation)
+   2. [Known Issues](#known-issues)
+      1. [Error: open /database/filebrowser.db: permission denied](#error-open-databasefilebrowserdb-permission-denied)
 3. [Community](#community)
 
 ***
@@ -337,20 +339,6 @@ filebrowser_port_host: 8080
 filebrowser_docker_image: docker.io/filebrowser/filebrowser
 
 
-# =================================
-# filebrowser_shared_dir_permission
-# ---------------------------------
-#
-# Type: <enum 'FilebrowerRootPermission'>
-# Description:
-#     The filebrowser root permission.
-# Required:
-#     False
-# Examples:
-#     ['rw', 'ro']
-filebrowser_shared_dir_permission: rw
-
-
 # ==================
 # filebrowser_db_dir
 # ------------------
@@ -363,20 +351,6 @@ filebrowser_shared_dir_permission: rw
 # Examples:
 #     None
 filebrowser_db_dir: '{DOT_LANDSCAPES}/{LANDSCAPE}/{FEATURE}/configs/filebrowser_db'
-
-
-# ======================
-# filebrowser_shared_dir
-# ----------------------
-#
-# Type: <class 'pathlib.Path'>
-# Description:
-#     Set the shared directory on the host. If you want this to be absolut path on the system outside of the Landscape, say `/root/data`, make sure `shared` is a symbolic link pointing to `/root/data`.
-# Required:
-#     False
-# Examples:
-#     None
-filebrowser_shared_dir: '{DOT_LANDSCAPES}/{LANDSCAPE}/{FEATURE}/shared'
 
 
 # ================
@@ -411,6 +385,24 @@ filebrowser is - as the name suggests - a web based file browser.
 - [Docs](https://filebrowser.org/installation.html)
 - [GitHub](https://github.com/filebrowser/filebrowser)
 
+## Known Issues
+
+### Error: open /database/filebrowser.db: permission denied
+
+```generic
+filebrowser.2026-02-09_09-42-23__highly-merciful-imaginary-legend  | 2026/02/09 09:12:48 Using config file: /config/settings.json    
+filebrowser.2026-02-09_09-42-23__highly-merciful-imaginary-legend  | 2026/02/09 09:12:48 WARNING: filebrowser.db can't be found. Initialing in /database/
+filebrowser.2026-02-09_09-42-23__highly-merciful-imaginary-legend  | 2026/02/09 09:12:48 Using database: /database/filebrowser.db
+filebrowser.2026-02-09_09-42-23__highly-merciful-imaginary-legend  | Error: open /database/filebrowser.db: permission denied
+filebrowser.2026-02-09_09-42-23__highly-merciful-imaginary-legend exited with code 1 (restarting)        
+```
+
+This error is usually caused if the database file does not exist when using bind mounts. Make sure the file exists (empty).
+
+References:
+
+- [Deploying Filebrowser](https://docs.techdox.nz/filebrowser/#deploying-filebrowser)
+
 ***
 
 # Community
@@ -443,4 +435,4 @@ To follow up on the previous LinkedIn publications, visit:
 
 ***
 
-Last changed: **2026-01-27 20:31:45 UTC**
+Last changed: **2026-02-09 09:21:31 UTC**
