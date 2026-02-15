@@ -241,6 +241,7 @@ def compose_filebrowser(
                 "domainname": config_engine.openstudiolandscapes__domain_lan,
                 "restart": DockerComposePolicies.RESTART_POLICY.ALWAYS.value,
                 "environment": {
+                    "TZ": CONFIG.tz,
                     **config_engine.global_environment_variables,
                     **CONFIG.local_environment_variables,
                 },
