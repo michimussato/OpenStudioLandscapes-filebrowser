@@ -65,22 +65,14 @@ def readme_feature(
         lang="generic",
     )
 
-    doc.add_paragraph(
-        text=textwrap.dedent(
-            """\
+    doc.add_paragraph(text=textwrap.dedent("""\
             This error is usually caused if the database file does not exist
             when using bind mounts. Make sure the file exists (empty).\
-            """
-        )
-    )
+            """))
 
-    doc.add_paragraph(
-        text=textwrap.dedent(
-            """\
+    doc.add_paragraph(text=textwrap.dedent("""\
             References:\
-            """
-        )
-    )
+            """))
 
     doc.add_unordered_list(
         [
