@@ -180,14 +180,14 @@ def compose_filebrowser(
     elif "network_mode" in compose_networks:
         network_dict = {"network_mode": compose_networks["network_mode"]}
 
-    # shared_directory: pathlib.Path = CONFIG.filebrowser_shared_dir_expanded
-    # shared_directory.mkdir(parents=True, exist_ok=True)
+    shared_directory: pathlib.Path = CONFIG.filebrowser_shared_dir_host_expanded
+    shared_directory.mkdir(parents=True, exist_ok=True)
 
     volumes_dict = {
         "volumes": [
             # f"{shared_directory.as_posix()}:/shared:{CONFIG.filebrowser_shared_dir_permission}",
             f"{filebrowser_json.as_posix()}:/config/settings.json:ro",
-            # f"{filebrowser_db.as_posix()}:/database:rw",
+            f"{shared_directory.as_posix()}:{CONFIG.filebrowser_shared_dir_container.as_posix()}:{CONFIG.filebrowser_shared_dir_permission}",
         ]
     }
 
