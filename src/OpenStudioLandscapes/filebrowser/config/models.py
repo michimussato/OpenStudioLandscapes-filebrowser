@@ -76,6 +76,11 @@ class Config(FeatureBaseModel):
         description="Where on the host to store the configuration file.",
     )
 
+    filebrowser_noauth: bool = Field(
+        default=True,
+        description="Disable authentication for filebrowser.",
+    )
+
     # EXPANDABLE PATHS
     # @property
     # def filebrowser_db_dir_expanded(self) -> pathlib.Path:
