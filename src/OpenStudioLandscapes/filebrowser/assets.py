@@ -319,7 +319,7 @@ def filebrowser_json(
         "database": "/database/filebrowser.db",  # database path (default "./filebrowser.db")
         # Todo
         #  - [ ] this is not necessarily always the default
-        "root": "/shared",  # root to prepend to relative paths (default ".")
+        "root": CONFIG.filebrowser_shared_dir_container.as_posix(),  # root to prepend to relative paths (default ".")
         "noauth": True,
     }
 
