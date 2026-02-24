@@ -1,5 +1,31 @@
 [
     {
+        "type": "convention",
+        "module": "OpenStudioLandscapes.filebrowser.assets",
+        "obj": "",
+        "line": 190,
+        "column": 0,
+        "endLine": null,
+        "endColumn": null,
+        "path": "src/OpenStudioLandscapes/filebrowser/assets.py",
+        "symbol": "line-too-long",
+        "message": "Line too long (141/100)",
+        "message-id": "C0301"
+    },
+    {
+        "type": "convention",
+        "module": "OpenStudioLandscapes.filebrowser.assets",
+        "obj": "",
+        "line": 322,
+        "column": 0,
+        "endLine": null,
+        "endColumn": null,
+        "path": "src/OpenStudioLandscapes/filebrowser/assets.py",
+        "symbol": "line-too-long",
+        "message": "Line too long (118/100)",
+        "message-id": "C0301"
+    },
+    {
         "type": "warning",
         "module": "OpenStudioLandscapes.filebrowser.assets",
         "obj": "",
@@ -178,7 +204,7 @@
         "endColumn": 23,
         "path": "src/OpenStudioLandscapes/filebrowser/assets.py",
         "symbol": "too-many-locals",
-        "message": "Too many local variables (19/15)",
+        "message": "Too many local variables (20/15)",
         "message-id": "R0914"
     },
     {
@@ -457,10 +483,23 @@
     {
         "type": "convention",
         "module": "OpenStudioLandscapes.filebrowser.config.models",
-        "obj": "Config.filebrowser_json_expanded",
-        "line": 114,
+        "obj": "Config.filebrowser_shared_dir_host_expanded",
+        "line": 106,
         "column": 4,
-        "endLine": 114,
+        "endLine": 106,
+        "endColumn": 44,
+        "path": "src/OpenStudioLandscapes/filebrowser/config/models.py",
+        "symbol": "missing-function-docstring",
+        "message": "Missing function or method docstring",
+        "message-id": "C0116"
+    },
+    {
+        "type": "convention",
+        "module": "OpenStudioLandscapes.filebrowser.config.models",
+        "obj": "Config.filebrowser_json_expanded",
+        "line": 125,
+        "column": 4,
+        "endLine": 125,
         "endColumn": 33,
         "path": "src/OpenStudioLandscapes/filebrowser/config/models.py",
         "symbol": "missing-function-docstring",

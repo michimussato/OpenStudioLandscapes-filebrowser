@@ -1,4 +1,6 @@
 ************* Module OpenStudioLandscapes.filebrowser.assets
+src/OpenStudioLandscapes/filebrowser/assets.py:190:0: C0301: Line too long (141/100) (line-too-long)
+src/OpenStudioLandscapes/filebrowser/assets.py:322:0: C0301: Line too long (118/100) (line-too-long)
 src/OpenStudioLandscapes/filebrowser/assets.py:149:9: W0511: Todo: (fixme)
 src/OpenStudioLandscapes/filebrowser/assets.py:264:13: W0511: Todo: "cmd_docker_run": MetadataValue.path(cmd_list_to_str(cmd_docker_run)), (fixme)
 src/OpenStudioLandscapes/filebrowser/assets.py:320:9: W0511: Todo (fixme)
@@ -12,7 +14,7 @@ src/OpenStudioLandscapes/filebrowser/assets.py:106:0: C0116: Missing function or
 src/OpenStudioLandscapes/filebrowser/assets.py:108:4: C0103: Argument name "CONFIG" doesn't conform to snake_case naming style (invalid-name)
 src/OpenStudioLandscapes/filebrowser/assets.py:157:0: C0112: Empty function docstring (empty-docstring)
 src/OpenStudioLandscapes/filebrowser/assets.py:159:4: C0103: Argument name "CONFIG" doesn't conform to snake_case naming style (invalid-name)
-src/OpenStudioLandscapes/filebrowser/assets.py:157:0: R0914: Too many local variables (19/15) (too-many-locals)
+src/OpenStudioLandscapes/filebrowser/assets.py:157:0: R0914: Too many local variables (20/15) (too-many-locals)
 src/OpenStudioLandscapes/filebrowser/assets.py:277:0: C0116: Missing function or method docstring (missing-function-docstring)
 src/OpenStudioLandscapes/filebrowser/assets.py:309:0: C0116: Missing function or method docstring (missing-function-docstring)
 src/OpenStudioLandscapes/filebrowser/assets.py:311:4: C0103: Argument name "CONFIG" doesn't conform to snake_case naming style (invalid-name)
@@ -39,7 +41,8 @@ src/OpenStudioLandscapes/filebrowser/config/models.py:18:0: C0115: Missing class
 src/OpenStudioLandscapes/filebrowser/config/models.py:19:4: C0103: Class constant name "rw" doesn't conform to UPPER_CASE naming style (invalid-name)
 src/OpenStudioLandscapes/filebrowser/config/models.py:20:4: C0103: Class constant name "ro" doesn't conform to UPPER_CASE naming style (invalid-name)
 src/OpenStudioLandscapes/filebrowser/config/models.py:23:0: C0115: Missing class docstring (missing-class-docstring)
-src/OpenStudioLandscapes/filebrowser/config/models.py:114:4: C0116: Missing function or method docstring (missing-function-docstring)
+src/OpenStudioLandscapes/filebrowser/config/models.py:106:4: C0116: Missing function or method docstring (missing-function-docstring)
+src/OpenStudioLandscapes/filebrowser/config/models.py:125:4: C0116: Missing function or method docstring (missing-function-docstring)
 ************* Module OpenStudioLandscapes.filebrowser.doc.readme
 src/OpenStudioLandscapes/filebrowser/doc/readme.py:25:0: C0301: Line too long (105/100) (line-too-long)
 src/OpenStudioLandscapes/filebrowser/doc/readme.py:1:0: C0114: Missing module docstring (missing-module-docstring)
@@ -47,5 +50,5 @@ src/OpenStudioLandscapes/filebrowser/doc/readme.py:6:0: C0116: Missing function 
 src/OpenStudioLandscapes/filebrowser/doc/readme.py:21:8: C2801: Unnecessarily calls dunder method __str__. Use str built-in function. (unnecessary-dunder-call)
 
 ------------------------------------------------------------------
-Your code has been rated at 7.20/10 (previous run: 7.14/10, +0.06)
+Your code has been rated at 7.24/10 (previous run: 7.09/10, +0.15)
 

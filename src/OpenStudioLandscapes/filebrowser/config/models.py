@@ -66,7 +66,7 @@ class Config(FeatureBaseModel):
     filebrowser_shared_dir_container: pathlib.Path = Field(
         default=pathlib.Path("/shared"),
         description="Set the shared directory on the container. "
-                    "The default is `/shared`."
+        "The default is `/shared`.",
     )
 
     filebrowser_json: pathlib.Path = Field(

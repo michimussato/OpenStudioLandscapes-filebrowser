@@ -352,6 +352,48 @@ filebrowser_port_host: 8080
 filebrowser_docker_image: docker.io/filebrowser/filebrowser
 
 
+# =================================
+# filebrowser_shared_dir_permission
+# ---------------------------------
+#
+# Type: <enum 'FilebrowerRootPermission'>
+# Description:
+#     The filebrowser root permission.
+# Required:
+#     False
+# Examples:
+#     ['rw', 'ro']
+filebrowser_shared_dir_permission: rw
+
+
+# ===========================
+# filebrowser_shared_dir_host
+# ---------------------------
+#
+# Type: <class 'pathlib.Path'>
+# Description:
+#     Set the shared directory on the host. If you want this to be an absolute path on the system outside of the Landscape, say `/root/data`, make sure `shared` is a symbolic link pointing to `/root/data`.
+# Required:
+#     False
+# Examples:
+#     None
+filebrowser_shared_dir_host: '{DOT_LANDSCAPES}/{LANDSCAPE}/{FEATURE}/shared'
+
+
+# ================================
+# filebrowser_shared_dir_container
+# --------------------------------
+#
+# Type: <class 'pathlib.Path'>
+# Description:
+#     Set the shared directory on the container. The default is `/shared`.
+# Required:
+#     False
+# Examples:
+#     None
+filebrowser_shared_dir_container: /shared
+
+
 # ================
 # filebrowser_json
 # ----------------
@@ -364,6 +406,20 @@ filebrowser_docker_image: docker.io/filebrowser/filebrowser
 # Examples:
 #     None
 filebrowser_json: '{DOT_LANDSCAPES}/{LANDSCAPE}/{FEATURE}/configs/filebrowser.json'
+
+
+# ==================
+# filebrowser_noauth
+# ------------------
+#
+# Type: <class 'bool'>
+# Description:
+#     Disable authentication for filebrowser.
+# Required:
+#     False
+# Examples:
+#     None
+filebrowser_noauth: true
 ```
 
 
@@ -434,4 +490,4 @@ To follow up on the previous LinkedIn publications, visit:
 
 ***
 
-Last changed: **2026-02-18 00:19:34 UTC**
+Last changed: **2026-02-24 11:25:06 UTC**
