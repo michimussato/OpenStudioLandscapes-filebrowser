@@ -58,7 +58,7 @@ lint = [
     "pylint",
 ]
 optional-base = [
-    "OpenStudioLandscapes @ git+https://github.com/michimussato/OpenStudioLandscapes.git",
+    "OpenStudioLandscapes @ git+https://github.com/michimussato/OpenStudioLandscapes.git@code-location-refactor-test",
 ]
 pyproject = [
     "OpenStudioLandscapesUtil-VersionBumper @ git+https://github.com/michimussato/OpenStudioLandscapesUtil-VersionBumper.git",
