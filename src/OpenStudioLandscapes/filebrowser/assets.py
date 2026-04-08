@@ -26,7 +26,7 @@ from OpenStudioLandscapes.engine.common_assets.compose import get_compose
 from OpenStudioLandscapes.engine.common_assets.docker_compose_graph import (
     get_docker_compose_graph,
 )
-from OpenStudioLandscapes.engine.common_assets.feature import get_feature__CONFIG
+# from OpenStudioLandscapes.engine.common_assets.feature import get_feature__CONFIG
 from OpenStudioLandscapes.engine.common_assets.feature_out import get_feature_out_v2
 from OpenStudioLandscapes.engine.common_assets.group_in import (
     get_feature_in,
@@ -53,11 +53,11 @@ cmd: AssetsDefinition = get_feature__cmd(
     ASSET_HEADER=ASSET_HEADER,
 )
 
-CONFIG: AssetsDefinition = get_feature__CONFIG(
-    ASSET_HEADER=ASSET_HEADER,
-    CONFIG_STR=CONFIG_STR,
-    search_model_of_type=Config,
-)
+# CONFIG: AssetsDefinition = get_feature__CONFIG(
+#     ASSET_HEADER=ASSET_HEADER,
+#     CONFIG_STR=CONFIG_STR,
+#     search_model_of_type=Config,
+# )
 
 feature_in: AssetsDefinition = get_feature_in(
     ASSET_HEADER=ASSET_HEADER,
