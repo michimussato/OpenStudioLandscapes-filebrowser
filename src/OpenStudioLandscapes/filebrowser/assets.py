@@ -97,15 +97,18 @@ feature_in_parent: Union[AssetsDefinition, None] = get_feature_in_parent(
 
 @asset(
     **ASSET_HEADER,
-    ins={
-        "CONFIG": AssetIn(
-            AssetKey([*ASSET_HEADER["key_prefix"], "CONFIG"]),
-        ),
-    },
+    deps=[
+        AssetKey([*ASSET_HEADER["key_prefix"], "CONFIG"]),
+    ],
+    # ins={
+    #     "CONFIG": AssetIn(
+    #         AssetKey([*ASSET_HEADER["key_prefix"], "CONFIG"]),
+    #     ),
+    # },
 )
 def compose_networks(
     context: AssetExecutionContext,
-    CONFIG: Config,  # pylint: disable=redefined-outer-name
+    # CONFIG: Config,  # pylint: disable=redefined-outer-name
 ) -> Generator[
     Output[Dict[str, Dict[str, Dict[str, str]]]] | AssetMaterialization, None, None
 ]:
@@ -136,10 +139,13 @@ def compose_networks(
 
 @asset(
     **ASSET_HEADER,
+    deps=[
+        AssetKey([*ASSET_HEADER["key_prefix"], "CONFIG"]),
+    ],
     ins={
-        "CONFIG": AssetIn(
-            AssetKey([*ASSET_HEADER["key_prefix"], "CONFIG"]),
-        ),
+        # "CONFIG": AssetIn(
+        #     AssetKey([*ASSET_HEADER["key_prefix"], "CONFIG"]),
+        # ),
         "compose_networks": AssetIn(
             AssetKey([*ASSET_HEADER["key_prefix"], "compose_networks"]),
         ),
@@ -156,7 +162,7 @@ def compose_networks(
 )
 def compose_filebrowser(
     context: AssetExecutionContext,
-    CONFIG: Config,  # pylint: disable=redefined-outer-name
+    # CONFIG: Config,  # pylint: disable=redefined-outer-name
     compose_networks: Dict,  # pylint: disable=redefined-outer-name
     filebrowser_json: pathlib.Path,  # pylint: disable=redefined-outer-name
     # filebrowser_db: pathlib.Path,  # pylint: disable=redefined-outer-name
@@ -295,11 +301,14 @@ def compose_maps(
 
 @asset(
     **ASSET_HEADER,
-    ins={
-        "CONFIG": AssetIn(
-            AssetKey([*ASSET_HEADER["key_prefix"], "CONFIG"]),
-        ),
-    },
+    deps=[
+        AssetKey([*ASSET_HEADER["key_prefix"], "CONFIG"]),
+    ],
+    # ins={
+    #     "CONFIG": AssetIn(
+    #         AssetKey([*ASSET_HEADER["key_prefix"], "CONFIG"]),
+    #     ),
+    # },
     description=textwrap.dedent("""
         Main Page: [https://filebrowser.org/index.html]()
         
@@ -308,7 +317,7 @@ def compose_maps(
 )
 def filebrowser_json(
     context: AssetExecutionContext,
-    CONFIG: Config,  # pylint: disable=redefined-outer-name
+    # CONFIG: Config,  # pylint: disable=redefined-outer-name
 ) -> Generator[Output[Path] | AssetMaterialization | Any, None, None]:
 
     filebrowser_dict = {

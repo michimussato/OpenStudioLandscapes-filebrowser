@@ -40,9 +40,11 @@ requires-python = ">=3.11"
 
 [project.optional-dependencies]
 dev = [
+    "dagster-webserver==1.9.11",
     "OpenStudioLandscapes-filebrowser[lint]",
     "OpenStudioLandscapes-filebrowser[readme]",
     "OpenStudioLandscapes-filebrowser[sbom]",
+    "OpenStudioLandscapes-filebrowser[optional-base]",
 ]
 graphviz = [
     "graphviz",
