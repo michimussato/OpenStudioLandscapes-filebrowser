@@ -2,5 +2,5 @@
 
 load_from:
   - python_module:
-      module_name: "OpenStudioLandscapes.filebrowser.definitions"
+      module_name: "OpenStudioLandscapes.filebrowser._definitions_with_upstream_specs"
       location_name: "OpenStudioLandscapes-filebrowser"
