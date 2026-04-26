@@ -6,7 +6,7 @@ from dagster import get_dagster_logger
 from pydantic import (
     Field,
     PositiveInt,
-    computed_field,
+    # computed_field,
 )
 
 LOGGER = get_dagster_logger(__name__)
@@ -104,7 +104,7 @@ class Config(FeatureBaseModel):
     #
     #     return ret
 
-    @computed_field
+    # @computed_field
     @property
     def filebrowser_shared_dir_host_expanded(self) -> pathlib.Path:
         LOGGER.debug(f"{self.env = }")
@@ -124,7 +124,7 @@ class Config(FeatureBaseModel):
         )
         return ret
 
-    @computed_field
+    # @computed_field
     @property
     def filebrowser_json_expanded(self) -> pathlib.Path:
         LOGGER.debug(f"{self.env = }")
