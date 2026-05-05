@@ -3,13 +3,12 @@ import pathlib
 from typing import List
 
 from OpenStudioLandscapes.engine.config.models import FeatureBaseModel
-from OpenStudioLandscapes.engine.logging.loggers import FEATURE_LOGGER as LOGGER
 from pydantic import (
     Field,
     PositiveInt,
 )
 
-from OpenStudioLandscapes.filebrowser import constants, dist
+from OpenStudioLandscapes.filebrowser import constants, dist, LOGGER
 
 
 class FilebrowerRootPermission(enum.StrEnum):
