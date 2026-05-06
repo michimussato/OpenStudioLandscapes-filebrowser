@@ -8,7 +8,7 @@ from pydantic import (
     PositiveInt,
 )
 
-from OpenStudioLandscapes.filebrowser import constants, dist, LOGGER
+from OpenStudioLandscapes.filebrowser import LOGGER, constants, dist
 
 
 class FilebrowerRootPermission(enum.StrEnum):

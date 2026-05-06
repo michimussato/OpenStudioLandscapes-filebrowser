@@ -35,18 +35,18 @@ src/OpenStudioLandscapes/filebrowser/_definitions_with_upstream_specs.py:1:0: C0
 src/OpenStudioLandscapes/filebrowser/__init__.py:6:5: W0511: TODO: Import directly (no need for conditional) when `python_requires = >= 3.8` (fixme)
 ************* Module OpenStudioLandscapes.filebrowser
 src/OpenStudioLandscapes/filebrowser/__init__.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+src/OpenStudioLandscapes/filebrowser/__init__.py:25:4: E0401: Unable to import 'OpenStudioLandscapes.engine.logging.loggers' (import-error)
+src/OpenStudioLandscapes/filebrowser/__init__.py:25:4: E0611: No name 'logging' in module 'OpenStudioLandscapes.engine' (no-name-in-module)
 ************* Module OpenStudioLandscapes.filebrowser.config.models
 src/OpenStudioLandscapes/filebrowser/config/models.py:1:0: C0114: Missing module docstring (missing-module-docstring)
-src/OpenStudioLandscapes/filebrowser/config/models.py:6:0: E0401: Unable to import 'OpenStudioLandscapes.engine.logging.loggers' (import-error)
-src/OpenStudioLandscapes/filebrowser/config/models.py:6:0: E0611: No name 'logging' in module 'OpenStudioLandscapes.engine' (no-name-in-module)
-src/OpenStudioLandscapes/filebrowser/config/models.py:15:0: C0115: Missing class docstring (missing-class-docstring)
-src/OpenStudioLandscapes/filebrowser/config/models.py:16:4: C0103: Class constant name "rw" doesn't conform to UPPER_CASE naming style (invalid-name)
-src/OpenStudioLandscapes/filebrowser/config/models.py:17:4: C0103: Class constant name "ro" doesn't conform to UPPER_CASE naming style (invalid-name)
-src/OpenStudioLandscapes/filebrowser/config/models.py:20:0: C0115: Missing class docstring (missing-class-docstring)
-src/OpenStudioLandscapes/filebrowser/config/models.py:103:4: C0116: Missing function or method docstring (missing-function-docstring)
-src/OpenStudioLandscapes/filebrowser/config/models.py:122:4: C0116: Missing function or method docstring (missing-function-docstring)
-src/OpenStudioLandscapes/filebrowser/config/models.py:7:0: C0411: third party import "pydantic.Field" should be placed before first party imports "OpenStudioLandscapes.engine.config.models.FeatureBaseModel", "OpenStudioLandscapes.engine.logging.loggers.FEATURE_LOGGER"  (wrong-import-order)
-src/OpenStudioLandscapes/filebrowser/config/models.py:12:0: C0412: Imports from package OpenStudioLandscapes are not grouped (ungrouped-imports)
+src/OpenStudioLandscapes/filebrowser/config/models.py:14:0: C0115: Missing class docstring (missing-class-docstring)
+src/OpenStudioLandscapes/filebrowser/config/models.py:15:4: C0103: Class constant name "rw" doesn't conform to UPPER_CASE naming style (invalid-name)
+src/OpenStudioLandscapes/filebrowser/config/models.py:16:4: C0103: Class constant name "ro" doesn't conform to UPPER_CASE naming style (invalid-name)
+src/OpenStudioLandscapes/filebrowser/config/models.py:19:0: C0115: Missing class docstring (missing-class-docstring)
+src/OpenStudioLandscapes/filebrowser/config/models.py:102:4: C0116: Missing function or method docstring (missing-function-docstring)
+src/OpenStudioLandscapes/filebrowser/config/models.py:121:4: C0116: Missing function or method docstring (missing-function-docstring)
+src/OpenStudioLandscapes/filebrowser/config/models.py:6:0: C0411: third party import "pydantic.Field" should be placed before first party import "OpenStudioLandscapes.engine.config.models.FeatureBaseModel"  (wrong-import-order)
+src/OpenStudioLandscapes/filebrowser/config/models.py:11:0: C0412: Imports from package OpenStudioLandscapes are not grouped (ungrouped-imports)
 ************* Module OpenStudioLandscapes.filebrowser.doc.readme
 src/OpenStudioLandscapes/filebrowser/doc/readme.py:25:0: C0301: Line too long (105/100) (line-too-long)
 src/OpenStudioLandscapes/filebrowser/doc/readme.py:1:0: C0114: Missing module docstring (missing-module-docstring)
@@ -54,5 +54,5 @@ src/OpenStudioLandscapes/filebrowser/doc/readme.py:6:0: C0116: Missing function 
 src/OpenStudioLandscapes/filebrowser/doc/readme.py:21:8: C2801: Unnecessarily calls dunder method __str__. Use str built-in function. (unnecessary-dunder-call)
 
 ------------------------------------------------------------------
-Your code has been rated at 6.71/10 (previous run: 6.51/10, +0.20)
+Your code has been rated at 6.73/10 (previous run: 6.53/10, +0.19)
 
