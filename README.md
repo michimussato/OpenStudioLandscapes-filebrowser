@@ -84,340 +84,116 @@ The following settings are available in `OpenStudioLandscapes-filebrowser` and a
 
 
 ```yaml
-# ===
-# env
-# ---
-#
-# Type: typing.Dict
-# Base Class Info:
-#     Required:
-#         False
-#     Description:
-#         None
-#     Default value:
-#         PydanticUndefined
-# Description:
-#     None
-# Required:
-#     False
-# Examples:
-#     None
+$defs:
+  FilebrowerRootPermission:
+    enum:
+    - rw
+    - ro
+    title: FilebrowerRootPermission
+    type: string
+properties:
+  compose_scope:
+    default: default
+    examples:
+    - default
+    - license_server
+    - worker
+    title: Compose Scope
+    type: string
+  docker_compose:
+    default: '{DOT_LANDSCAPES}/{LANDSCAPE}/{FEATURE}/docker_compose/docker-compose.yml'
+    description: The path to the `docker-compose.yml` file.
+    format: path
+    title: Docker Compose
+    type: string
+  enabled:
+    default: true
+    description: Whether the Feature is enabled or not.
+    title: Enabled
+    type: boolean
+  env:
+    additionalProperties: true
+    title: Env
+    type: object
+  feature_name:
+    default: OpenStudioLandscapes-filebrowser
+    title: Feature Name
+    type: string
+  filebrowser_docker_image:
+    default: docker.io/filebrowser/filebrowser
+    title: Filebrowser Docker Image
+    type: string
+  filebrowser_json:
+    default: '{DOT_LANDSCAPES}/{LANDSCAPE}/{FEATURE}/configs/filebrowser.json'
+    description: Where on the host to store the configuration file.
+    format: path
+    title: Filebrowser Json
+    type: string
+  filebrowser_noauth:
+    default: true
+    description: Disable authentication for filebrowser.
+    title: Filebrowser Noauth
+    type: boolean
+  filebrowser_port_container:
+    default: 80
+    description: The filebrowser container port.
+    exclusiveMinimum: 0
+    title: Filebrowser Port Container
+    type: integer
+  filebrowser_port_host:
+    default: 8080
+    description: The Kitsu host port.
+    exclusiveMinimum: 0
+    title: Filebrowser Port Host
+    type: integer
+  filebrowser_shared_dir_container:
+    default: /shared
+    description: Set the shared directory on the container. The default is `/shared`.
+    format: path
+    title: Filebrowser Shared Dir Container
+    type: string
+  filebrowser_shared_dir_host:
+    default: '{DOT_LANDSCAPES}/{LANDSCAPE}/{FEATURE}/shared'
+    description: Set the shared directory on the host. If you want this to be an absolute
+      path on the system outside of the Landscape, say `/root/data`, make sure `shared`
+      is a symbolic link pointing to `/root/data`.
+    format: path
+    title: Filebrowser Shared Dir Host
+    type: string
+  filebrowser_shared_dir_permission:
+    $ref: '#/$defs/FilebrowerRootPermission'
+    default: rw
+    description: The filebrowser root permission.
+    examples:
+    - rw
+    - ro
+  group_name:
+    default: OpenStudioLandscapes_filebrowser
+    title: Group Name
+    type: string
+  key_prefixes:
+    default:
+    - OpenStudioLandscapes_filebrowser
+    items:
+      type: string
+    title: Key Prefixes
+    type: array
+  local_bind_volumes:
+    description: Here you can define Feature specific, arbitrary, absolute bind volume
+      mappings.
+    items:
+      type: string
+    title: Local Bind Volumes
+    type: array
+  local_environment_variables:
+    additionalProperties:
+      type: string
+    description: Here you can define Feature specific, arbitrary environment variables.
+    title: Local Environment Variables
+    type: object
+title: Config
+type: object
 
-
-# ==================
-# local_bind_volumes
-# ------------------
-#
-# Type: typing.List[str]
-# Base Class Info:
-#     Required:
-#         False
-#     Description:
-#         Here you can define Feature specific, arbitrary, absolute bind volume mappings.
-#     Default value:
-#         PydanticUndefined
-# Description:
-#     Here you can define Feature specific, arbitrary, absolute bind volume mappings.
-# Required:
-#     False
-# Examples:
-#     None
-
-
-# ===========================
-# local_environment_variables
-# ---------------------------
-#
-# Type: typing.Dict[str, str]
-# Base Class Info:
-#     Required:
-#         False
-#     Description:
-#         Here you can define Feature specific, arbitrary environment variables.
-#     Default value:
-#         PydanticUndefined
-# Description:
-#     Here you can define Feature specific, arbitrary environment variables.
-# Required:
-#     False
-# Examples:
-#     None
-
-
-# =============
-# config_engine
-# -------------
-#
-# Type: <class 'OpenStudioLandscapes.engine.config.models.ConfigEngine'>
-# Base Class Info:
-#     Required:
-#         False
-#     Description:
-#         None
-#     Default value:
-#         None
-# Description:
-#     None
-# Required:
-#     False
-# Examples:
-#     None
-
-
-# ============
-# distribution
-# ------------
-#
-# Type: <class 'importlib.metadata.Distribution'>
-# Base Class Info:
-#     Required:
-#         False
-#     Description:
-#         None
-#     Default value:
-#         None
-# Description:
-#     None
-# Required:
-#     False
-# Examples:
-#     None
-
-
-# ==========
-# group_name
-# ----------
-#
-# Type: <class 'str'>
-# Base Class Info:
-#     Required:
-#         True
-#     Description:
-#         Dagster Group name. This will represent the group node name. See https://docs.dagster.io/api/dagster/assets for more information
-#     Default value:
-#         PydanticUndefined
-# Description:
-#     None
-# Required:
-#     False
-# Examples:
-#     None
-group_name: OpenStudioLandscapes_filebrowser
-
-
-# ============
-# key_prefixes
-# ------------
-#
-# Type: typing.List[str]
-# Base Class Info:
-#     Required:
-#         True
-#     Description:
-#         Dagster Asset key prefixes. This will be reflected in the nesting (directory structure) of the Asset. See https://docs.dagster.io/api/dagster/assets for more information
-#     Default value:
-#         PydanticUndefined
-# Description:
-#     None
-# Required:
-#     False
-# Examples:
-#     None
-key_prefixes:
-- OpenStudioLandscapes_filebrowser
-
-
-# =======
-# enabled
-# -------
-#
-# Type: <class 'bool'>
-# Base Class Info:
-#     Required:
-#         False
-#     Description:
-#         Whether the Feature is enabled or not.
-#     Default value:
-#         True
-# Description:
-#     Whether the Feature is enabled or not.
-# Required:
-#     False
-# Examples:
-#     None
-
-
-# =============
-# compose_scope
-# -------------
-#
-# Type: <class 'str'>
-# Base Class Info:
-#     Required:
-#         False
-#     Description:
-#         None
-#     Default value:
-#         default
-# Description:
-#     None
-# Required:
-#     False
-# Examples:
-#     ['default', 'license_server', 'worker']
-
-
-# ============
-# feature_name
-# ------------
-#
-# Type: <class 'str'>
-# Base Class Info:
-#     Required:
-#         True
-#     Description:
-#         The name of the feature. It is derived from the `OpenStudioLandscapes.<Feature>.dist` attribute.
-#     Default value:
-#         PydanticUndefined
-# Description:
-#     None
-# Required:
-#     False
-# Examples:
-#     None
-feature_name: OpenStudioLandscapes-filebrowser
-
-
-# ==============
-# docker_compose
-# --------------
-#
-# Type: <class 'pathlib.Path'>
-# Base Class Info:
-#     Required:
-#         False
-#     Description:
-#         The path to the `docker-compose.yml` file.
-#     Default value:
-#         {DOT_LANDSCAPES}/{LANDSCAPE}/{FEATURE}/docker_compose/docker-compose.yml
-# Description:
-#     The path to the `docker-compose.yml` file.
-# Required:
-#     False
-# Examples:
-#     None
-
-
-# ==========================
-# filebrowser_port_container
-# --------------------------
-#
-# Type: <class 'int'>
-# Description:
-#     The filebrowser container port.
-# Required:
-#     False
-# Examples:
-#     None
-filebrowser_port_container: 80
-
-
-# =====================
-# filebrowser_port_host
-# ---------------------
-#
-# Type: <class 'int'>
-# Description:
-#     The Kitsu host port.
-# Required:
-#     False
-# Examples:
-#     None
-filebrowser_port_host: 8080
-
-
-# ========================
-# filebrowser_docker_image
-# ------------------------
-#
-# Type: <class 'str'>
-# Description:
-#     None
-# Required:
-#     False
-# Examples:
-#     None
-filebrowser_docker_image: docker.io/filebrowser/filebrowser
-
-
-# =================================
-# filebrowser_shared_dir_permission
-# ---------------------------------
-#
-# Type: <enum 'FilebrowerRootPermission'>
-# Description:
-#     The filebrowser root permission.
-# Required:
-#     False
-# Examples:
-#     ['rw', 'ro']
-filebrowser_shared_dir_permission: rw
-
-
-# ===========================
-# filebrowser_shared_dir_host
-# ---------------------------
-#
-# Type: <class 'pathlib.Path'>
-# Description:
-#     Set the shared directory on the host. If you want this to be an absolute path on the system outside of the Landscape, say `/root/data`, make sure `shared` is a symbolic link pointing to `/root/data`.
-# Required:
-#     False
-# Examples:
-#     None
-filebrowser_shared_dir_host: '{DOT_LANDSCAPES}/{LANDSCAPE}/{FEATURE}/shared'
-
-
-# ================================
-# filebrowser_shared_dir_container
-# --------------------------------
-#
-# Type: <class 'pathlib.Path'>
-# Description:
-#     Set the shared directory on the container. The default is `/shared`.
-# Required:
-#     False
-# Examples:
-#     None
-filebrowser_shared_dir_container: /shared
-
-
-# ================
-# filebrowser_json
-# ----------------
-#
-# Type: <class 'pathlib.Path'>
-# Description:
-#     Where on the host to store the configuration file.
-# Required:
-#     False
-# Examples:
-#     None
-filebrowser_json: '{DOT_LANDSCAPES}/{LANDSCAPE}/{FEATURE}/configs/filebrowser.json'
-
-
-# ==================
-# filebrowser_noauth
-# ------------------
-#
-# Type: <class 'bool'>
-# Description:
-#     Disable authentication for filebrowser.
-# Required:
-#     False
-# Examples:
-#     None
-filebrowser_noauth: true
 ```
 
 </details>
@@ -500,4 +276,4 @@ To follow up on the previous LinkedIn publications, visit:
 
 ***
 
-Last changed: **2026-04-28 14:34:02 UTC**
+Last changed: **2026-05-07 19:19:49 UTC**
