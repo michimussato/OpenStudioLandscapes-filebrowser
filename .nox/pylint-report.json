@@ -156,32 +156,6 @@
         "message-id": "W1203"
     },
     {
-        "type": "warning",
-        "module": "OpenStudioLandscapes.filebrowser.constants",
-        "obj": "",
-        "line": 9,
-        "column": 1,
-        "endLine": null,
-        "endColumn": null,
-        "path": "src/OpenStudioLandscapes/filebrowser/constants.py",
-        "symbol": "fixme",
-        "message": "Todo",
-        "message-id": "W0511"
-    },
-    {
-        "type": "convention",
-        "module": "OpenStudioLandscapes.filebrowser.constants",
-        "obj": "",
-        "line": 1,
-        "column": 0,
-        "endLine": null,
-        "endColumn": null,
-        "path": "src/OpenStudioLandscapes/filebrowser/constants.py",
-        "symbol": "missing-module-docstring",
-        "message": "Missing module docstring",
-        "message-id": "C0114"
-    },
-    {
         "type": "convention",
         "module": "OpenStudioLandscapes.filebrowser._definitions_with_upstream_specs",
         "obj": "",
@@ -219,6 +193,19 @@
         "symbol": "missing-module-docstring",
         "message": "Missing module docstring",
         "message-id": "C0114"
+    },
+    {
+        "type": "convention",
+        "module": "OpenStudioLandscapes.filebrowser",
+        "obj": "",
+        "line": 39,
+        "column": 4,
+        "endLine": 39,
+        "endColumn": 8,
+        "path": "src/OpenStudioLandscapes/filebrowser/__init__.py",
+        "symbol": "invalid-name",
+        "message": "Constant name \"fill\" doesn't conform to UPPER_CASE naming style",
+        "message-id": "C0103"
     },
     {
         "type": "convention",

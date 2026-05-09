@@ -12,15 +12,13 @@ src/OpenStudioLandscapes/filebrowser/assets.py:334:9: W1514: Using open without 
 ************* Module OpenStudioLandscapes.filebrowser.definitions
 src/OpenStudioLandscapes/filebrowser/definitions.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 src/OpenStudioLandscapes/filebrowser/definitions.py:12:0: W1203: Use lazy % formatting in logging functions (logging-fstring-interpolation)
-************* Module OpenStudioLandscapes.filebrowser.constants
-src/OpenStudioLandscapes/filebrowser/constants.py:9:1: W0511: Todo (fixme)
-src/OpenStudioLandscapes/filebrowser/constants.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 ************* Module OpenStudioLandscapes.filebrowser._definitions_with_upstream_specs
 src/OpenStudioLandscapes/filebrowser/_definitions_with_upstream_specs.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 ************* Module OpenStudioLandscapes.filebrowser.__init__
 src/OpenStudioLandscapes/filebrowser/__init__.py:15:5: W0511: TODO: Import directly (no need for conditional) when `python_requires = >= 3.8` (fixme)
 ************* Module OpenStudioLandscapes.filebrowser
 src/OpenStudioLandscapes/filebrowser/__init__.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+src/OpenStudioLandscapes/filebrowser/__init__.py:39:4: C0103: Constant name "fill" doesn't conform to UPPER_CASE naming style (invalid-name)
 ************* Module OpenStudioLandscapes.filebrowser.config.models
 src/OpenStudioLandscapes/filebrowser/config/models.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 src/OpenStudioLandscapes/filebrowser/config/models.py:18:0: C0115: Missing class docstring (missing-class-docstring)
@@ -42,5 +40,5 @@ src/OpenStudioLandscapes/filebrowser/doc/readme.py:6:0: C0116: Missing function 
 src/OpenStudioLandscapes/filebrowser/doc/readme.py:21:8: C2801: Unnecessarily calls dunder method __str__. Use str built-in function. (unnecessary-dunder-call)
 
 ------------------------------------------------------------------
-Your code has been rated at 7.94/10 (previous run: 8.07/10, -0.13)
+Your code has been rated at 7.98/10 (previous run: 8.12/10, -0.15)
 
