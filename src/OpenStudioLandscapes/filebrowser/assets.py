@@ -45,7 +45,7 @@ from OpenStudioLandscapes.engine.utils.docker.compose_dicts import (
 
 from OpenStudioLandscapes.filebrowser import (
     config,
-    constants,
+    ASSET_HEADER,
 )
 
 # https://github.com/yaml/pyyaml/issues/722#issuecomment-1969292770
@@ -56,38 +56,38 @@ yaml.SafeDumper.add_multi_representer(
 
 
 cmd: AssetsDefinition = cmd.get_feature__cmd(
-    ASSET_HEADER=constants.ASSET_HEADER,
+    ASSET_HEADER=ASSET_HEADER,
 )
 
 CONFIG: AssetsDefinition = feature.get_feature__CONFIG(
-    ASSET_HEADER=constants.ASSET_HEADER,
+    ASSET_HEADER=ASSET_HEADER,
     CONFIG_STR=config.models.CONFIG_STR,
     search_model_of_type=config.models.Config,
 )
 
 feature_in: AssetsDefinition = group_in.get_feature_in(
-    ASSET_HEADER=constants.ASSET_HEADER,
+    ASSET_HEADER=ASSET_HEADER,
     ASSET_HEADER_BASE=ASSET_HEADER_BASE,
     ASSET_HEADER_FEATURE_IN={},
 )
 
 group_out: AssetsDefinition = group_out.get_group_out(
-    ASSET_HEADER=constants.ASSET_HEADER,
+    ASSET_HEADER=ASSET_HEADER,
 )
 
 
 docker_compose_graph: AssetsDefinition = docker_compose_graph.get_docker_compose_graph(
-    ASSET_HEADER=constants.ASSET_HEADER,
+    ASSET_HEADER=ASSET_HEADER,
 )
 
 
 compose: AssetsDefinition = compose.get_compose(
-    ASSET_HEADER=constants.ASSET_HEADER,
+    ASSET_HEADER=ASSET_HEADER,
 )
 
 
 feature_out_v2: AssetsDefinition = feature_out.get_feature_out_v2(
-    ASSET_HEADER=constants.ASSET_HEADER,
+    ASSET_HEADER=ASSET_HEADER,
 )
 
 
@@ -96,16 +96,16 @@ feature_out_v2: AssetsDefinition = feature_out.get_feature_out_v2(
 # - CONFIG_PARENT
 # if ConfigParent is or type FeatureBaseModel
 feature_in_parent: Union[AssetsDefinition, None] = group_in.get_feature_in_parent(
-    ASSET_HEADER=constants.ASSET_HEADER,
+    ASSET_HEADER=ASSET_HEADER,
     config_parent=ConfigParent,
 )
 
 
 @asset(
-    **constants.ASSET_HEADER,
+    **ASSET_HEADER,
     ins={
         "CONFIG": AssetIn(
-            AssetKey([*constants.ASSET_HEADER["key_prefix"], "CONFIG"]),
+            AssetKey([*ASSET_HEADER["key_prefix"], "CONFIG"]),
         ),
     },
 )
@@ -141,22 +141,22 @@ def compose_networks(
 
 
 @asset(
-    **constants.ASSET_HEADER,
+    **ASSET_HEADER,
     ins={
         "CONFIG": AssetIn(
-            AssetKey([*constants.ASSET_HEADER["key_prefix"], "CONFIG"]),
+            AssetKey([*ASSET_HEADER["key_prefix"], "CONFIG"]),
         ),
         "compose_networks": AssetIn(
-            AssetKey([*constants.ASSET_HEADER["key_prefix"], "compose_networks"]),
+            AssetKey([*ASSET_HEADER["key_prefix"], "compose_networks"]),
         ),
         "filebrowser_json": AssetIn(
-            AssetKey([*constants.ASSET_HEADER["key_prefix"], "filebrowser_json"]),
+            AssetKey([*ASSET_HEADER["key_prefix"], "filebrowser_json"]),
         ),
         # Todo:
         #  - [ ] probably not a big problem to solve, but not a prio for now
         #        filebrowser.db will be created withing the container (not persistent)
         # "filebrowser_db": AssetIn(
-        #     AssetKey([*constants.ASSET_HEADER["key_prefix"], "filebrowser_db"]),
+        #     AssetKey([*ASSET_HEADER["key_prefix"], "filebrowser_db"]),
         # ),
     },
 )
@@ -273,10 +273,10 @@ def compose_filebrowser(
 
 
 @asset(
-    **constants.ASSET_HEADER,
+    **ASSET_HEADER,
     ins={
         "compose_filebrowser": AssetIn(
-            AssetKey([*constants.ASSET_HEADER["key_prefix"], "compose_filebrowser"]),
+            AssetKey([*ASSET_HEADER["key_prefix"], "compose_filebrowser"]),
         ),
     },
 )
@@ -300,10 +300,10 @@ def compose_maps(
 
 
 @asset(
-    **constants.ASSET_HEADER,
+    **ASSET_HEADER,
     ins={
         "CONFIG": AssetIn(
-            AssetKey([*constants.ASSET_HEADER["key_prefix"], "CONFIG"]),
+            AssetKey([*ASSET_HEADER["key_prefix"], "CONFIG"]),
         ),
     },
     description=textwrap.dedent("""
@@ -353,10 +353,10 @@ def filebrowser_json(
 
 
 # @asset(
-#     **constants.ASSET_HEADER,
+#     **ASSET_HEADER,
 #     ins={
 #         "CONFIG": AssetIn(
-#             AssetKey([*constants.ASSET_HEADER["key_prefix"], "CONFIG"]),
+#             AssetKey([*ASSET_HEADER["key_prefix"], "CONFIG"]),
 #         ),
 #     },
 # )

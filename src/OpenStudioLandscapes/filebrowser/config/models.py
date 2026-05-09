@@ -10,8 +10,8 @@ from pydantic import (
 
 from OpenStudioLandscapes.filebrowser import (
     LOGGER,
-    constants,
     dist,
+    ASSET_HEADER,
 )
 
 
@@ -23,9 +23,9 @@ class FilebrowerRootPermission(enum.StrEnum):
 class Config(FeatureBaseModel):
     feature_name: str = dist.name
 
-    group_name: str = constants.ASSET_HEADER["group_name"]
+    group_name: str = ASSET_HEADER["group_name"]
 
-    key_prefixes: List[str] = constants.ASSET_HEADER["key_prefix"]
+    key_prefixes: List[str] = ASSET_HEADER["key_prefix"]
 
     filebrowser_port_container: PositiveInt = Field(
         default=80,
