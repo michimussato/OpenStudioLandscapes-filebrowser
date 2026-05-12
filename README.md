@@ -84,115 +84,105 @@ The following settings are available in `OpenStudioLandscapes-filebrowser` and a
 
 
 ```yaml
-$defs:
-  FilebrowerRootPermission:
-    enum:
-    - rw
-    - ro
-    title: FilebrowerRootPermission
+compose_scope:
+  default: default
+  examples:
+  - default
+  - license_server
+  - worker
+  title: Compose Scope
+  type: string
+docker_compose:
+  default: '{DOT_LANDSCAPES}/{LANDSCAPE}/{FEATURE}/docker_compose/docker-compose.yml'
+  description: The path to the `docker-compose.yml` file.
+  format: path
+  title: Docker Compose
+  type: string
+enabled:
+  default: true
+  description: Whether the Feature is enabled or not.
+  title: Enabled
+  type: boolean
+env:
+  additionalProperties: true
+  title: Env
+  type: object
+feature_name:
+  default: OpenStudioLandscapes-filebrowser
+  title: Feature Name
+  type: string
+filebrowser_docker_image:
+  default: docker.io/filebrowser/filebrowser
+  title: Filebrowser Docker Image
+  type: string
+filebrowser_json:
+  default: '{DOT_LANDSCAPES}/{LANDSCAPE}/{FEATURE}/configs/filebrowser.json'
+  description: Where on the host to store the configuration file.
+  format: path
+  title: Filebrowser Json
+  type: string
+filebrowser_noauth:
+  default: true
+  description: Disable authentication for filebrowser.
+  title: Filebrowser Noauth
+  type: boolean
+filebrowser_port_container:
+  default: 80
+  description: The filebrowser container port.
+  exclusiveMinimum: 0
+  title: Filebrowser Port Container
+  type: integer
+filebrowser_port_host:
+  default: 8080
+  description: The Kitsu host port.
+  exclusiveMinimum: 0
+  title: Filebrowser Port Host
+  type: integer
+filebrowser_shared_dir_container:
+  default: /shared
+  description: Set the shared directory on the container. The default is `/shared`.
+  format: path
+  title: Filebrowser Shared Dir Container
+  type: string
+filebrowser_shared_dir_host:
+  default: '{DOT_LANDSCAPES}/{LANDSCAPE}/{FEATURE}/shared'
+  description: Set the shared directory on the host. If you want this to be an absolute
+    path on the system outside of the Landscape, say `/root/data`, make sure `shared`
+    is a symbolic link pointing to `/root/data`.
+  format: path
+  title: Filebrowser Shared Dir Host
+  type: string
+filebrowser_shared_dir_permission:
+  $ref: '#/$defs/FilebrowerRootPermission'
+  default: rw
+  description: The filebrowser root permission.
+  examples:
+  - rw
+  - ro
+group_name:
+  default: OpenStudioLandscapes_filebrowser
+  title: Group Name
+  type: string
+key_prefixes:
+  default:
+  - OpenStudioLandscapes_filebrowser
+  items:
     type: string
-properties:
-  compose_scope:
-    default: default
-    examples:
-    - default
-    - license_server
-    - worker
-    title: Compose Scope
+  title: Key Prefixes
+  type: array
+local_bind_volumes:
+  description: Here you can define Feature specific, arbitrary, absolute bind volume
+    mappings.
+  items:
     type: string
-  docker_compose:
-    default: '{DOT_LANDSCAPES}/{LANDSCAPE}/{FEATURE}/docker_compose/docker-compose.yml'
-    description: The path to the `docker-compose.yml` file.
-    format: path
-    title: Docker Compose
+  title: Local Bind Volumes
+  type: array
+local_environment_variables:
+  additionalProperties:
     type: string
-  enabled:
-    default: true
-    description: Whether the Feature is enabled or not.
-    title: Enabled
-    type: boolean
-  env:
-    additionalProperties: true
-    title: Env
-    type: object
-  feature_name:
-    default: OpenStudioLandscapes-filebrowser
-    title: Feature Name
-    type: string
-  filebrowser_docker_image:
-    default: docker.io/filebrowser/filebrowser
-    title: Filebrowser Docker Image
-    type: string
-  filebrowser_json:
-    default: '{DOT_LANDSCAPES}/{LANDSCAPE}/{FEATURE}/configs/filebrowser.json'
-    description: Where on the host to store the configuration file.
-    format: path
-    title: Filebrowser Json
-    type: string
-  filebrowser_noauth:
-    default: true
-    description: Disable authentication for filebrowser.
-    title: Filebrowser Noauth
-    type: boolean
-  filebrowser_port_container:
-    default: 80
-    description: The filebrowser container port.
-    exclusiveMinimum: 0
-    title: Filebrowser Port Container
-    type: integer
-  filebrowser_port_host:
-    default: 8080
-    description: The Kitsu host port.
-    exclusiveMinimum: 0
-    title: Filebrowser Port Host
-    type: integer
-  filebrowser_shared_dir_container:
-    default: /shared
-    description: Set the shared directory on the container. The default is `/shared`.
-    format: path
-    title: Filebrowser Shared Dir Container
-    type: string
-  filebrowser_shared_dir_host:
-    default: '{DOT_LANDSCAPES}/{LANDSCAPE}/{FEATURE}/shared'
-    description: Set the shared directory on the host. If you want this to be an absolute
-      path on the system outside of the Landscape, say `/root/data`, make sure `shared`
-      is a symbolic link pointing to `/root/data`.
-    format: path
-    title: Filebrowser Shared Dir Host
-    type: string
-  filebrowser_shared_dir_permission:
-    $ref: '#/$defs/FilebrowerRootPermission'
-    default: rw
-    description: The filebrowser root permission.
-    examples:
-    - rw
-    - ro
-  group_name:
-    default: OpenStudioLandscapes_filebrowser
-    title: Group Name
-    type: string
-  key_prefixes:
-    default:
-    - OpenStudioLandscapes_filebrowser
-    items:
-      type: string
-    title: Key Prefixes
-    type: array
-  local_bind_volumes:
-    description: Here you can define Feature specific, arbitrary, absolute bind volume
-      mappings.
-    items:
-      type: string
-    title: Local Bind Volumes
-    type: array
-  local_environment_variables:
-    additionalProperties:
-      type: string
-    description: Here you can define Feature specific, arbitrary environment variables.
-    title: Local Environment Variables
-    type: object
-title: Config
-type: object
+  description: Here you can define Feature specific, arbitrary environment variables.
+  title: Local Environment Variables
+  type: object
 
 ```
 
@@ -276,4 +266,4 @@ To follow up on the previous LinkedIn publications, visit:
 
 ***
 
-Last changed: **2026-05-09 11:20:29 UTC**
+Last changed: **2026-05-12 09:51:40 UTC**
