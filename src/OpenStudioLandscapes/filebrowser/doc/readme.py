@@ -2,6 +2,7 @@ import textwrap
 
 import snakemd
 
+from OpenStudioLandscapes.filebrowser.config.models import Config
 
 def readme_feature(
     doc: snakemd.Document,
@@ -45,40 +46,31 @@ def readme_feature(
     )
 
     doc.add_heading(
-        text="Known Issues",
-        level=2,
-    )
-
-    doc.add_heading(
-        text="Error: open /database/filebrowser.db: permission denied",
+        text="Authentication",
         level=3,
     )
 
-    doc.add_code(
-        code=textwrap.dedent("""\
-        filebrowser.2026-02-09_09-42-23__highly-merciful-imaginary-legend  | 2026/02/09 09:12:48 Using config file: /config/settings.json    
-        filebrowser.2026-02-09_09-42-23__highly-merciful-imaginary-legend  | 2026/02/09 09:12:48 WARNING: filebrowser.db can't be found. Initialing in /database/
-        filebrowser.2026-02-09_09-42-23__highly-merciful-imaginary-legend  | 2026/02/09 09:12:48 Using database: /database/filebrowser.db
-        filebrowser.2026-02-09_09-42-23__highly-merciful-imaginary-legend  | Error: open /database/filebrowser.db: permission denied
-        filebrowser.2026-02-09_09-42-23__highly-merciful-imaginary-legend exited with code 1 (restarting)\
-        """),
-        lang="generic",
-    )
-
     doc.add_paragraph(text=textwrap.dedent("""\
-            This error is usually caused if the database file does not exist
-            when using bind mounts. Make sure the file exists (empty).\
-            """))
-
-    doc.add_paragraph(text=textwrap.dedent("""\
-            References:\
+            The default OpenStudioLandscapes-filebrowser credentials
+            are set to:\
             """))
 
     doc.add_unordered_list(
         [
-            "[Deploying Filebrowser](https://docs.techdox.nz/filebrowser/#deploying-filebrowser)",
+            f"`username`: `{Config().default_username}`",
+            f"`password`: `{Config().default_password}`",
         ]
     )
+
+    doc.add_paragraph(text=textwrap.dedent("""\
+            To disable user based authentication entirely, set `filebrowser_noauth` in `config.yaml`
+            to `true`.\
+            """))
+
+    doc.add_paragraph(text=textwrap.dedent("""\
+            filebrowser offers several different authentication methods. 
+            More information can be found [here](https://filebrowser.org/authentication.html#authentication).\
+            """))
 
     doc.add_horizontal_rule()
 

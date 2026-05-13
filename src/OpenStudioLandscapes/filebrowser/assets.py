@@ -1,11 +1,8 @@
 # pylint: disable=line-too-long,invalid-name
 import copy
 import enum
-import json
 import pathlib
-import textwrap
-from pathlib import Path
-from typing import Any, Dict, Generator, List, Union
+from typing import Dict, Generator, List, Union
 
 import yaml
 from dagster import (
@@ -149,23 +146,12 @@ def compose_networks(
         "compose_networks": AssetIn(
             AssetKey([*ASSET_HEADER["key_prefix"], "compose_networks"]),
         ),
-        "filebrowser_json": AssetIn(
-            AssetKey([*ASSET_HEADER["key_prefix"], "filebrowser_json"]),
-        ),
-        # Todo:
-        #  - [ ] probably not a big problem to solve, but not a prio for now
-        #        filebrowser.db will be created withing the container (not persistent)
-        # "filebrowser_db": AssetIn(
-        #     AssetKey([*ASSET_HEADER["key_prefix"], "filebrowser_db"]),
-        # ),
     },
 )
 def compose_filebrowser(
     context: AssetExecutionContext,
     CONFIG: config.models.Config,  # pylint: disable=redefined-outer-name
     compose_networks: Dict,  # pylint: disable=redefined-outer-name
-    filebrowser_json: pathlib.Path,  # pylint: disable=redefined-outer-name
-    # filebrowser_db: pathlib.Path,  # pylint: disable=redefined-outer-name
 ) -> Generator[Output[Dict] | AssetMaterialization, None, None]:
     """"""
 
@@ -186,13 +172,15 @@ def compose_filebrowser(
     elif "network_mode" in compose_networks:
         network_dict = {"network_mode": compose_networks["network_mode"]}
 
+    db_dir: pathlib.Path = CONFIG.filebrowser_db_dir_expanded
+    db_dir.mkdir(parents=True, exist_ok=True)
+
     shared_directory: pathlib.Path = CONFIG.filebrowser_shared_dir_host_expanded
     shared_directory.mkdir(parents=True, exist_ok=True)
 
     volumes_dict = {
         "volumes": [
-            # f"{shared_directory.as_posix()}:/shared:{CONFIG.filebrowser_shared_dir_permission}",
-            f"{filebrowser_json.as_posix()}:/config/settings.json:ro",
+            f"{db_dir.as_posix()}:/database",
             f"{shared_directory.as_posix()}:{CONFIG.filebrowser_shared_dir_container.as_posix()}:{CONFIG.filebrowser_shared_dir_permission}",
         ]
     }
@@ -238,6 +226,20 @@ def compose_filebrowser(
     #     [service_name, env["OPENSTUDIOLANDSCAPES__DOMAIN_LAN"]]
     # )
 
+    cmd_ = [
+        "--database", "/database/filebrowser.db",
+        "--username", CONFIG.default_username,
+        "--password", CONFIG.default_password,
+        "--root", CONFIG.filebrowser_shared_dir_container.as_posix(),
+        "--port", str(CONFIG.filebrowser_port_container),
+        "--baseURL", "",
+        "--address", "",
+        "--log", "stdout",
+    ]
+
+    if CONFIG.filebrowser_noauth:
+        cmd_.append("--noauth")
+
     docker_dict = {
         "services": {
             service_name: {
@@ -246,6 +248,9 @@ def compose_filebrowser(
                 "hostname": host_name,
                 "domainname": config_engine.openstudiolandscapes__domain_lan,
                 "restart": DockerComposePolicies.RESTART_POLICY.ALWAYS.value,
+                # from https://hub.docker.com/r/filebrowser/filebrowser/tags?name=latest
+                # - ENTRYPOINT ["tini" "--" "/init.sh"]
+                "command": cmd_,
                 "environment": {
                     "TZ": config_engine.tz,
                     **config_engine.global_environment_variables,
@@ -297,88 +302,3 @@ def compose_maps(
             "__".join(context.asset_key.path): MetadataValue.json(ret),
         },
     )
-
-
-@asset(
-    **ASSET_HEADER,
-    ins={
-        "CONFIG": AssetIn(
-            AssetKey([*ASSET_HEADER["key_prefix"], "CONFIG"]),
-        ),
-    },
-    description=textwrap.dedent("""
-        Main Page: [https://filebrowser.org/index.html]()
-        
-        Configuration Options: [https://filebrowser.org/cli/filebrowser-config.html]()
-        """),
-)
-def filebrowser_json(
-    context: AssetExecutionContext,
-    CONFIG: config.models.Config,  # pylint: disable=redefined-outer-name
-) -> Generator[Output[Path] | AssetMaterialization | Any, None, None]:
-
-    filebrowser_dict = {
-        "port": CONFIG.filebrowser_port_container,  # port to listen on (default "8080")
-        "baseURL": "",  # base url
-        "address": "",  # address to listen on (default "127.0.0.1")
-        "log": "stdout",  # log output (default "stdout")
-        "database": "/database/filebrowser.db",  # database path (default "./filebrowser.db")
-        # Todo
-        #  - [x] this is not necessarily always the default
-        "root": CONFIG.filebrowser_shared_dir_container.as_posix(),  # root to prepend to relative paths (default ".")
-        "noauth": CONFIG.filebrowser_noauth,
-    }
-
-    CONFIG.filebrowser_json_expanded.parent.mkdir(parents=True, exist_ok=True)
-
-    with open(CONFIG.filebrowser_json_expanded, "w") as fw:
-        json.dump(
-            filebrowser_dict,
-            fw,
-            ensure_ascii=True,
-            indent=2,
-        )
-
-    yield Output(CONFIG.filebrowser_json_expanded)
-
-    yield AssetMaterialization(
-        asset_key=context.asset_key,
-        metadata={
-            "__".join(context.asset_key.path): MetadataValue.path(
-                CONFIG.filebrowser_json_expanded
-            ),
-            "filebrowser_dict": MetadataValue.json(filebrowser_dict),
-        },
-    )
-
-
-# @asset(
-#     **ASSET_HEADER,
-#     ins={
-#         "CONFIG": AssetIn(
-#             AssetKey([*ASSET_HEADER["key_prefix"], "CONFIG"]),
-#         ),
-#     },
-# )
-# def filebrowser_db(
-#     context: AssetExecutionContext,
-#     CONFIG: config.models.Config,  # pylint: disable=redefined-outer-name
-# ) -> Generator[Output[Path] | AssetMaterialization | Any, None, None]:
-#
-#     filebrowser_db_dir = CONFIG.filebrowser_db_dir_expanded
-#
-#     filebrowser_db_dir.mkdir(parents=True, exist_ok=True)
-#
-#     # File needs to be created manually if it does not exist:
-#     # - https://docs.techdox.nz/filebrowser/#deploying-filebrowser
-#     #
-#     filebrowser_db_dir.joinpath("filebrowser.db").touch(exist_ok=True)
-#
-#     yield Output(filebrowser_db_dir)
-#
-#     yield AssetMaterialization(
-#         asset_key=context.asset_key,
-#         metadata={
-#             "__".join(context.asset_key.path): MetadataValue.path(filebrowser_db_dir),
-#         },
-#     )

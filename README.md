@@ -11,8 +11,7 @@
    4. [Local Development/Unit Testing/Debugging](#local-developmentunit-testingdebugging)
 2. [External Resources](#external-resources)
    1. [Official Documentation](#official-documentation)
-   2. [Known Issues](#known-issues)
-      1. [Error: open /database/filebrowser.db: permission denied](#error-open-databasefilebrowserdb-permission-denied)
+      1. [Authentication](#authentication)
 3. [Community](#community)
 
 ***
@@ -92,6 +91,16 @@ compose_scope:
   - worker
   title: Compose Scope
   type: string
+default_password:
+  default: openstudiolandscapes
+  description: The default admin (will get hashed) password for filebrowser.
+  title: Default Password
+  type: string
+default_username:
+  default: openstudiolandscapes
+  description: The default admin user for filebrowser.
+  title: Default Username
+  type: string
 docker_compose:
   default: '{DOT_LANDSCAPES}/{LANDSCAPE}/{FEATURE}/docker_compose/docker-compose.yml'
   description: The path to the `docker-compose.yml` file.
@@ -111,19 +120,19 @@ feature_name:
   default: OpenStudioLandscapes-filebrowser
   title: Feature Name
   type: string
+filebrowser_db_dir:
+  default: '{DOT_LANDSCAPES}/{LANDSCAPE}/{FEATURE}/filebrowser_db'
+  description: Where on the host to store the database.
+  format: path
+  title: Filebrowser Db Dir
+  type: string
 filebrowser_docker_image:
   default: docker.io/filebrowser/filebrowser
   title: Filebrowser Docker Image
   type: string
-filebrowser_json:
-  default: '{DOT_LANDSCAPES}/{LANDSCAPE}/{FEATURE}/configs/filebrowser.json'
-  description: Where on the host to store the configuration file.
-  format: path
-  title: Filebrowser Json
-  type: string
 filebrowser_noauth:
-  default: true
-  description: Disable authentication for filebrowser.
+  default: false
+  description: Totally disable authentication for filebrowser.
   title: Filebrowser Noauth
   type: boolean
 filebrowser_port_container:
@@ -134,7 +143,7 @@ filebrowser_port_container:
   type: integer
 filebrowser_port_host:
   default: 8080
-  description: The Kitsu host port.
+  description: The filebrowser host port.
   exclusiveMinimum: 0
   title: Filebrowser Port Host
   type: integer
@@ -216,23 +225,16 @@ filebrowser is - as the name suggests - a web based file browser.
 - [Docs](https://filebrowser.org/installation.html)
 - [GitHub](https://github.com/filebrowser/filebrowser)
 
-## Known Issues
+### Authentication
 
-### Error: open /database/filebrowser.db: permission denied
+The default OpenStudioLandscapes-filebrowser credentials are set to:
 
-```generic
-filebrowser.2026-02-09_09-42-23__highly-merciful-imaginary-legend  | 2026/02/09 09:12:48 Using config file: /config/settings.json    
-filebrowser.2026-02-09_09-42-23__highly-merciful-imaginary-legend  | 2026/02/09 09:12:48 WARNING: filebrowser.db can't be found. Initialing in /database/
-filebrowser.2026-02-09_09-42-23__highly-merciful-imaginary-legend  | 2026/02/09 09:12:48 Using database: /database/filebrowser.db
-filebrowser.2026-02-09_09-42-23__highly-merciful-imaginary-legend  | Error: open /database/filebrowser.db: permission denied
-filebrowser.2026-02-09_09-42-23__highly-merciful-imaginary-legend exited with code 1 (restarting)        
-```
+- `username`: `openstudiolandscapes`
+- `password`: `openstudiolandscapes`
 
-This error is usually caused if the database file does not exist when using bind mounts. Make sure the file exists (empty).
+To disable user based authentication entirely, set `filebrowser_noauth` in `config.yaml` to `true`.
 
-References:
-
-- [Deploying Filebrowser](https://docs.techdox.nz/filebrowser/#deploying-filebrowser)
+filebrowser offers several different authentication methods. More information can be found [here](https://filebrowser.org/authentication.html#authentication).
 
 ***
 
@@ -266,4 +268,4 @@ To follow up on the previous LinkedIn publications, visit:
 
 ***
 
-Last changed: **2026-05-12 11:49:07 UTC**
+Last changed: **2026-05-13 10:21:02 UTC**

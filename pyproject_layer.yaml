@@ -1,6 +1,8 @@
 project:
   description: filebrowser Feature for OpenStudioLandscapes
   name: OpenStudioLandscapes-filebrowser
+  dependencies:
+  - bcrypt
   optional-dependencies:
     dev:
     - OpenStudioLandscapes-filebrowser[lint]

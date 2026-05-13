@@ -17,6 +17,7 @@ classifiers = [
 dependencies = [
     "OpenStudioLandscapes-DagsterCodeLocation-StreamingProcess @ git+https://github.com/michimussato/OpenStudioLandscapes-DagsterCodeLocation-StreamingProcess.git",
     "PyYAML",
+    "bcrypt",
     "dagster==1.9.11",
     "docker-compose-graph @ git+https://github.com/michimussato/docker-compose-graph.git",
     "email-validator",

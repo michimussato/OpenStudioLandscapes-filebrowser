@@ -1,6 +1,7 @@
 import enum
 import pathlib
 from typing import Dict, List
+import bcrypt
 
 from OpenStudioLandscapes.engine.config.models import FeatureBaseModel
 from pydantic import (
@@ -34,7 +35,7 @@ class Config(FeatureBaseModel):
     )
     filebrowser_port_host: PositiveInt = Field(
         default=8080,
-        description="The Kitsu host port.",
+        description="The filebrowser host port.",
         frozen=False,
     )
 
@@ -48,12 +49,12 @@ class Config(FeatureBaseModel):
         examples=[i.name for i in FilebrowerRootPermission],
     )
 
-    # filebrowser_db_dir: pathlib.Path = Field(
-    #     default=pathlib.Path(
-    #         "{DOT_LANDSCAPES}/{LANDSCAPE}/{FEATURE}/configs/filebrowser_db"
-    #     ),
-    #     description="Where on the host to store the database.",
-    # )
+    filebrowser_db_dir: pathlib.Path = Field(
+        default=pathlib.Path(
+            "{DOT_LANDSCAPES}/{LANDSCAPE}/{FEATURE}/filebrowser_db"
+        ),
+        description="Where on the host to store the database.",
+    )
 
     filebrowser_shared_dir_host: pathlib.Path = Field(
         default=pathlib.Path("{DOT_LANDSCAPES}/{LANDSCAPE}/{FEATURE}/shared"),
@@ -69,38 +70,55 @@ class Config(FeatureBaseModel):
         "The default is `/shared`.",
     )
 
-    filebrowser_json: pathlib.Path = Field(
-        default=pathlib.Path(
-            "{DOT_LANDSCAPES}/{LANDSCAPE}/{FEATURE}/configs/filebrowser.json"
-        ),
-        description="Where on the host to store the configuration file.",
+    filebrowser_noauth: bool = Field(
+        default=False,
+        description="Totally disable authentication for filebrowser.",
     )
 
-    filebrowser_noauth: bool = Field(
-        default=True,
-        description="Disable authentication for filebrowser.",
+    default_username: str = Field(
+        default="openstudiolandscapes",
+        description="The default admin user for filebrowser.",
     )
+
+    default_password: str = Field(
+        # default="openstudiolandscapes",
+        default="openstudiolandscapes",
+        description="The default admin (will get hashed) password for filebrowser.",
+    )
+
+    @property
+    def default_password_hashed(self) -> str:
+        # https://www.baeldung.com/linux/bcrypt-hash#using-python
+        bytes_ = self.default_password.encode("utf-8")
+        salt = bcrypt.gensalt(
+            rounds=10,
+            prefix=b"2a",
+        )
+        hash_ = bcrypt.hashpw(bytes_, salt)
+        # We need to escape $ with $ so that Docker does not
+        # interpret it as a local Docker Compose variable.
+        return hash_.decode("utf-8").replace("$", "$$")
 
     # EXPANDABLE PATHS
-    # @property
-    # def filebrowser_db_dir_expanded(self) -> pathlib.Path:
-    #     LOGGER.debug(f"{self.env = }")
-    #     if self.env is None:
-    #         raise KeyError("`env` is `None`.")
-    #
-    #     LOGGER.debug(f"Expanding {self.filebrowser_db_dir}...")
-    #     ret = pathlib.Path(
-    #         self.filebrowser_db_dir.expanduser()  # pylint: disable=E1101
-    #         .as_posix()
-    #         .format(
-    #             **{
-    #                 "FEATURE": self.feature_name,
-    #                 **self.env,
-    #             }
-    #         )
-    #     )
-    #
-    #     return ret
+    @property
+    def filebrowser_db_dir_expanded(self) -> pathlib.Path:
+        LOGGER.debug(f"{self.env = }")
+        if self.env is None:
+            raise KeyError("`env` is `None`.")
+
+        LOGGER.debug(f"Expanding {self.filebrowser_db_dir}...")
+        ret = pathlib.Path(
+            self.filebrowser_db_dir.expanduser()  # pylint: disable=E1101
+            .as_posix()
+            .format(
+                **{
+                    "FEATURE": self.feature_name,
+                    **self.env,
+                }
+            )
+        )
+
+        return ret
 
     @property
     def filebrowser_shared_dir_host_expanded(self) -> pathlib.Path:
@@ -111,25 +129,6 @@ class Config(FeatureBaseModel):
         LOGGER.debug(f"Expanding {self.filebrowser_shared_dir_host}...")
         ret = pathlib.Path(
             self.filebrowser_shared_dir_host.expanduser()  # pylint: disable=E1101
-            .as_posix()
-            .format(
-                **{
-                    "FEATURE": self.feature_name,
-                    **self.env,
-                }
-            )
-        )
-        return ret
-
-    @property
-    def filebrowser_json_expanded(self) -> pathlib.Path:
-        LOGGER.debug(f"{self.env = }")
-        if self.env is None:
-            raise KeyError("`env` is `None`.")
-
-        LOGGER.debug(f"Expanding {self.filebrowser_json}...")
-        ret = pathlib.Path(
-            self.filebrowser_json.expanduser()  # pylint: disable=E1101
             .as_posix()
             .format(
                 **{
