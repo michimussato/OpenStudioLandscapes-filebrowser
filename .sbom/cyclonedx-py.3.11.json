@@ -522,6 +522,35 @@
       "version": "26.1.0"
     },
     {
+      "bom-ref": "bcrypt==5.0.0",
+      "description": "Modern password hashing for your software and your servers",
+      "externalReferences": [
+        {
+          "comment": "from packaging metadata Project-URL: homepage",
+          "type": "website",
+          "url": "https://github.com/pyca/bcrypt/"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "acknowledgement": "declared",
+            "id": "Apache-2.0"
+          }
+        },
+        {
+          "license": {
+            "acknowledgement": "declared",
+            "name": "License :: OSI Approved :: Apache Software License"
+          }
+        }
+      ],
+      "name": "bcrypt",
+      "purl": "pkg:pypi/bcrypt@5.0.0",
+      "type": "library",
+      "version": "5.0.0"
+    },
+    {
       "bom-ref": "boolean.py==5.0",
       "description": "Define boolean algebras, create and parse boolean expressions and create custom boolean DSL.",
       "externalReferences": [
@@ -1419,7 +1448,7 @@
       "version": "10.0"
     },
     {
-      "bom-ref": "idna==3.14",
+      "bom-ref": "idna==3.15",
       "description": "Internationalized Domain Names in Applications (IDNA)",
       "externalReferences": [
         {
@@ -1435,7 +1464,7 @@
         {
           "comment": "from packaging metadata Project-URL: Changelog",
           "type": "release-notes",
-          "url": "https://github.com/kjd/idna/blob/master/HISTORY.rst"
+          "url": "https://github.com/kjd/idna/blob/master/HISTORY.md"
         }
       ],
       "licenses": [
@@ -1447,9 +1476,9 @@
         }
       ],
       "name": "idna",
-      "purl": "pkg:pypi/idna@3.14",
+      "purl": "pkg:pypi/idna@3.15",
       "type": "library",
-      "version": "3.14"
+      "version": "3.15"
     },
     {
       "bom-ref": "isoduration==20.11.0",
@@ -3164,6 +3193,7 @@
         "OpenStudioLandscapes-DagsterCodeLocation-StreamingProcess==0.0.0",
         "PyYAML==6.0.3",
         "SnakeMD==2.4.0",
+        "bcrypt==5.0.0",
         "cyclonedx-bom==7.3.0",
         "dagster==1.9.11",
         "docker-compose-graph==1.0.0.post1.dev6+g08f8289c0",
@@ -3220,6 +3250,9 @@
     },
     {
       "ref": "attrs==26.1.0"
+    },
+    {
+      "ref": "bcrypt==5.0.0"
     },
     {
       "ref": "boolean.py==5.0"
@@ -3310,7 +3343,7 @@
     },
     {
       "dependsOn": [
-        "idna==3.14",
+        "idna==3.15",
         "wheel==0.47.0"
       ],
       "ref": "dnspython==2.8.0"
@@ -3332,7 +3365,7 @@
     {
       "dependsOn": [
         "dnspython==2.8.0",
-        "idna==3.14"
+        "idna==3.15"
       ],
       "ref": "email-validator==2.3.0"
     },
@@ -3386,7 +3419,7 @@
       "ref": "humanfriendly==10.0"
     },
     {
-      "ref": "idna==3.14"
+      "ref": "idna==3.15"
     },
     {
       "dependsOn": [
@@ -3407,7 +3440,7 @@
       "dependsOn": [
         "attrs==26.1.0",
         "fqdn==1.5.1",
-        "idna==3.14",
+        "idna==3.15",
         "isoduration==20.11.0",
         "jsonpointer==3.1.1",
         "jsonschema-specifications==2025.9.1",
@@ -3543,7 +3576,7 @@
         "certifi==2026.4.22",
         "chardet==5.2.0",
         "charset-normalizer==3.4.7",
-        "idna==3.14",
+        "idna==3.15",
         "urllib3==2.7.0"
       ],
       "ref": "requests==2.34.0"
@@ -3661,7 +3694,7 @@
     }
   ],
   "metadata": {
-    "timestamp": "2026-05-12T11:17:30.949280+00:00",
+    "timestamp": "2026-05-13T12:53:19.307118+00:00",
     "tools": {
       "components": [
         {
@@ -3765,7 +3798,7 @@
       ]
     }
   },
-  "serialNumber": "urn:uuid:ee644cab-1e00-42f4-af0c-09fe5f2a82ba",
+  "serialNumber": "urn:uuid:8964e9c3-865e-4ea9-86c1-3f4394f1ff18",
   "version": 1,
   "$schema": "http://cyclonedx.org/schema/bom-1.6.schema.json",
   "bomFormat": "CycloneDX",

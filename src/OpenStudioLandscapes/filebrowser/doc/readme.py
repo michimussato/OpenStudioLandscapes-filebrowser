@@ -4,6 +4,7 @@ import snakemd
 
 from OpenStudioLandscapes.filebrowser.config.models import Config
 
+
 def readme_feature(
     doc: snakemd.Document,
     main_header: str,

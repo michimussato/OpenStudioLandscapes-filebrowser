@@ -12,6 +12,8 @@
 2. [External Resources](#external-resources)
    1. [Official Documentation](#official-documentation)
       1. [Authentication](#authentication)
+   2. [Known Issues](#known-issues)
+      1. [Error: open /database/filebrowser.db: permission denied](#error-open-databasefilebrowserdb-permission-denied)
 3. [Community](#community)
 
 ***
@@ -236,6 +238,24 @@ To disable user based authentication entirely, set `filebrowser_noauth` in `conf
 
 filebrowser offers several different authentication methods. More information can be found [here](https://filebrowser.org/authentication.html#authentication).
 
+## Known Issues
+
+### Error: open /database/filebrowser.db: permission denied
+
+```generic
+filebrowser.2026-02-09_09-42-23__highly-merciful-imaginary-legend  | 2026/02/09 09:12:48 Using config file: /config/settings.json    
+filebrowser.2026-02-09_09-42-23__highly-merciful-imaginary-legend  | 2026/02/09 09:12:48 WARNING: filebrowser.db can't be found. Initialing in /database/
+filebrowser.2026-02-09_09-42-23__highly-merciful-imaginary-legend  | 2026/02/09 09:12:48 Using database: /database/filebrowser.db
+filebrowser.2026-02-09_09-42-23__highly-merciful-imaginary-legend  | Error: open /database/filebrowser.db: permission denied
+filebrowser.2026-02-09_09-42-23__highly-merciful-imaginary-legend exited with code 1 (restarting)        
+```
+
+This error is usually caused if the database file does not exist when using bind mounts. Make sure the file exists (empty).
+
+References:
+
+- [Deploying Filebrowser](https://docs.techdox.nz/filebrowser/#deploying-filebrowser)
+
 ***
 
 # Community
@@ -268,4 +288,4 @@ To follow up on the previous LinkedIn publications, visit:
 
 ***
 
-Last changed: **2026-05-13 10:21:02 UTC**
+Last changed: **2026-05-13 13:25:54 UTC**

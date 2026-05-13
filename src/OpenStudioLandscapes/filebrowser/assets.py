@@ -227,14 +227,22 @@ def compose_filebrowser(
     # )
 
     cmd_ = [
-        "--database", "/database/filebrowser.db",
-        "--username", CONFIG.default_username,
-        "--password", CONFIG.default_password_hashed,
-        "--root", CONFIG.filebrowser_shared_dir_container.as_posix(),
-        "--port", str(CONFIG.filebrowser_port_container),
-        "--baseURL", "",
-        "--address", "",
-        "--log", "stdout",
+        "--database",
+        "/database/filebrowser.db",
+        "--username",
+        CONFIG.default_username,
+        "--password",
+        CONFIG.default_password_hashed,
+        "--root",
+        CONFIG.filebrowser_shared_dir_container.as_posix(),
+        "--port",
+        str(CONFIG.filebrowser_port_container),
+        "--baseURL",
+        "",
+        "--address",
+        "",
+        "--log",
+        "stdout",
     ]
 
     if CONFIG.filebrowser_noauth:

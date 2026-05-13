@@ -5,6 +5,7 @@ flowchart TD
     antlr4-python3-runtime["antlr4-python3-runtime<br/>4.13.2"]
     arrow["arrow<br/>1.4.0"]
     attrs["attrs<br/>26.1.0"]
+    bcrypt["bcrypt<br/>5.0.0"]
     boolean-py["boolean.py<br/>5.0"]
     certifi["certifi<br/>2026.4.22"]
     chardet["chardet<br/>5.2.0"]
@@ -30,7 +31,7 @@ flowchart TD
     grpcio-health-checking["grpcio-health-checking<br/>1.71.2"]
     grpcio["grpcio<br/>1.80.0"]
     humanfriendly["humanfriendly<br/>10.0"]
-    idna["idna<br/>3.14"]
+    idna["idna<br/>3.15"]
     isoduration["isoduration<br/>20.11.0"]
     jinja2["Jinja2<br/>3.1.6"]
     jsonpointer["jsonpointer<br/>3.1.1"]
@@ -159,6 +160,7 @@ flowchart TD
     markdown-it-py -- "~=0.1" --> mdurl
     openstudiolandscapes-dagstercodelocation-streamingprocess -- "==1.9.11" --> dagster
     openstudiolandscapes-filebrowser -- "==1.9.11" --> dagster
+    openstudiolandscapes-filebrowser -- "any" --> bcrypt
     openstudiolandscapes-filebrowser -- "any" --> docker-compose-graph
     openstudiolandscapes-filebrowser -- "any" --> email-validator
     openstudiolandscapes-filebrowser -- "any" --> gitpython
