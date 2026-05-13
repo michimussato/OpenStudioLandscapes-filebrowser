@@ -72,6 +72,42 @@ def readme_feature(
             More information can be found [here](https://filebrowser.org/authentication.html#authentication).\
             """))
 
+    doc.add_heading(
+        text="Known Issues",
+        level=2,
+    )
+
+    doc.add_heading(
+        text="Error: open /database/filebrowser.db: permission denied",
+        level=3,
+    )
+
+    doc.add_code(
+        code=textwrap.dedent("""\
+        filebrowser.2026-02-09_09-42-23__highly-merciful-imaginary-legend  | 2026/02/09 09:12:48 Using config file: /config/settings.json    
+        filebrowser.2026-02-09_09-42-23__highly-merciful-imaginary-legend  | 2026/02/09 09:12:48 WARNING: filebrowser.db can't be found. Initialing in /database/
+        filebrowser.2026-02-09_09-42-23__highly-merciful-imaginary-legend  | 2026/02/09 09:12:48 Using database: /database/filebrowser.db
+        filebrowser.2026-02-09_09-42-23__highly-merciful-imaginary-legend  | Error: open /database/filebrowser.db: permission denied
+        filebrowser.2026-02-09_09-42-23__highly-merciful-imaginary-legend exited with code 1 (restarting)\
+        """),
+        lang="generic",
+    )
+
+    doc.add_paragraph(text=textwrap.dedent("""\
+            This error is usually caused if the database file does not exist
+            when using bind mounts. Make sure the file exists (empty).\
+            """))
+
+    doc.add_paragraph(text=textwrap.dedent("""\
+            References:\
+            """))
+
+    doc.add_unordered_list(
+        [
+            "[Deploying Filebrowser](https://docs.techdox.nz/filebrowser/#deploying-filebrowser)",
+        ]
+    )
+
     doc.add_horizontal_rule()
 
     return doc
