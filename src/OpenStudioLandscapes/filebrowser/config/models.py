@@ -78,16 +78,13 @@ class Config(FeatureBaseModel):
     default_username: str = Field(
         default="openstudiolandscapes",
         description="The default admin user for filebrowser.",
-        # Todo: remove from config.yaml
-        # exclude=True,
+        exclude=True,
     )
 
     default_password: str = Field(
-        # default="openstudiolandscapes",
         default="openstudiolandscapes",
         description="The default admin (will get hashed) password for filebrowser.",
-        # Todo: remove from config.yaml
-        # exclude=True,
+        exclude=True,
     )
 
     @property

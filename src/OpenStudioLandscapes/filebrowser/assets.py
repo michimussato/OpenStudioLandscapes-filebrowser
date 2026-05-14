@@ -263,6 +263,8 @@ def compose_filebrowser(
                     "TZ": config_engine.tz,
                     **config_engine.global_environment_variables,
                     **CONFIG.local_environment_variables,
+                    # - PUID=$(id -u)
+                    # - PGID=$(id -g)
                 },
                 **copy.deepcopy(network_dict),
                 **copy.deepcopy(ports_dict),
