@@ -96,7 +96,7 @@ class Config(FeatureBaseModel):
             prefix=b"2a",
         )
         hash_ = bcrypt.hashpw(bytes_, salt)
-        # We need to escape $ with $ so that Docker does not
+        # We need to escape $ with $ ($$ = $) so that Docker does not
         # interpret it as a local Docker Compose variable.
         return hash_.decode("utf-8").replace("$", "$$")
 
