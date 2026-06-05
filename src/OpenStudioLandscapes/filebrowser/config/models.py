@@ -1,8 +1,8 @@
 import enum
 import pathlib
 from typing import Dict, List
-import bcrypt
 
+import bcrypt
 from OpenStudioLandscapes.engine.config.models import FeatureBaseModel
 from pydantic import (
     Field,
@@ -50,9 +50,7 @@ class Config(FeatureBaseModel):
     )
 
     filebrowser_db_dir: pathlib.Path = Field(
-        default=pathlib.Path(
-            "{DOT_LANDSCAPES}/{LANDSCAPE}/{FEATURE}/filebrowser_db"
-        ),
+        default=pathlib.Path("{DOT_LANDSCAPES}/{LANDSCAPE}/{FEATURE}/filebrowser_db"),
         description="Where on the host to store the database.",
     )
 

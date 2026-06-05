@@ -93,16 +93,6 @@ compose_scope:
   - worker
   title: Compose Scope
   type: string
-default_password:
-  default: openstudiolandscapes
-  description: The default admin (will get hashed) password for filebrowser.
-  title: Default Password
-  type: string
-default_username:
-  default: openstudiolandscapes
-  description: The default admin user for filebrowser.
-  title: Default Username
-  type: string
 docker_compose:
   default: '{DOT_LANDSCAPES}/{LANDSCAPE}/{FEATURE}/docker_compose/docker-compose.yml'
   description: The path to the `docker-compose.yml` file.
@@ -288,4 +278,4 @@ To follow up on the previous LinkedIn publications, visit:
 
 ***
 
-Last changed: **2026-05-13 13:25:54 UTC**
+Last changed: **2026-06-05 14:18:46 UTC**
