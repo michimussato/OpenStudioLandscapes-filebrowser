@@ -226,6 +226,8 @@ dagster dev --workspace workspace.yaml
 
 # External Resources
 
+filebrowser is End of Life. See [announcement](https://hacdias.com/2026/07/28/filebrowser/)
+
 [![Logo filebrowser ](https://raw.githubusercontent.com/filebrowser/filebrowser/master/branding/banner.png)](https://filebrowser.org/index.html)
 
 filebrowser is - as the name suggests - a web based file browser.
@@ -297,4 +299,4 @@ To follow up on the previous LinkedIn publications, visit:
 
 ***
 
-Last changed: **2026-07-20 11:14:58 UTC**
+Last changed: **2026-08-05 07:43:32 UTC**

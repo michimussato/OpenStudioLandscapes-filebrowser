@@ -19,6 +19,11 @@ def readme_feature(
 
     # Logo
 
+    doc.add_paragraph(text=textwrap.dedent("""\
+            filebrowser is End of Life.\
+            See [announcement](https://hacdias.com/2026/07/28/filebrowser/)\
+            """))
+
     doc.add_paragraph(
         snakemd.Inline(
             text=textwrap.dedent("""\
