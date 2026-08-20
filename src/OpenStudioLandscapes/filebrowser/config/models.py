@@ -9,7 +9,7 @@ from pydantic import (
     PositiveInt,
 )
 
-from OpenStudioLandscapes.filebrowser import (
+from OpenStudioLandscapes.filebrowser.constants import (
     ASSET_HEADER,
     LOGGER,
     dist,
