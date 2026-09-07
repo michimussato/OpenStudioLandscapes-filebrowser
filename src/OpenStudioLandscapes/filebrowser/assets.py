@@ -40,12 +40,12 @@ from OpenStudioLandscapes.engine.utils.docker.compose_dicts import (
     get_network_dicts,
 )
 
+from OpenStudioLandscapes.filebrowser.config import models
 from OpenStudioLandscapes.filebrowser.constants import (
     ASSET_HEADER,
     LOGGER,
     dist,
 )
-from OpenStudioLandscapes.filebrowser.config import models
 
 # https://github.com/yaml/pyyaml/issues/722#issuecomment-1969292770
 yaml.SafeDumper.add_multi_representer(
